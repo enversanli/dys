@@ -1,0 +1,58 @@
+created:
+    - database/factories/UserFactory.php
+    - database/factories/UserRoleFactory.php
+    - database/factories/AssociationFactory.php
+    - database/factories/DuessFactory.php
+    - database/factories/AddressFactory.php
+    - database/factories/CountryFactory.php
+    - database/factories/StateFactory.php
+    - database/factories/CityFactory.php
+    - database/factories/DistrictFactory.php
+    - database/factories/DuesTypeFactory.php
+    - database/factories/DailyPollFactory.php
+    - database/factories/ClassFactory.php
+    - database/factories/UserClassFactory.php
+    - database/factories/StudentInformationFactory.php
+    - database/migrations/2022_05_10_213700_create_users_table.php
+    - database/migrations/2022_05_10_213701_create_user_roles_table.php
+    - database/migrations/2022_05_10_213702_create_associations_table.php
+    - database/migrations/2022_05_10_213703_create_duesses_table.php
+    - database/migrations/2022_05_10_213704_create_addresses_table.php
+    - database/migrations/2022_05_10_213705_create_countries_table.php
+    - database/migrations/2022_05_10_213706_create_states_table.php
+    - database/migrations/2022_05_10_213707_create_cities_table.php
+    - database/migrations/2022_05_10_213708_create_districts_table.php
+    - database/migrations/2022_05_10_213709_create_dues_types_table.php
+    - database/migrations/2022_05_10_213710_create_daily_polls_table.php
+    - database/migrations/2022_05_10_213711_create_classes_table.php
+    - database/migrations/2022_05_10_213712_create_user_classes_table.php
+    - database/migrations/2022_05_10_213713_create_student_information_table.php
+    - app/Models/User.php
+    - app/Models/UserRole.php
+    - app/Models/Association.php
+    - app/Models/Duess.php
+    - app/Models/Address.php
+    - app/Models/Country.php
+    - app/Models/State.php
+    - app/Models/City.php
+    - app/Models/District.php
+    - app/Models/DuesType.php
+    - app/Models/DailyPoll.php
+    - app/Models/Class.php
+    - app/Models/UserClass.php
+    - app/Models/StudentInformation.php
+models:
+    User: { id: increments, key: string, role_id: integer, association_id: integer, paren_id: 'integer nullable', class_id: 'integer nullable', first_name: string, last_name: string, mobile_phone: 'integer nullable', phone: 'integer nullable', email: string, password: string, email_verified_at: 'dateTime nullable', reset_password_code: 'text nullable', status: string, photo_url: 'string nullable', birth_date: 'dateTime nullable', time_zone: 'string nullable' }
+    UserRole: { id: increments, key: integer, name: integer }
+    Association: { id: increments, creator_id: integer, key: string, name: string, status: string, phone: string, email: string }
+    Duess: { id: increments, user_id: integer, dues_type_id: integer, year: integer, month: integer }
+    Address: { id: increments, user_id: 'integer nullable', association_id: 'integer nullable', country_id: integer, state_id: 'integer nullable', city_id: 'integer nullable', district_id: 'integer nullable', postal_code: string, line: 'string nullable' }
+    Country: { id: increments, code: 'string nullable', name: string }
+    State: { id: increments, code: 'string nullable', name: string }
+    City: { id: increments, code: 'string nullable', country_id: integer, state_id: 'integer nullable', name: string }
+    District: { id: increments, code: 'string nullable', country_id: 'integer nullable', state_id: 'integer nullable', city_id: 'integer nullable', name: integer }
+    DuesType: { id: increments, key: string, name: string, price: integer, type: string, status: string }
+    DailyPoll: { id: increments, class_id: integer, user_id: integer, date: integer, status: integer }
+    Class: { id: increments, key: integer, name: integer }
+    UserClass: { id: false, user_id: integer, class_id: integer }
+    StudentInformation: { id: increments, user_id: integer, school: 'string nullable', grade: 'integer nullable', note: 'text nullable', father_full_name: 'string nullable', mother_full_name: 'string nullable' }

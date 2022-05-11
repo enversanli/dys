@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'key',
+        'role_id',
+        'association_id',
+        'paren_id',
+        'class_id',
+        'first_name',
+        'last_name',
+        'mobile_phone',
+        'phone',
+        'email',
+        'password',
+        'email_verified_at',
+        'reset_password_code',
+        'status',
+        'photo_url',
+        'birth_date',
+        'time_zone',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'birth_date' => 'datetime',
+    ];
+}

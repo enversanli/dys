@@ -1,0 +1,98 @@
+models:
+    User:
+        id: increments
+        key: string
+        role_id: integer
+        association_id: integer
+        paren_id: integer nullable
+        class_id: integer nullable
+        first_name: string
+        last_name: string
+        mobile_phone: integer nullable
+        phone: integer nullable
+        email: string
+        password: string
+        email_verified_at: dateTime nullable
+        reset_password_code: text nullable
+        status: string
+        photo_url: string nullable
+        birth_date: dateTime nullable
+        time_zone: string nullable
+    UserRole:
+        id: increments
+        key: integer
+        name: integer
+    Association:
+        id: increments
+        creator_id: integer
+        key: string
+        name: string
+        status: string
+        phone: string
+        email: string
+    Duess:
+        id: increments
+        user_id: integer
+        dues_type_id: integer
+        year: integer
+        month: integer
+    Address:
+        id: increments
+        user_id: integer nullable
+        association_id: integer nullable
+        country_id: integer
+        state_id: integer nullable
+        city_id: integer nullable
+        district_id: integer nullable
+        postal_code: string
+        line: string nullable
+    Country:
+        id: increments
+        code: string nullable
+        name: string
+    State:
+        id: increments
+        code: string nullable
+        name: string
+    City:
+        id: increments
+        code: string nullable
+        country_id: integer
+        state_id: integer nullable
+        name: string
+    District:
+        id: increments
+        code: string nullable
+        country_id: integer nullable
+        state_id: integer nullable
+        city_id: integer nullable
+        name: integer
+    DuesType:
+        id: increments
+        key: string
+        name: string
+        price: integer
+        type: string
+        status: string
+    DailyPoll:
+        id: increments
+        class_id: integer
+        user_id: integer
+        date: integer
+        status: integer
+    Class:
+        id: increments
+        key: integer
+        name: integer
+    UserClass:
+        id: false
+        user_id: integer
+        class_id: integer
+    StudentInformation:
+        id: increments
+        user_id: integer
+        school: string nullable
+        grade: integer nullable
+        note: text nullable
+        father_full_name: string nullable
+        mother_full_name: string nullable
