@@ -6,6 +6,7 @@ use App\Http\Requests\Panel\RegisterRequest;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Support\ResponseMessage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -28,10 +29,9 @@ class UserRepository implements UserRepositoryInterface
                 'email' => $request->email,
             ]);
 
-            return $user;
+            return ResponseMessage::returnData(true, $user);
         }catch (\Exception $exception){
-            dd($exception->getMessage());
-            return $exception->getMessage();
+            return ResponseMessage::returnData(false);
         }
 
     }

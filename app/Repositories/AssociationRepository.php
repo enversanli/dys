@@ -5,7 +5,9 @@ namespace App\Repositories;
 use App\Interfaces\AssociationRepositoryInterface;
 use App\Models\Association;
 use App\Models\User;
+use App\Support\ResponseMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AssociationRepository implements AssociationRepositoryInterface
 {
@@ -14,16 +16,21 @@ class AssociationRepository implements AssociationRepositoryInterface
         // TODO: Implement storeAssociation() method.
 
         try {
+            $association = Association::create([
+                'creator_id' => $user->id,
+                'key' => Str::slug($request->association_name . ' ' . $user->id),
+                'name' => $request->association_name,
+            ]);
 
+            $user->update([
+                'association_id' => $association->id
+            ]);
 
-        }catch (\Exception $exception){
-            return $exception->getMessage();
+            return ResponseMessage::returnData(true, $association);
+        } catch (\Exception $exception) {
+            dd($exception->getMessage());
+            return ResponseMessage::returnData(false);
         }
-
-        $association = Association::create([
-            'creator_id' => $user->id,
-            'name' => $request->association_name
-        ]);
 
     }
 }

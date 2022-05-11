@@ -18,9 +18,9 @@ class CreateAssociationsTable extends Migration
             $table->integer('creator_id');
             $table->string('key');
             $table->string('name');
-            $table->string('status');
-            $table->string('phone');
-            $table->string('email');
+            $table->string('status')->default(\App\Support\Enums\AssociationStatusEnum::WAITING_CREATOR_MAIL_VERIFICATION->value);
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

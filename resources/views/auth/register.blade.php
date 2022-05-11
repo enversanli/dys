@@ -28,7 +28,21 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="first_name" class="col-md-4 col-form-label text-md-end">{{ __('Last Name') }}</label>
+                            <label for="association_name" class="col-md-4 col-form-label text-md-end">{{ __('Last Name') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="association_name" type="text" class="form-control @error('association_name') is-invalid @enderror" name="association_name" value="{{ old('association_name') }}" required autocomplete="association_name" autofocus>
+
+                                @error('association_name')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="first_name" class="col-md-4 col-form-label text-md-end">{{ __('Association Name') }}</label>
 
                             <div class="col-md-6">
                                 <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" autofocus>

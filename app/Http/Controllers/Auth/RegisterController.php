@@ -44,8 +44,8 @@ class RegisterController extends Controller
 
         $storedUser = $this->userRepository->storeUser($request, $role);
 
-        $storedAssociation = $this->associationRepository->storeAssociation($request, $storedUser);
+        $storedAssociation = $this->associationRepository->storeAssociation($request, $storedUser->data);
 
-        dd($storedUser);
+        dd($storedAssociation);
     }
 }
