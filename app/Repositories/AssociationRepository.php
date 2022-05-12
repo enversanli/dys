@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\AssociationRepositoryInterface;
 use App\Models\Association;
 use App\Models\User;
+use App\Support\Enums\ErrorLogEnum;
 use App\Support\ResponseMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,7 +29,10 @@ class AssociationRepository implements AssociationRepositoryInterface
 
             return ResponseMessage::returnData(true, $association);
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::STORE_ASSOCIATION_ERROR->value);
+
             return ResponseMessage::returnData(false);
         }
 
