@@ -22,3 +22,5 @@ Route::view('register', 'auth.register');
 
 Route::view('login', 'auth.login');
 Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+
+Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('logout');

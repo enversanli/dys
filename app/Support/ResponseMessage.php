@@ -25,12 +25,12 @@ class ResponseMessage
             $message = __('common.success');
         }
 
-        return (object)[
+        return response()->json([
             'status' => true,
             'data' => $data,
             'message' => $message,
             'code' => $code
-        ];
+        ], $code);
     }
 
     public static function failed($message = null, $error = null, $code = 400)
@@ -39,11 +39,11 @@ class ResponseMessage
             $message = __('common.went_wrong');
         }
 
-        return (object)[
+        return response()->json([
             'status' => false,
             'message' => $message,
             'error' => $error,
             'code' => $code
-        ];
+        ], $code);
     }
 }

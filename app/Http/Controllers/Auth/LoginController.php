@@ -51,6 +51,5 @@ class LoginController extends Controller
         if (!$login->status)
             return ResponseMessage::failed();
 
-
     }
 }
