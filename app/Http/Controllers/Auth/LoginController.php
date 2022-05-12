@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Panel\LoginRequest;
+use App\Interfaces\LoginRepositoryInterface;
 use App\Providers\RouteServiceProvider;
+use App\Support\ResponseMessage;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -28,13 +31,26 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    protected LoginRepositoryInterface $loginRepository;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(LoginRepositoryInterface $loginRepository)
     {
+        $this->loginRepository = $loginRepository;
+
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(LoginRequest $request){
+        $login = $this->loginRepository->login($request);
+
+        if (!$login->status)
+            return ResponseMessage::failed();
+
+
     }
 }

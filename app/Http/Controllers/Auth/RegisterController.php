@@ -7,6 +7,7 @@ use App\Interfaces\UserRepositoryInterface;
 use App\Http\Requests\Panel\RegisterRequest;
 use App\Interfaces\UserRoleRepositoryInterface;
 use App\Repositories\AssociationRepository;
+use App\Support\ResponseMessage;
 
 class RegisterController extends Controller
 {
@@ -42,10 +43,19 @@ class RegisterController extends Controller
 
         $role = $this->userRoleRepository->getRoleByKey($request->role_key);
 
-        $storedUser = $this->userRepository->storeUser($request, $role);
+        if (!$role->status)
+            return ResponseMessage::failed();
+
+        $storedUser = $this->userRepository->storeUser($request, $role->data);
+
+        if (!$storedUser->status)
+            return ResponseMessage::failed();
 
         $storedAssociation = $this->associationRepository->storeAssociation($request, $storedUser->data);
 
-        dd($storedAssociation);
+        if (!$storedAssociation->status)
+            return ResponseMessage::failed();
+
+        return redirect()->back();
     }
 }

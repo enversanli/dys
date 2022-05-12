@@ -18,4 +18,32 @@ class ResponseMessage
             'message' => $message
         ];
     }
+
+    public static function success($message = null, $data  = null, $code = 200)
+    {
+        if ($message == null) {
+            $message = __('common.success');
+        }
+
+        return (object)[
+            'status' => true,
+            'data' => $data,
+            'message' => $message,
+            'code' => $code
+        ];
+    }
+
+    public static function failed($message = null, $error = null, $code = 400)
+    {
+        if ($message == null) {
+            $message = __('common.went_wrong');
+        }
+
+        return (object)[
+            'status' => false,
+            'message' => $message,
+            'error' => $error,
+            'code' => $code
+        ];
+    }
 }

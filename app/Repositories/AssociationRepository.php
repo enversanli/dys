@@ -31,7 +31,7 @@ class AssociationRepository implements AssociationRepositoryInterface
         } catch (\Exception $exception) {
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
-                ->log(ErrorLogEnum::STORE_ASSOCIATION_ERROR->value);
+                ->log(ErrorLogEnum::STORE_ASSOCIATION_REPOSITORY_ERROR->value);
 
             return ResponseMessage::returnData(false);
         }
