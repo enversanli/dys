@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Panel\LoginRequest;
+use App\Http\Resources\Panel\UserResource;
 use App\Interfaces\LoginRepositoryInterface;
 use App\Providers\RouteServiceProvider;
 use App\Support\ResponseMessage;
@@ -49,7 +50,11 @@ class LoginController extends Controller
         $login = $this->loginRepository->login($request);
 
         if (!$login->status)
-            return ResponseMessage::failed();
+            return ResponseMessage::failed($login->message);
 
+        return ResponseMessage::success(__('common.success'), [
+            'token' => $login->data['token'],
+            'user' => UserResource::make($login->data['user'])
+        ]);
     }
 }
