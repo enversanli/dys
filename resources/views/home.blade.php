@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="text-center border-2 shadow-xl my-10">
+        <p>Sivas</p>
+    </div>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

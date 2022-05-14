@@ -21,7 +21,13 @@ class LoginRepository implements LoginRepositoryInterface
             }
             $user = User::where('email', $request->email)->firstOrFail();
 
-            $token = $user->createToken('auth_token')->plainTextToken;
+            //$token = $user->createToken('auth_token')->plainTextToken;
+
+            $credentials = $request->only('email', 'password');
+
+            if (!Auth::attempt($credentials)){
+                return ResponseMessage::failed();
+            }
 
             return ResponseMessage::returnData(true, ['token' => $token, 'user' => $user]);
 

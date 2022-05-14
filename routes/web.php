@@ -24,3 +24,11 @@ Route::view('login', 'auth.login');
 Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
 
 Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('logout');
+
+Route::middleware('auth')->group(function () {
+    // Home Page
+    Route::view('home', 'home')->name('home');
+
+
+});
+
