@@ -7,6 +7,7 @@ use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Support\Enums\ErrorLogEnum;
+use App\Support\Enums\UserRoleKeyEnum;
 use App\Support\ResponseMessage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -15,7 +16,9 @@ class UserRepository implements UserRepositoryInterface
 {
 
     public function getStudents(){
-        return User::all();
+        return User::where('role', function ($query){
+            return $query->where('role_id', UserRole::where('key', UserRoleKeyEnum::STUDENT)->first()->id);
+        })->get();
     }
 
     public function storeUser(RegisterRequest $request, UserRole $userRole)

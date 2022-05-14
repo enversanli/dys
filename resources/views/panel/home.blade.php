@@ -4,7 +4,7 @@
     <h2
         class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
     >
-        Hoşgeldin, {{auth()->user()->first_name}}
+        Hoşgeldin, {{auth()->user()->first_name}}!
     </h2>
 
     <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
@@ -25,12 +25,12 @@
                 <p
                     class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                 >
-                    @lang('common.total_students')
+                    @lang('common.active_students')
                 </p>
                 <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                    6389
+                    5
                 </p>
             </div>
         </div>
@@ -53,12 +53,12 @@
                 <p
                     class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
                 >
-                    Account balance
+                    @lang('common.pending_students')
                 </p>
                 <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                    $ 46,760.89
+                    3
                 </p>
             </div>
         </div>

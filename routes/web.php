@@ -27,7 +27,7 @@ Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'login'
 
 Route::middleware('auth')->group(function () {
     // Home Page
-    Route::view('home', 'home')->name('home');
+    Route::get('dashboard', [\App\Http\Controllers\Panel\PanelController::class, 'index'])->name('dashboard');
 
 
 });

@@ -5755,23 +5755,66 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HeaderComponent",
+  data: function data() {
+    return {
+      isSideMenuOpen: false,
+      isNotificationsMenuOpen: false,
+      isProfileMenuOpen: false,
+      isPagesMenuOpen: false,
+      isModalOpen: false,
+      trapCleanup: null
+    };
+  },
   methods: {
-    toggleSideMenu: function toggleSideMenu() {},
-    toggleTheme: function toggleTheme() {},
-    closeProfileMenu: function closeProfileMenu() {},
-    toggleNotificationsMenu: function toggleNotificationsMenu() {},
-    closeNotificationsMenu: function closeNotificationsMenu() {},
-    toggleProfileMenu: function toggleProfileMenu() {}
+    toggleTheme: function toggleTheme() {
+      this.dark = !this.dark;
+      this.setThemeToLocalStorage(this.dark);
+    },
+    toggleSideMenu: function toggleSideMenu() {
+      this.isSideMenuOpen = !this.isSideMenuOpen;
+    },
+    closeSideMenu: function closeSideMenu() {
+      this.isSideMenuOpen = false;
+    },
+    toggleNotificationsMenu: function toggleNotificationsMenu() {
+      this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen;
+    },
+    closeNotificationsMenu: function closeNotificationsMenu() {
+      this.isNotificationsMenuOpen = false;
+    },
+    toggleProfileMenu: function toggleProfileMenu() {
+      this.isProfileMenuOpen = !this.isProfileMenuOpen;
+    },
+    closeProfileMenu: function closeProfileMenu() {
+      this.isProfileMenuOpen = false;
+    },
+    togglePagesMenu: function togglePagesMenu() {
+      this.isPagesMenuOpen = !this.isPagesMenuOpen;
+    },
+    // Modal
+    openModal: function openModal() {
+      this.isModalOpen = true;
+      this.trapCleanup = focusTrap(document.querySelector('#modal'));
+    },
+    closeModal: function closeModal() {
+      this.isModalOpen = false;
+      this.trapCleanup();
+    },
+    setThemeToLocalStorage: function setThemeToLocalStorage(value) {
+      window.localStorage.setItem('dark', value);
+    }
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/Menucomponent.vue?vue&type=script&lang=js&":
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/MenuComponent.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/Menucomponent.vue?vue&type=script&lang=js& ***!
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/MenuComponent.vue?vue&type=script&lang=js& ***!
   \****************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -5973,364 +6016,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Menucomponent",
-  isSideMenuOpen: true,
+  name: "MenuComponent",
+  data: function data() {
+    return {
+      isSideMenuOpen: false,
+      isNotificationsMenuOpen: false,
+      isProfileMenuOpen: false,
+      isPagesMenuOpen: false,
+      isModalOpen: false,
+      trapCleanup: null
+    };
+  },
   methods: {
-    togglePagesMenu: function togglePagesMenu() {},
-    closeSideMenu: function closeSideMenu() {}
+    toggleTheme: function toggleTheme() {
+      alert("Sivas");
+      this.dark = !this.dark;
+      setThemeToLocalStorage(this.dark);
+    },
+    toggleSideMenu: function toggleSideMenu() {
+      this.isSideMenuOpen = !this.isSideMenuOpen;
+    },
+    closeSideMenu: function closeSideMenu() {
+      this.isSideMenuOpen = false;
+    },
+    toggleNotificationsMenu: function toggleNotificationsMenu() {
+      this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen;
+    },
+    closeNotificationsMenu: function closeNotificationsMenu() {
+      this.isNotificationsMenuOpen = false;
+    },
+    toggleProfileMenu: function toggleProfileMenu() {
+      this.isProfileMenuOpen = !this.isProfileMenuOpen;
+    },
+    closeProfileMenu: function closeProfileMenu() {
+      this.isProfileMenuOpen = false;
+    },
+    togglePagesMenu: function togglePagesMenu() {
+      alert("Sivas");
+      this.isPagesMenuOpen = !this.isPagesMenuOpen;
+    },
+    // Modal
+    openModal: function openModal() {
+      this.isModalOpen = true;
+      this.trapCleanup = focusTrap(document.querySelector('#modal'));
+    },
+    closeModal: function closeModal() {
+      this.isModalOpen = false;
+      this.trapCleanup();
+    }
   }
 });
 
@@ -6349,6 +6083,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+var events = __webpack_require__(/*! events */ "./node_modules/events/events.js");
+
 window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")["default"]);
 /**
  * The following block of code may be used to automatically register your
@@ -6362,7 +6098,7 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 Vue.component('example-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
 Vue.component('login-component', (__webpack_require__(/*! ./components/auth/LoginComponent.vue */ "./resources/js/components/auth/LoginComponent.vue")["default"]));
-Vue.component('menu-component', (__webpack_require__(/*! ./components/layouts/Menucomponent.vue */ "./resources/js/components/layouts/Menucomponent.vue")["default"]));
+Vue.component('menu-component', (__webpack_require__(/*! ./components/layouts/MenuComponent.vue */ "./resources/js/components/layouts/MenuComponent.vue")["default"]));
 Vue.component('header-component', (__webpack_require__(/*! ./components/layouts/HeaderComponent.vue */ "./resources/js/components/layouts/HeaderComponent.vue")["default"]));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -11435,6 +11171,514 @@ defineJQueryPlugin(Toast);
 
 
 //# sourceMappingURL=bootstrap.esm.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/events/events.js":
+/*!***************************************!*\
+  !*** ./node_modules/events/events.js ***!
+  \***************************************/
+/***/ ((module) => {
+
+"use strict";
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+
+var R = typeof Reflect === 'object' ? Reflect : null
+var ReflectApply = R && typeof R.apply === 'function'
+  ? R.apply
+  : function ReflectApply(target, receiver, args) {
+    return Function.prototype.apply.call(target, receiver, args);
+  }
+
+var ReflectOwnKeys
+if (R && typeof R.ownKeys === 'function') {
+  ReflectOwnKeys = R.ownKeys
+} else if (Object.getOwnPropertySymbols) {
+  ReflectOwnKeys = function ReflectOwnKeys(target) {
+    return Object.getOwnPropertyNames(target)
+      .concat(Object.getOwnPropertySymbols(target));
+  };
+} else {
+  ReflectOwnKeys = function ReflectOwnKeys(target) {
+    return Object.getOwnPropertyNames(target);
+  };
+}
+
+function ProcessEmitWarning(warning) {
+  if (console && console.warn) console.warn(warning);
+}
+
+var NumberIsNaN = Number.isNaN || function NumberIsNaN(value) {
+  return value !== value;
+}
+
+function EventEmitter() {
+  EventEmitter.init.call(this);
+}
+module.exports = EventEmitter;
+module.exports.once = once;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._eventsCount = 0;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+var defaultMaxListeners = 10;
+
+function checkListener(listener) {
+  if (typeof listener !== 'function') {
+    throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
+  }
+}
+
+Object.defineProperty(EventEmitter, 'defaultMaxListeners', {
+  enumerable: true,
+  get: function() {
+    return defaultMaxListeners;
+  },
+  set: function(arg) {
+    if (typeof arg !== 'number' || arg < 0 || NumberIsNaN(arg)) {
+      throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + arg + '.');
+    }
+    defaultMaxListeners = arg;
+  }
+});
+
+EventEmitter.init = function() {
+
+  if (this._events === undefined ||
+      this._events === Object.getPrototypeOf(this)._events) {
+    this._events = Object.create(null);
+    this._eventsCount = 0;
+  }
+
+  this._maxListeners = this._maxListeners || undefined;
+};
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
+  if (typeof n !== 'number' || n < 0 || NumberIsNaN(n)) {
+    throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + n + '.');
+  }
+  this._maxListeners = n;
+  return this;
+};
+
+function _getMaxListeners(that) {
+  if (that._maxListeners === undefined)
+    return EventEmitter.defaultMaxListeners;
+  return that._maxListeners;
+}
+
+EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
+  return _getMaxListeners(this);
+};
+
+EventEmitter.prototype.emit = function emit(type) {
+  var args = [];
+  for (var i = 1; i < arguments.length; i++) args.push(arguments[i]);
+  var doError = (type === 'error');
+
+  var events = this._events;
+  if (events !== undefined)
+    doError = (doError && events.error === undefined);
+  else if (!doError)
+    return false;
+
+  // If there is no 'error' event listener then throw.
+  if (doError) {
+    var er;
+    if (args.length > 0)
+      er = args[0];
+    if (er instanceof Error) {
+      // Note: The comments on the `throw` lines are intentional, they show
+      // up in Node's output if this results in an unhandled exception.
+      throw er; // Unhandled 'error' event
+    }
+    // At least give some kind of context to the user
+    var err = new Error('Unhandled error.' + (er ? ' (' + er.message + ')' : ''));
+    err.context = er;
+    throw err; // Unhandled 'error' event
+  }
+
+  var handler = events[type];
+
+  if (handler === undefined)
+    return false;
+
+  if (typeof handler === 'function') {
+    ReflectApply(handler, this, args);
+  } else {
+    var len = handler.length;
+    var listeners = arrayClone(handler, len);
+    for (var i = 0; i < len; ++i)
+      ReflectApply(listeners[i], this, args);
+  }
+
+  return true;
+};
+
+function _addListener(target, type, listener, prepend) {
+  var m;
+  var events;
+  var existing;
+
+  checkListener(listener);
+
+  events = target._events;
+  if (events === undefined) {
+    events = target._events = Object.create(null);
+    target._eventsCount = 0;
+  } else {
+    // To avoid recursion in the case that type === "newListener"! Before
+    // adding it to the listeners, first emit "newListener".
+    if (events.newListener !== undefined) {
+      target.emit('newListener', type,
+                  listener.listener ? listener.listener : listener);
+
+      // Re-assign `events` because a newListener handler could have caused the
+      // this._events to be assigned to a new object
+      events = target._events;
+    }
+    existing = events[type];
+  }
+
+  if (existing === undefined) {
+    // Optimize the case of one listener. Don't need the extra array object.
+    existing = events[type] = listener;
+    ++target._eventsCount;
+  } else {
+    if (typeof existing === 'function') {
+      // Adding the second element, need to change to array.
+      existing = events[type] =
+        prepend ? [listener, existing] : [existing, listener];
+      // If we've already got an array, just append.
+    } else if (prepend) {
+      existing.unshift(listener);
+    } else {
+      existing.push(listener);
+    }
+
+    // Check for listener leak
+    m = _getMaxListeners(target);
+    if (m > 0 && existing.length > m && !existing.warned) {
+      existing.warned = true;
+      // No error code for this since it is a Warning
+      // eslint-disable-next-line no-restricted-syntax
+      var w = new Error('Possible EventEmitter memory leak detected. ' +
+                          existing.length + ' ' + String(type) + ' listeners ' +
+                          'added. Use emitter.setMaxListeners() to ' +
+                          'increase limit');
+      w.name = 'MaxListenersExceededWarning';
+      w.emitter = target;
+      w.type = type;
+      w.count = existing.length;
+      ProcessEmitWarning(w);
+    }
+  }
+
+  return target;
+}
+
+EventEmitter.prototype.addListener = function addListener(type, listener) {
+  return _addListener(this, type, listener, false);
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.prependListener =
+    function prependListener(type, listener) {
+      return _addListener(this, type, listener, true);
+    };
+
+function onceWrapper() {
+  if (!this.fired) {
+    this.target.removeListener(this.type, this.wrapFn);
+    this.fired = true;
+    if (arguments.length === 0)
+      return this.listener.call(this.target);
+    return this.listener.apply(this.target, arguments);
+  }
+}
+
+function _onceWrap(target, type, listener) {
+  var state = { fired: false, wrapFn: undefined, target: target, type: type, listener: listener };
+  var wrapped = onceWrapper.bind(state);
+  wrapped.listener = listener;
+  state.wrapFn = wrapped;
+  return wrapped;
+}
+
+EventEmitter.prototype.once = function once(type, listener) {
+  checkListener(listener);
+  this.on(type, _onceWrap(this, type, listener));
+  return this;
+};
+
+EventEmitter.prototype.prependOnceListener =
+    function prependOnceListener(type, listener) {
+      checkListener(listener);
+      this.prependListener(type, _onceWrap(this, type, listener));
+      return this;
+    };
+
+// Emits a 'removeListener' event if and only if the listener was removed.
+EventEmitter.prototype.removeListener =
+    function removeListener(type, listener) {
+      var list, events, position, i, originalListener;
+
+      checkListener(listener);
+
+      events = this._events;
+      if (events === undefined)
+        return this;
+
+      list = events[type];
+      if (list === undefined)
+        return this;
+
+      if (list === listener || list.listener === listener) {
+        if (--this._eventsCount === 0)
+          this._events = Object.create(null);
+        else {
+          delete events[type];
+          if (events.removeListener)
+            this.emit('removeListener', type, list.listener || listener);
+        }
+      } else if (typeof list !== 'function') {
+        position = -1;
+
+        for (i = list.length - 1; i >= 0; i--) {
+          if (list[i] === listener || list[i].listener === listener) {
+            originalListener = list[i].listener;
+            position = i;
+            break;
+          }
+        }
+
+        if (position < 0)
+          return this;
+
+        if (position === 0)
+          list.shift();
+        else {
+          spliceOne(list, position);
+        }
+
+        if (list.length === 1)
+          events[type] = list[0];
+
+        if (events.removeListener !== undefined)
+          this.emit('removeListener', type, originalListener || listener);
+      }
+
+      return this;
+    };
+
+EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
+
+EventEmitter.prototype.removeAllListeners =
+    function removeAllListeners(type) {
+      var listeners, events, i;
+
+      events = this._events;
+      if (events === undefined)
+        return this;
+
+      // not listening for removeListener, no need to emit
+      if (events.removeListener === undefined) {
+        if (arguments.length === 0) {
+          this._events = Object.create(null);
+          this._eventsCount = 0;
+        } else if (events[type] !== undefined) {
+          if (--this._eventsCount === 0)
+            this._events = Object.create(null);
+          else
+            delete events[type];
+        }
+        return this;
+      }
+
+      // emit removeListener for all listeners on all events
+      if (arguments.length === 0) {
+        var keys = Object.keys(events);
+        var key;
+        for (i = 0; i < keys.length; ++i) {
+          key = keys[i];
+          if (key === 'removeListener') continue;
+          this.removeAllListeners(key);
+        }
+        this.removeAllListeners('removeListener');
+        this._events = Object.create(null);
+        this._eventsCount = 0;
+        return this;
+      }
+
+      listeners = events[type];
+
+      if (typeof listeners === 'function') {
+        this.removeListener(type, listeners);
+      } else if (listeners !== undefined) {
+        // LIFO order
+        for (i = listeners.length - 1; i >= 0; i--) {
+          this.removeListener(type, listeners[i]);
+        }
+      }
+
+      return this;
+    };
+
+function _listeners(target, type, unwrap) {
+  var events = target._events;
+
+  if (events === undefined)
+    return [];
+
+  var evlistener = events[type];
+  if (evlistener === undefined)
+    return [];
+
+  if (typeof evlistener === 'function')
+    return unwrap ? [evlistener.listener || evlistener] : [evlistener];
+
+  return unwrap ?
+    unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
+}
+
+EventEmitter.prototype.listeners = function listeners(type) {
+  return _listeners(this, type, true);
+};
+
+EventEmitter.prototype.rawListeners = function rawListeners(type) {
+  return _listeners(this, type, false);
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  if (typeof emitter.listenerCount === 'function') {
+    return emitter.listenerCount(type);
+  } else {
+    return listenerCount.call(emitter, type);
+  }
+};
+
+EventEmitter.prototype.listenerCount = listenerCount;
+function listenerCount(type) {
+  var events = this._events;
+
+  if (events !== undefined) {
+    var evlistener = events[type];
+
+    if (typeof evlistener === 'function') {
+      return 1;
+    } else if (evlistener !== undefined) {
+      return evlistener.length;
+    }
+  }
+
+  return 0;
+}
+
+EventEmitter.prototype.eventNames = function eventNames() {
+  return this._eventsCount > 0 ? ReflectOwnKeys(this._events) : [];
+};
+
+function arrayClone(arr, n) {
+  var copy = new Array(n);
+  for (var i = 0; i < n; ++i)
+    copy[i] = arr[i];
+  return copy;
+}
+
+function spliceOne(list, index) {
+  for (; index + 1 < list.length; index++)
+    list[index] = list[index + 1];
+  list.pop();
+}
+
+function unwrapListeners(arr) {
+  var ret = new Array(arr.length);
+  for (var i = 0; i < ret.length; ++i) {
+    ret[i] = arr[i].listener || arr[i];
+  }
+  return ret;
+}
+
+function once(emitter, name) {
+  return new Promise(function (resolve, reject) {
+    function errorListener(err) {
+      emitter.removeListener(name, resolver);
+      reject(err);
+    }
+
+    function resolver() {
+      if (typeof emitter.removeListener === 'function') {
+        emitter.removeListener('error', errorListener);
+      }
+      resolve([].slice.call(arguments));
+    };
+
+    eventTargetAgnosticAddListener(emitter, name, resolver, { once: true });
+    if (name !== 'error') {
+      addErrorHandlerIfEventEmitter(emitter, errorListener, { once: true });
+    }
+  });
+}
+
+function addErrorHandlerIfEventEmitter(emitter, handler, flags) {
+  if (typeof emitter.on === 'function') {
+    eventTargetAgnosticAddListener(emitter, 'error', handler, flags);
+  }
+}
+
+function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
+  if (typeof emitter.on === 'function') {
+    if (flags.once) {
+      emitter.once(name, listener);
+    } else {
+      emitter.on(name, listener);
+    }
+  } else if (typeof emitter.addEventListener === 'function') {
+    // EventTarget does not have `error` event semantics like Node
+    // EventEmitters, we do not listen for `error` events here.
+    emitter.addEventListener(name, function wrapListener(arg) {
+      // IE does not have builtin `{ once: true }` support so we
+      // have to do it manually.
+      if (flags.once) {
+        emitter.removeEventListener(name, wrapListener);
+      }
+      listener(arg);
+    });
+  } else {
+    throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type ' + typeof emitter);
+  }
+}
 
 
 /***/ }),
@@ -28975,9 +29219,9 @@ component.options.__file = "resources/js/components/layouts/HeaderComponent.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/layouts/Menucomponent.vue":
+/***/ "./resources/js/components/layouts/MenuComponent.vue":
 /*!***********************************************************!*\
-  !*** ./resources/js/components/layouts/Menucomponent.vue ***!
+  !*** ./resources/js/components/layouts/MenuComponent.vue ***!
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -28986,8 +29230,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Menucomponent_vue_vue_type_template_id_7aa8901d_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Menucomponent.vue?vue&type=template&id=7aa8901d&scoped=true& */ "./resources/js/components/layouts/Menucomponent.vue?vue&type=template&id=7aa8901d&scoped=true&");
-/* harmony import */ var _Menucomponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Menucomponent.vue?vue&type=script&lang=js& */ "./resources/js/components/layouts/Menucomponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _MenuComponent_vue_vue_type_template_id_ab708006_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MenuComponent.vue?vue&type=template&id=ab708006&scoped=true& */ "./resources/js/components/layouts/MenuComponent.vue?vue&type=template&id=ab708006&scoped=true&");
+/* harmony import */ var _MenuComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/layouts/MenuComponent.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -28997,19 +29241,19 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Menucomponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Menucomponent_vue_vue_type_template_id_7aa8901d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Menucomponent_vue_vue_type_template_id_7aa8901d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _MenuComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _MenuComponent_vue_vue_type_template_id_ab708006_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _MenuComponent_vue_vue_type_template_id_ab708006_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "7aa8901d",
+  "ab708006",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/layouts/Menucomponent.vue"
+component.options.__file = "resources/js/components/layouts/MenuComponent.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -29062,9 +29306,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/layouts/Menucomponent.vue?vue&type=script&lang=js&":
+/***/ "./resources/js/components/layouts/MenuComponent.vue?vue&type=script&lang=js&":
 /*!************************************************************************************!*\
-  !*** ./resources/js/components/layouts/Menucomponent.vue?vue&type=script&lang=js& ***!
+  !*** ./resources/js/components/layouts/MenuComponent.vue?vue&type=script&lang=js& ***!
   \************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -29073,8 +29317,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Menucomponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Menucomponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/Menucomponent.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Menucomponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MenuComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/MenuComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -29129,19 +29373,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/layouts/Menucomponent.vue?vue&type=template&id=7aa8901d&scoped=true&":
+/***/ "./resources/js/components/layouts/MenuComponent.vue?vue&type=template&id=ab708006&scoped=true&":
 /*!******************************************************************************************************!*\
-  !*** ./resources/js/components/layouts/Menucomponent.vue?vue&type=template&id=7aa8901d&scoped=true& ***!
+  !*** ./resources/js/components/layouts/MenuComponent.vue?vue&type=template&id=ab708006&scoped=true& ***!
   \******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Menucomponent_vue_vue_type_template_id_7aa8901d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Menucomponent_vue_vue_type_template_id_7aa8901d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuComponent_vue_vue_type_template_id_ab708006_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuComponent_vue_vue_type_template_id_ab708006_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Menucomponent_vue_vue_type_template_id_7aa8901d_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Menucomponent.vue?vue&type=template&id=7aa8901d&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/Menucomponent.vue?vue&type=template&id=7aa8901d&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MenuComponent_vue_vue_type_template_id_ab708006_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MenuComponent.vue?vue&type=template&id=ab708006&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/MenuComponent.vue?vue&type=template&id=ab708006&scoped=true&");
 
 
 /***/ }),
@@ -29491,49 +29735,53 @@ var render = function () {
                     on: { click: _vm.toggleTheme },
                   },
                   [
-                    [
-                      _c(
-                        "svg",
-                        {
-                          staticClass: "w-5 h-5",
-                          attrs: {
-                            "aria-hidden": "true",
-                            fill: "currentColor",
-                            viewBox: "0 0 20 20",
-                          },
-                        },
-                        [
-                          _c("path", {
-                            attrs: {
-                              d: "M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z",
+                    !_vm.dark
+                      ? [
+                          _c(
+                            "svg",
+                            {
+                              staticClass: "w-5 h-5",
+                              attrs: {
+                                "aria-hidden": "true",
+                                fill: "currentColor",
+                                viewBox: "0 0 20 20",
+                              },
                             },
-                          }),
+                            [
+                              _c("path", {
+                                attrs: {
+                                  d: "M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z",
+                                },
+                              }),
+                            ]
+                          ),
                         ]
-                      ),
-                    ],
+                      : _vm._e(),
                     _vm._v(" "),
-                    [
-                      _c(
-                        "svg",
-                        {
-                          staticClass: "w-5 h-5",
-                          attrs: {
-                            "aria-hidden": "true",
-                            fill: "currentColor",
-                            viewBox: "0 0 20 20",
-                          },
-                        },
-                        [
-                          _c("path", {
-                            attrs: {
-                              "fill-rule": "evenodd",
-                              d: "M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z",
-                              "clip-rule": "evenodd",
+                    _vm.dark
+                      ? [
+                          _c(
+                            "svg",
+                            {
+                              staticClass: "w-5 h-5",
+                              attrs: {
+                                "aria-hidden": "true",
+                                fill: "currentColor",
+                                viewBox: "0 0 20 20",
+                              },
                             },
-                          }),
+                            [
+                              _c("path", {
+                                attrs: {
+                                  "fill-rule": "evenodd",
+                                  d: "M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z",
+                                  "clip-rule": "evenodd",
+                                },
+                              }),
+                            ]
+                          ),
                         ]
-                      ),
-                    ],
+                      : _vm._e(),
                   ],
                   2
                 ),
@@ -29602,66 +29850,68 @@ var render = function () {
                     ]
                   ),
                   _vm._v(" "),
-                  [
-                    _c(
-                      "ul",
-                      {
-                        staticClass:
-                          "absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700",
-                        attrs: {
-                          "x-transition:leave":
-                            "transition ease-in duration-150",
-                          "x-transition:leave-start": "opacity-100",
-                          "x-transition:leave-end": "opacity-0",
-                        },
-                        on: {
-                          click: function ($event) {
-                            if (
-                              !$event.type.indexOf("key") &&
-                              _vm._k(
-                                $event.keyCode,
-                                "away",
-                                undefined,
-                                $event.key,
-                                undefined
-                              )
-                            ) {
-                              return null
-                            }
-                            return _vm.closeNotificationsMenu.apply(
-                              null,
-                              arguments
-                            )
+                  _vm.isNotificationsMenuOpen
+                    ? [
+                        _c(
+                          "ul",
+                          {
+                            staticClass:
+                              "absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700",
+                            attrs: {
+                              "x-transition:leave":
+                                "transition ease-in duration-150",
+                              "x-transition:leave-start": "opacity-100",
+                              "x-transition:leave-end": "opacity-0",
+                            },
+                            on: {
+                              click: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "away",
+                                    undefined,
+                                    $event.key,
+                                    undefined
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.closeNotificationsMenu.apply(
+                                  null,
+                                  arguments
+                                )
+                              },
+                              keydown: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "escape",
+                                    undefined,
+                                    $event.key,
+                                    undefined
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.closeNotificationsMenu.apply(
+                                  null,
+                                  arguments
+                                )
+                              },
+                            },
                           },
-                          keydown: function ($event) {
-                            if (
-                              !$event.type.indexOf("key") &&
-                              _vm._k(
-                                $event.keyCode,
-                                "escape",
-                                undefined,
-                                $event.key,
-                                undefined
-                              )
-                            ) {
-                              return null
-                            }
-                            return _vm.closeNotificationsMenu.apply(
-                              null,
-                              arguments
-                            )
-                          },
-                        },
-                      },
-                      [
-                        _vm._m(0),
-                        _vm._v(" "),
-                        _vm._m(1),
-                        _vm._v(" "),
-                        _vm._m(2),
+                          [
+                            _vm._m(0),
+                            _vm._v(" "),
+                            _vm._m(1),
+                            _vm._v(" "),
+                            _vm._m(2),
+                          ]
+                        ),
                       ]
-                    ),
-                  ],
+                    : _vm._e(),
                 ],
                 2
               ),
@@ -29710,172 +29960,163 @@ var render = function () {
                     ]
                   ),
                   _vm._v(" "),
-                  [
-                    _c(
-                      "ul",
-                      {
-                        staticClass:
-                          "absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700",
-                        attrs: {
-                          "x-transition:leave":
-                            "transition ease-in duration-150",
-                          "x-transition:leave-start": "opacity-100",
-                          "x-transition:leave-end": "opacity-0",
-                          "aria-label": "submenu",
-                        },
-                        on: {
-                          click: function ($event) {
-                            if (
-                              !$event.type.indexOf("key") &&
-                              _vm._k(
-                                $event.keyCode,
-                                "away",
-                                undefined,
-                                $event.key,
-                                undefined
-                              )
-                            ) {
-                              return null
-                            }
-                            return _vm.closeProfileMenu.apply(null, arguments)
-                          },
-                          keydown: function ($event) {
-                            if (
-                              !$event.type.indexOf("key") &&
-                              _vm._k(
-                                $event.keyCode,
-                                "escape",
-                                undefined,
-                                $event.key,
-                                undefined
-                              )
-                            ) {
-                              return null
-                            }
-                            return _vm.closeProfileMenu.apply(null, arguments)
-                          },
-                        },
-                      },
-                      [
-                        _c("li", { staticClass: "flex" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass:
-                                "inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200",
-                              attrs: { href: "#" },
+                  _vm.isProfileMenuOpen
+                    ? [
+                        _c(
+                          "ul",
+                          {
+                            staticClass:
+                              "absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700",
+                            attrs: {
+                              "x-transition:leave":
+                                "transition ease-in duration-150",
+                              "x-transition:leave-start": "opacity-100",
+                              "x-transition:leave-end": "opacity-0",
+                              "aria-label": "submenu",
                             },
-                            [
+                            on: {
+                              click: _vm.closeProfileMenu,
+                              keydown: function ($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "esc",
+                                    27,
+                                    $event.key,
+                                    ["Esc", "Escape"]
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.closeProfileMenu.apply(
+                                  null,
+                                  arguments
+                                )
+                              },
+                            },
+                          },
+                          [
+                            _c("li", { staticClass: "flex" }, [
                               _c(
-                                "svg",
+                                "a",
                                 {
-                                  staticClass: "w-4 h-4 mr-3",
-                                  attrs: {
-                                    "aria-hidden": "true",
-                                    fill: "none",
-                                    "stroke-linecap": "round",
-                                    "stroke-linejoin": "round",
-                                    "stroke-width": "2",
-                                    viewBox: "0 0 24 24",
-                                    stroke: "currentColor",
-                                  },
+                                  staticClass:
+                                    "inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200",
+                                  attrs: { href: "#" },
                                 },
                                 [
-                                  _c("path", {
-                                    attrs: {
-                                      d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
+                                  _c(
+                                    "svg",
+                                    {
+                                      staticClass: "w-4 h-4 mr-3",
+                                      attrs: {
+                                        "aria-hidden": "true",
+                                        fill: "none",
+                                        "stroke-linecap": "round",
+                                        "stroke-linejoin": "round",
+                                        "stroke-width": "2",
+                                        viewBox: "0 0 24 24",
+                                        stroke: "currentColor",
+                                      },
                                     },
-                                  }),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("span", [_vm._v("Profile")]),
-                            ]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "flex" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass:
-                                "inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200",
-                              attrs: { href: "#" },
-                            },
-                            [
-                              _c(
-                                "svg",
-                                {
-                                  staticClass: "w-4 h-4 mr-3",
-                                  attrs: {
-                                    "aria-hidden": "true",
-                                    fill: "none",
-                                    "stroke-linecap": "round",
-                                    "stroke-linejoin": "round",
-                                    "stroke-width": "2",
-                                    viewBox: "0 0 24 24",
-                                    stroke: "currentColor",
-                                  },
-                                },
-                                [
-                                  _c("path", {
-                                    attrs: {
-                                      d: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z",
-                                    },
-                                  }),
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
+                                        },
+                                      }),
+                                    ]
+                                  ),
                                   _vm._v(" "),
-                                  _c("path", {
-                                    attrs: {
-                                      d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z",
-                                    },
-                                  }),
+                                  _c("span", [_vm._v("Profile")]),
                                 ]
                               ),
-                              _vm._v(" "),
-                              _c("span", [_vm._v("Settings")]),
-                            ]
-                          ),
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "flex" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass:
-                                "inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200",
-                              attrs: { href: "#" },
-                            },
-                            [
+                            ]),
+                            _vm._v(" "),
+                            _c("li", { staticClass: "flex" }, [
                               _c(
-                                "svg",
+                                "a",
                                 {
-                                  staticClass: "w-4 h-4 mr-3",
-                                  attrs: {
-                                    "aria-hidden": "true",
-                                    fill: "none",
-                                    "stroke-linecap": "round",
-                                    "stroke-linejoin": "round",
-                                    "stroke-width": "2",
-                                    viewBox: "0 0 24 24",
-                                    stroke: "currentColor",
-                                  },
+                                  staticClass:
+                                    "inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200",
+                                  attrs: { href: "#" },
                                 },
                                 [
-                                  _c("path", {
-                                    attrs: {
-                                      d: "M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1",
+                                  _c(
+                                    "svg",
+                                    {
+                                      staticClass: "w-4 h-4 mr-3",
+                                      attrs: {
+                                        "aria-hidden": "true",
+                                        fill: "none",
+                                        "stroke-linecap": "round",
+                                        "stroke-linejoin": "round",
+                                        "stroke-width": "2",
+                                        viewBox: "0 0 24 24",
+                                        stroke: "currentColor",
+                                      },
                                     },
-                                  }),
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z",
+                                        },
+                                      }),
+                                      _vm._v(" "),
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+                                        },
+                                      }),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Settings")]),
                                 ]
                               ),
-                              _vm._v(" "),
-                              _c("span", [_vm._v("Log out")]),
-                            ]
-                          ),
-                        ]),
+                            ]),
+                            _vm._v(" "),
+                            _c("li", { staticClass: "flex" }, [
+                              _c(
+                                "a",
+                                {
+                                  staticClass:
+                                    "inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200",
+                                  attrs: { href: "#" },
+                                },
+                                [
+                                  _c(
+                                    "svg",
+                                    {
+                                      staticClass: "w-4 h-4 mr-3",
+                                      attrs: {
+                                        "aria-hidden": "true",
+                                        fill: "none",
+                                        "stroke-linecap": "round",
+                                        "stroke-linejoin": "round",
+                                        "stroke-width": "2",
+                                        viewBox: "0 0 24 24",
+                                        stroke: "currentColor",
+                                      },
+                                    },
+                                    [
+                                      _c("path", {
+                                        attrs: {
+                                          d: "M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1",
+                                        },
+                                      }),
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Log out")]),
+                                ]
+                              ),
+                            ]),
+                          ]
+                        ),
                       ]
-                    ),
-                  ],
+                    : _vm._e(),
                 ],
                 2
               ),
@@ -29964,9 +30205,9 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/Menucomponent.vue?vue&type=template&id=7aa8901d&scoped=true&":
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/MenuComponent.vue?vue&type=template&id=ab708006&scoped=true&":
 /*!*********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/Menucomponent.vue?vue&type=template&id=7aa8901d&scoped=true& ***!
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layouts/MenuComponent.vue?vue&type=template&id=ab708006&scoped=true& ***!
   \*********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -29976,8 +30217,374 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function () {}
-var staticRenderFns = []
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      staticClass: "flex h-screen bg-gray-50 dark:bg-gray-900",
+      class: { "overflow-hidden": this.isSideMenuOpen },
+    },
+    [
+      _c(
+        "aside",
+        {
+          staticClass:
+            "z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0",
+        },
+        [
+          _c("div", { staticClass: "py-4 text-gray-500 dark:text-gray-400" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "ml-6 text-lg font-bold text-gray-800 dark:text-gray-200",
+                attrs: { href: "#" },
+              },
+              [_vm._v("\n                ALPanel\n            ")]
+            ),
+            _vm._v(" "),
+            _c("ul", { staticClass: "mt-6" }, [
+              _c("li", { staticClass: "relative px-6 py-3" }, [
+                _c("span", {
+                  staticClass:
+                    "absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg",
+                  attrs: { "aria-hidden": "true" },
+                }),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100",
+                    attrs: { href: "index.html" },
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "w-5 h-5",
+                        attrs: {
+                          "aria-hidden": "true",
+                          fill: "none",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                          "stroke-width": "2",
+                          viewBox: "0 0 24 24",
+                          stroke: "currentColor",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
+                          },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "ml-4" }, [_vm._v("Dashboard")]),
+                  ]
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("ul", [
+              _c("li", { staticClass: "relative px-6 py-3" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+                    attrs: { href: "forms.html" },
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "w-5 h-5",
+                        attrs: {
+                          "aria-hidden": "true",
+                          fill: "none",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                          "stroke-width": "2",
+                          viewBox: "0 0 24 24",
+                          stroke: "currentColor",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
+                          },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "ml-4" }, [_vm._v("Sınıflar")]),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "relative px-6 py-3" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+                    attrs: { href: "cards.html" },
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "w-5 h-5",
+                        attrs: {
+                          "aria-hidden": "true",
+                          fill: "none",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                          "stroke-width": "2",
+                          viewBox: "0 0 24 24",
+                          stroke: "currentColor",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
+                          },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "ml-4" }, [_vm._v("Yoklama")]),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "relative px-6 py-3" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+                    attrs: { href: "tables.html" },
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "w-5 h-5",
+                        attrs: {
+                          "aria-hidden": "true",
+                          fill: "none",
+                          "stroke-linecap": "round",
+                          "stroke-linejoin": "round",
+                          "stroke-width": "2",
+                          viewBox: "0 0 24 24",
+                          stroke: "currentColor",
+                        },
+                      },
+                      [
+                        _c("path", {
+                          attrs: { d: "M4 6h16M4 10h16M4 14h16M4 18h16" },
+                        }),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "ml-4" }, [_vm._v("Tables")]),
+                  ]
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "li",
+                { staticClass: "relative px-6 py-3" },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass:
+                        "inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+                      attrs: { "aria-haspopup": "true" },
+                      on: { click: _vm.togglePagesMenu },
+                    },
+                    [
+                      _c("span", { staticClass: "inline-flex items-center" }, [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "w-5 h-5",
+                            attrs: {
+                              "aria-hidden": "true",
+                              fill: "none",
+                              "stroke-linecap": "round",
+                              "stroke-linejoin": "round",
+                              "stroke-width": "2",
+                              viewBox: "0 0 24 24",
+                              stroke: "currentColor",
+                            },
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                d: "M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z",
+                              },
+                            }),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "ml-4" }, [
+                          _vm._v("Öğrenci Yönetimi"),
+                        ]),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "w-4 h-4",
+                          attrs: {
+                            "aria-hidden": "true",
+                            fill: "currentColor",
+                            viewBox: "0 0 20 20",
+                          },
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              "fill-rule": "evenodd",
+                              d: "M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z",
+                              "clip-rule": "evenodd",
+                            },
+                          }),
+                        ]
+                      ),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm.isPagesMenuOpen ? [_vm._m(0)] : _vm._e(),
+                ],
+                2
+              ),
+            ]),
+            _vm._v(" "),
+            _vm._m(1),
+          ]),
+        ]
+      ),
+    ]
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "ul",
+      {
+        staticClass:
+          "p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900",
+        attrs: {
+          "x-transition:enter": "transition-all ease-in-out duration-300",
+          "x-transition:enter-start": "opacity-25 max-h-0",
+          "x-transition:enter-end": "opacity-100 max-h-xl",
+          "x-transition:leave": "transition-all ease-in-out duration-300",
+          "x-transition:leave-start": "opacity-100 max-h-xl",
+          "x-transition:leave-end": "opacity-0 max-h-0",
+          "aria-label": "submenu",
+        },
+      },
+      [
+        _c(
+          "li",
+          {
+            staticClass:
+              "px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+          },
+          [
+            _c(
+              "a",
+              { staticClass: "w-full", attrs: { href: "pages/login.html" } },
+              [_vm._v("Sınıf Listesi")]
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass:
+              "px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "w-full",
+                attrs: { href: "pages/create-account.html" },
+              },
+              [
+                _vm._v(
+                  "\n                                    Sınıf Oluştur\n                                "
+                ),
+              ]
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass:
+              "px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "w-full",
+                attrs: { href: "pages/forgot-password.html" },
+              },
+              [
+                _vm._v(
+                  "\n                                    Öğrenciler\n                                "
+                ),
+              ]
+            ),
+          ]
+        ),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "px-6 my-6" }, [
+      _c(
+        "button",
+        {
+          staticClass:
+            "flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple",
+        },
+        [
+          _vm._v("\n                    Öğrenci Kaydet\n                    "),
+          _c(
+            "span",
+            { staticClass: "ml-2", attrs: { "aria-hidden": "true" } },
+            [_vm._v("+")]
+          ),
+        ]
+      ),
+    ])
+  },
+]
+render._withStripped = true
 
 
 

@@ -1,4 +1,6 @@
 <template>
+
+
     <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
         <div
             class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300"
@@ -57,7 +59,7 @@
                         @click="toggleTheme"
                         aria-label="Toggle color mode"
                     >
-                        <template x-if="!dark">
+                        <template v-if="!dark">
                             <svg
                                 class="w-5 h-5"
                                 aria-hidden="true"
@@ -69,7 +71,7 @@
                                 ></path>
                             </svg>
                         </template>
-                        <template x-if="dark">
+                        <template v-if="dark">
                             <svg
                                 class="w-5 h-5"
                                 aria-hidden="true"
@@ -110,7 +112,7 @@
                             class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"
                         ></span>
                     </button>
-                    <template x-if="isNotificationsMenuOpen">
+                    <template v-if="isNotificationsMenuOpen">
                         <ul
                             x-transition:leave="transition ease-in duration-150"
                             x-transition:leave-start="opacity-100"
@@ -172,13 +174,13 @@
                             aria-hidden="true"
                         />
                     </button>
-                    <template x-if="isProfileMenuOpen">
+                    <template v-if="isProfileMenuOpen">
                         <ul
                             x-transition:leave="transition ease-in duration-150"
                             x-transition:leave-start="opacity-100"
                             x-transition:leave-end="opacity-0"
-                            @click.away="closeProfileMenu"
-                            @keydown.escape="closeProfileMenu"
+                            @click="closeProfileMenu"
+                            @keydown.esc="closeProfileMenu"
                             class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
                             aria-label="submenu"
                         >
@@ -260,26 +262,60 @@
 <script>
 export default {
     name: "HeaderComponent",
-
+    data() {
+        return {
+            isSideMenuOpen: false,
+            isNotificationsMenuOpen: false,
+            isProfileMenuOpen: false,
+            isPagesMenuOpen: false,
+            isModalOpen: false,
+            trapCleanup: null,
+        }
+    },
 
     methods: {
-        toggleSideMenu(){
-
+        toggleTheme() {
+            this.dark = !this.dark
+            this.setThemeToLocalStorage(this.dark)
         },
-        toggleTheme(){
 
+        toggleSideMenu() {
+            this.isSideMenuOpen = !this.isSideMenuOpen
         },
-        closeProfileMenu(){
-
+        closeSideMenu() {
+            this.isSideMenuOpen = false
         },
-        toggleNotificationsMenu(){
 
+        toggleNotificationsMenu() {
+            this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen
         },
-        closeNotificationsMenu(){
-
+        closeNotificationsMenu() {
+            this.isNotificationsMenuOpen = false
         },
-        toggleProfileMenu(){
 
+        toggleProfileMenu() {
+            this.isProfileMenuOpen = !this.isProfileMenuOpen
+        },
+        closeProfileMenu() {
+            this.isProfileMenuOpen = false
+        },
+
+        togglePagesMenu() {
+            this.isPagesMenuOpen = !this.isPagesMenuOpen
+        },
+        // Modal
+
+        openModal() {
+            this.isModalOpen = true
+            this.trapCleanup = focusTrap(document.querySelector('#modal'))
+        },
+        closeModal() {
+            this.isModalOpen = false
+            this.trapCleanup()
+        },
+
+        setThemeToLocalStorage(value) {
+            window.localStorage.setItem('dark', value);
         }
     }
 }

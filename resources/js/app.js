@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+const events = require("events");
 
 window.Vue = require('vue').default;
 
@@ -21,7 +22,7 @@ window.Vue = require('vue').default;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('login-component', require('./components/auth/LoginComponent.vue').default);
-Vue.component('menu-component', require('./components/layouts/Menucomponent.vue').default);
+Vue.component('menu-component', require('./components/layouts/MenuComponent.vue').default);
 Vue.component('header-component', require('./components/layouts/HeaderComponent.vue').default);
 
 /**
