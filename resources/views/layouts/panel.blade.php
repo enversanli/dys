@@ -34,9 +34,7 @@
 <body>
 <div
     id="app"
-    class="flex h-screen bg-gray-50 dark:bg-gray-900"
-
->
+    class="flex h-screen bg-gray-50 dark:bg-white">
     <!-- Desktop sidebar -->
     <menu-component></menu-component>
     <div class="flex flex-col flex-1 w-full">

@@ -15,12 +15,6 @@ use Illuminate\Support\Str;
 class UserRepository implements UserRepositoryInterface
 {
 
-    public function getStudents(){
-        return User::where('role', function ($query){
-            return $query->where('role_id', UserRole::where('key', UserRoleKeyEnum::STUDENT)->first()->id);
-        })->get();
-    }
-
     public function storeUser(RegisterRequest $request, UserRole $userRole)
     {
         try {

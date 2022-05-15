@@ -55,4 +55,12 @@ class User extends Model implements Authenticatable
         'email_verified_at' => 'datetime',
         'birth_date' => 'datetime',
     ];
+
+    public function role(){
+        return $this->hasOne(UserRole::class, 'id', 'role_id');
+    }
+
+    public function association(){
+        return $this->hasOne(Association::class, 'id', 'association_id');
+    }
 }

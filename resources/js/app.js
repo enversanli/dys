@@ -25,6 +25,13 @@ Vue.component('login-component', require('./components/auth/LoginComponent.vue')
 Vue.component('menu-component', require('./components/layouts/MenuComponent.vue').default);
 Vue.component('header-component', require('./components/layouts/HeaderComponent.vue').default);
 
+
+// Student
+
+Vue.component('store-student-class', require('./components/studentClasses/StoreStudentClassComponent').default);
+
+// end Student
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

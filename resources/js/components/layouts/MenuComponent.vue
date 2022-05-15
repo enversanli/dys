@@ -170,7 +170,7 @@
                                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                                 >
                                     <a class="w-full" href="pages/forgot-password.html">
-                                        Öğrenciler
+                                        Öğrenci Listesi
                                     </a>
                                 </li>
                             </ul>
@@ -207,7 +207,6 @@ export default {
     },
     methods:{
         toggleTheme() {
-            alert("Sivas");
             this.dark = !this.dark
             setThemeToLocalStorage(this.dark)
         },
@@ -234,7 +233,6 @@ export default {
         },
 
         togglePagesMenu() {
-            alert("Sivas");
             this.isPagesMenuOpen = !this.isPagesMenuOpen
         },
         // Modal

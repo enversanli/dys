@@ -30,7 +30,7 @@
                 <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                    5
+                    {{$totalStudents}}
                 </p>
             </div>
         </div>
@@ -58,7 +58,7 @@
                 <p
                     class="text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
-                    3
+                    {{$totalPendingStudents}}
                 </p>
             </div>
         </div>

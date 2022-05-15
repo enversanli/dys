@@ -30,5 +30,12 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\Panel\PanelController::class, 'index'])->name('dashboard');
 
 
+    // Student Class
+    Route::controller(\App\Http\Controllers\Panel\StudentClassController::class)->group(function () {
+        Route::view('/classes/create-class', 'panel.studentClasses.store');
+        Route::post('classes', 'store');
+    });
+    // end Student Class
+
 });
 
