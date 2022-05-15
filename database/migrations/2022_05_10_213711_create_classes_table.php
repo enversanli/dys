@@ -16,8 +16,10 @@ class CreateClassesTable extends Migration
         Schema::create('student_classes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('association_id');
+            $table->integer('creator_id');
             $table->string('key');
             $table->string('name');
+            $table->string('description');
             $table->timestamps();
         });
     }

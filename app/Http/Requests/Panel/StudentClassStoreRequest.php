@@ -24,7 +24,8 @@ class StudentClassStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'min:1']
+            'name' => ['required', 'string', 'max:255', 'min:1'],
+            'description' => ['nullable', 'string', 'max:255', 'min:1'],
         ];
     }
 }

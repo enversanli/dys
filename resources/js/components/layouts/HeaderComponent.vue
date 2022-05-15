@@ -270,6 +270,7 @@ export default {
             isPagesMenuOpen: false,
             isModalOpen: false,
             trapCleanup: null,
+            dark:false
         }
     },
 

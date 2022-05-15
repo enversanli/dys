@@ -10,5 +10,6 @@ return [
     'active_students' => 'Active Students',
     'pending_students' => 'Pending Students',
     'total_parent' => 'Total Parents',
+    'total_classes' => 'Total Classes',
 
 ];

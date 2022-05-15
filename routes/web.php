@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
     // Student Class
     Route::controller(\App\Http\Controllers\Panel\StudentClassController::class)->group(function () {
         Route::view('/classes/create-class', 'panel.studentClasses.store');
+        Route::view('classes', 'panel.studentClasses.index');
+        Route::get('classes-list', 'index');
         Route::post('classes', 'store');
     });
     // end Student Class

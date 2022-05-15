@@ -29,6 +29,7 @@ Vue.component('header-component', require('./components/layouts/HeaderComponent.
 // Student
 
 Vue.component('store-student-class', require('./components/studentClasses/StoreStudentClassComponent').default);
+Vue.component('student-class-list', require('./components/studentClasses/StudentClassesListComponent').default);
 
 // end Student
 

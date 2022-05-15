@@ -17,5 +17,16 @@ class StudentClass extends Model
     protected $fillable = [
         'key',
         'name',
+        'creator_id',
+        'description',
+        'association_id',
     ];
+
+    public function association(){
+        return $this->belongsTo(Association::class, 'association_id', 'id');
+    }
+
+    public function students(){
+        return $this->hasMany(User::class, 'class_id', 'id');
+    }
 }
