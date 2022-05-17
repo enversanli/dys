@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(\App\Http\Controllers\Panel\StudentController::class)->group(function (){
         Route::view('students', 'panel.students.index');
         Route::get('student-list', 'index');
+        Route::get('student/{id}', 'show');
     });
 
 });

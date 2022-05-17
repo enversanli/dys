@@ -6,17 +6,17 @@
                 <tr
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                 >
-                    <th class="px-4 py-3">Client</th>
-                    <th class="px-4 py-3">Amount</th>
-                    <th class="px-4 py-3">Status</th>
-                    <th class="px-4 py-3">Date</th>
-                    <th class="px-4 py-3">Actions</th>
+                    <th class="px-4 py-3">Adı - Soyadı</th>
+                    <th class="px-4 py-3">Aidat</th>
+                    <th class="px-4 py-3">Durum</th>
+                    <th class="px-4 py-3">Tarih</th>
+                    <th class="px-4 py-3">İşlem</th>
                 </tr>
                 </thead>
                 <tbody
                     class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                 >
-                <tr class="text-gray-700 dark:text-gray-400" v-for="">
+                <tr class="text-gray-700 dark:text-gray-400" v-for="student in students">
                     <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                             <!-- Avatar with inset shadow -->
@@ -35,9 +35,9 @@
                                 ></div>
                             </div>
                             <div>
-                                <p class="font-semibold">Hans Burger</p>
-                                <p class="text-xs text-gray-600 dark:text-gray-400">
-                                    10x Developer
+                                <p class="font-semibold">{{student.first_name}}  {{student.last_name}}</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400" v-if="student.class">
+                                    <small>Sınıfı : </small>{{student.class.name}}
                                 </p>
                             </div>
                         </div>
@@ -49,11 +49,11 @@
                         <span
                             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                         >
-                          Approved
+                          {{student.status}}
                         </span>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        6/10/2020
+                        {{student.created_at}}
                     </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
@@ -211,8 +211,11 @@ export default {
 
     methods: {
         getStudents(){
-            axios('/students-list').then(response => function () {
-                this.students = response.data().data;
+            axios.get('/student-list').then(response => {
+                this.students = response.data.data;
+                console.log("gekkı");
+
+                console.log(this.students);
             });
         }
     }

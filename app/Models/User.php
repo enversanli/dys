@@ -63,4 +63,9 @@ class User extends Model implements Authenticatable
     public function association(){
         return $this->hasOne(Association::class, 'id', 'association_id');
     }
+
+    public function class(){
+        return $this->hasOne(StudentClass::class, 'id', 'class_id');
+    }
+
 }
