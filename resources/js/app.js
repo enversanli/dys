@@ -27,11 +27,15 @@ Vue.component('header-component', require('./components/layouts/HeaderComponent.
 
 
 // Student
+Vue.component('student-list', require('./components/students/StudentListComponent').default);
+// end Student
+
+// Student Class
 
 Vue.component('store-student-class', require('./components/studentClasses/StoreStudentClassComponent').default);
 Vue.component('student-class-list', require('./components/studentClasses/StudentClassesListComponent').default);
 
-// end Student
+// end Student Class
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
