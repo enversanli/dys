@@ -6483,8 +6483,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "StoreStudentComponent"
+  data: function data() {
+    return {
+      classes: {}
+    };
+  },
+  name: "StoreStudentComponent",
+  mounted: function mounted() {
+    this.getClasses();
+  },
+  methods: {
+    getClasses: function getClasses() {
+      var _this = this;
+
+      axios.get('classes-list').then(function (response) {
+        _this.classes = response.data.data;
+        console.log(_this.classes);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -32181,55 +32202,77 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "w-full shadow-lg my-10 p-2.5" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "flex w-full" }, [
+      _vm._m(1),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full" }, [
+        _c("label", { attrs: { for: "last_name" } }, [_vm._v("Sınıfı")]),
+        _vm._v(" "),
+        _vm.classes != null
+          ? _c(
+              "select",
+              {
+                staticClass:
+                  "w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded",
+                attrs: { name: "class_id" },
+              },
+              [
+                _c("option", [_vm._v("Sınıf Seç")]),
+                _vm._v(" "),
+                _vm._l(_vm.classes, function (row) {
+                  return _c("option", { domProps: { value: row.id } }, [
+                    _vm._v(_vm._s(row.name)),
+                  ])
+                }),
+              ],
+              2
+            )
+          : _vm._e(),
+      ]),
+    ]),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-full shadow-lg my-10 p-5" }, [
-      _c("div", { staticClass: "flex w-full" }, [
-        _c("div", { staticClass: "w-full" }, [
-          _c("label", { attrs: { for: "first_name" } }, [_vm._v("Adı")]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass:
-              "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
-            attrs: { id: "first_name", type: "text", name: "first_name" },
-          }),
-        ]),
+    return _c("div", { staticClass: "flex w-full" }, [
+      _c("div", { staticClass: "w-full" }, [
+        _c("label", { attrs: { for: "first_name" } }, [_vm._v("Adı")]),
         _vm._v(" "),
-        _c("div", { staticClass: "w-full" }, [
-          _c("label", { attrs: { for: "last_name" } }, [_vm._v("Soyadı")]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "w-full my-5 ml-5 border p-2 border-slate-400 rounded",
-            attrs: { id: "last_name", type: "text", name: "last_name" },
-          }),
-        ]),
+        _c("input", {
+          staticClass:
+            "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
+          attrs: { id: "first_name", type: "text", name: "first_name" },
+        }),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "flex w-full" }, [
-        _c("div", { staticClass: "w-full" }, [
-          _c("label", { attrs: { for: "first_name" } }, [_vm._v("Adı")]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass:
-              "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
-            attrs: { id: "birth_date", type: "date", name: "first_name" },
-          }),
-        ]),
+      _c("div", { staticClass: "w-full" }, [
+        _c("label", { attrs: { for: "last_name" } }, [_vm._v("Soyadı")]),
         _vm._v(" "),
-        _c("div", { staticClass: "w-full" }, [
-          _c("label", { attrs: { for: "last_name" } }, [_vm._v("Soyadı")]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "w-full my-5 ml-5 border p-2 border-slate-400 rounded",
-            attrs: { id: "last_name", type: "text", name: "last_name" },
-          }),
-        ]),
+        _c("input", {
+          staticClass: "w-full my-5 ml-5 border p-2 border-slate-400 rounded",
+          attrs: { id: "last_name", type: "text", name: "last_name" },
+        }),
       ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full" }, [
+      _c("label", { attrs: { for: "first_name" } }, [_vm._v("Doğum Tarihi")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass:
+          "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
+        attrs: { id: "birth_date", type: "date", name: "first_name" },
+      }),
     ])
   },
 ]
