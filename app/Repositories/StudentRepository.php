@@ -2,13 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\StudentRepositoryInterface;
-use App\Models\Association;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Models\Association;
+use App\Support\PaginateData;
+use App\Support\ResponseMessage;
 use App\Support\Enums\ErrorLogEnum;
 use App\Support\Enums\UserRoleKeyEnum;
-use App\Support\ResponseMessage;
+use App\Interfaces\StudentRepositoryInterface;
+use Illuminate\Http\Request;
 
 class StudentRepository implements StudentRepositoryInterface
 {
@@ -24,8 +26,10 @@ class StudentRepository implements StudentRepositoryInterface
         // TODO: Implement storeStudent() method.
     }
 
-    public function getStudents(Association $association)
+    public function getStudents(Request $request, Association $association)
     {
+
+        $paginateData = PaginateData::fromRequest($request);
 
         try {
             $students = $this->model->whereHas('role', function ($query) {
@@ -34,7 +38,7 @@ class StudentRepository implements StudentRepositoryInterface
                 ->where('association_id', $association->id)
                 ->where('association_id', auth()->user()->association->id)
                 ->with(['class', 'association'])
-                ->paginate(10);
+                ->paginate($paginateData->per_page, '*', 'page', $paginateData->page);
 
             return ResponseMessage::returnData(true, $students);
         } catch (\Exception $exception) {

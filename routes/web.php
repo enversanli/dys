@@ -43,6 +43,8 @@ Route::middleware('auth')->group(function () {
         Route::view('students', 'panel.students.index');
         Route::get('student-list', 'index');
         Route::get('student/{id}', 'show');
+        Route::view('student-create', 'panel.students.store');
+        Route::post('student', 'store');
     });
 
 });

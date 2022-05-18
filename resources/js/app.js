@@ -28,6 +28,8 @@ Vue.component('header-component', require('./components/layouts/HeaderComponent.
 
 // Student
 Vue.component('student-list', require('./components/students/StudentListComponent').default);
+Vue.component('store-student', require('./components/students/StoreStudentComponent').default);
+Vue.component('paginate-data', require('./components/layouts/PaginateComponent').default);
 // end Student
 
 // Student Class
