@@ -12,7 +12,6 @@
             </div>
         </div>
 
-
         <div class="flex w-full">
             <div class="w-full">
                 <label for="first_name">Doğum Tarihi</label>
