@@ -212,7 +212,7 @@ export default {
 
     methods:{
         getList(){
-            axios.get('/classes-list').then(response => function () {
+            axios.get('/classes/list').then(response => function () {
                 console.log("Sivas Yıldızeli Karalar Köyğ");
                 console.log(response.data);
                 this.classes = response.data;

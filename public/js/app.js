@@ -6429,7 +6429,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getList: function getList() {
-      axios.get('/classes-list').then(function (response) {
+      axios.get('/classes/list').then(function (response) {
         return function () {
           console.log("Sivas Yıldızeli Karalar Köyğ");
           console.log(response.data);
@@ -6486,23 +6486,83 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      classes: {}
+      classes: {},
+      parents: {}
     };
   },
   name: "StoreStudentComponent",
   mounted: function mounted() {
     this.getClasses();
+    this.getParents();
   },
   methods: {
+    storeStudent: function storeStudent() {
+      axios.post('students').then(function (response) {});
+    },
     getClasses: function getClasses() {
       var _this = this;
 
-      axios.get('classes-list').then(function (response) {
+      axios.get('/classes/list').then(function (response) {
         _this.classes = response.data.data;
         console.log(_this.classes);
+      });
+    },
+    getParents: function getParents() {
+      var _this2 = this;
+
+      axios.get('/users?role=parent').then(function (response) {
+        _this2.parents = response.data.data;
       });
     }
   }
@@ -32233,6 +32293,45 @@ var render = function () {
           : _vm._e(),
       ]),
     ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "flex w-full" }, [
+      _c("div", { staticClass: "w-full" }, [
+        _c("label", { attrs: { for: "parent" } }, [_vm._v("Veli Durumu")]),
+        _vm._v(" "),
+        _vm.classes != null
+          ? _c(
+              "select",
+              {
+                staticClass:
+                  "w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded",
+                attrs: { id: "parent" },
+              },
+              [
+                _c("option", [_vm._v("Veli Seç")]),
+                _vm._v(" "),
+                _vm._l(_vm.parents, function (row) {
+                  return _c("option", { domProps: { value: row.id } }, [
+                    _vm._v(_vm._s(row.first_name)),
+                  ])
+                }),
+              ],
+              2
+            )
+          : _vm._e(),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full" }),
+    ]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _vm._m(2),
+    _vm._v(" "),
+    _vm._m(3),
   ])
 }
 var staticRenderFns = [
@@ -32273,6 +32372,74 @@ var staticRenderFns = [
           "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
         attrs: { id: "birth_date", type: "date", name: "first_name" },
       }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "flex w-full hidden", attrs: { id: "parent_row" } },
+      [
+        _c("h2", { staticClass: "text-center my-10" }, [
+          _vm._v("Veli Bilgileri"),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "w-full" }, [
+          _c("label", { attrs: { for: "parent_first_name" } }, [_vm._v("Adı")]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass:
+              "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
+            attrs: {
+              id: "parent_first_name",
+              type: "text",
+              name: "parent_first_name",
+            },
+          }),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "w-full" }, [
+          _c("label", { attrs: { for: "parent_last_name" } }, [
+            _vm._v("Soyadı"),
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "w-full my-5 ml-5 border p-2 border-slate-400 rounded",
+            attrs: {
+              id: "parent_last_name",
+              type: "text",
+              name: "parent_last_name",
+            },
+          }),
+        ]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "flex w-full" }, [
+      _c("div", { staticClass: "w-full" }, [
+        _c("label", { attrs: { for: "parent_email" } }, [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass:
+            "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
+          attrs: { id: "parent_email", type: "text", name: "parent_email" },
+        }),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full" }, [
+        _c("label", { attrs: { for: "parent_phone" } }, [_vm._v("Soyadı")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "w-full my-5 ml-5 border p-2 border-slate-400 rounded",
+          attrs: { id: "parent_phone", type: "text", name: "parent_phone" },
+        }),
+      ]),
     ])
   },
 ]

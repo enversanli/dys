@@ -34,18 +34,26 @@ Route::middleware('auth')->group(function () {
     Route::controller(\App\Http\Controllers\Panel\StudentClassController::class)->group(function () {
         Route::view('/classes/create-class', 'panel.studentClasses.store');
         Route::view('classes', 'panel.studentClasses.index');
-        Route::get('classes-list', 'index');
+        Route::get('classes/list', 'index');
         Route::post('classes', 'store');
     });
     // end Student Class
 
+    // Student
     Route::controller(\App\Http\Controllers\Panel\StudentController::class)->group(function (){
         Route::view('students', 'panel.students.index');
-        Route::get('student-list', 'index');
-        Route::get('student/{id}', 'show');
-        Route::view('student-create', 'panel.students.store');
-        Route::post('student', 'store');
+        Route::view('students/create', 'panel.students.store');
+        Route::get('students/list', 'index');
+        Route::get('students/{id}', 'show');
+        Route::post('students', 'store')->name('students.store');
     });
+    // end Student
+
+    // Users
+    Route::controller(\App\Http\Controllers\Panel\UserController::class)->group(function (){
+        Route::get('users', 'index');
+    });
+    // end Users
 
 });
 
