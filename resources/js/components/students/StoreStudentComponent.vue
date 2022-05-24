@@ -91,6 +91,7 @@ export default {
     mounted() {
         this.getClasses();
         this.getParents();
+
     },
 
     methods: {
