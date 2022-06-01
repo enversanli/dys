@@ -42,10 +42,11 @@ Route::middleware('auth')->group(function () {
     // Student
     Route::controller(\App\Http\Controllers\Panel\StudentController::class)->group(function (){
         Route::view('students', 'panel.students.index');
-        Route::view('students/create', 'panel.students.store');
-        Route::get('students/list', 'index');
+        Route::view('students/create', 'panel.student.create');
+        Route::get('students/list', 'index')->name('student.list');
         Route::get('students/{id}', 'show');
-        Route::post('students', 'store')->name('students.store');
+        Route::post('students', 'store')->name('student.store');
+        Route::delete('students/{user}', 'destroy')->name('student.destroy');
     });
     // end Student
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Enums\UserRoleKeyEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,4 +23,9 @@ class Association extends Model
         'phone',
         'email',
     ];
+
+    public function students(){
+        return $this->hasMany(User::class, 'association_id', 'id')
+            ->where('role_id', UserRole::where('key', UserRoleKeyEnum::STUDENT)->first()->id);
+    }
 }

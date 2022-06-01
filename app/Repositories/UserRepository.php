@@ -29,7 +29,6 @@ class UserRepository implements UserRepositoryInterface
 
             return ResponseMessage::returnData(true, $users);
         }catch (\Exception $exception){
-            dd($exception->getMessage());
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::GET_USER_USERS_REPOSITORY->value);

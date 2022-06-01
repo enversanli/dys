@@ -27,7 +27,7 @@ Vue.component('header-component', require('./components/layouts/HeaderComponent.
 
 
 // Student
-Vue.component('student-list', require('./components/students/StudentListComponent').default);
+Vue.component('student-list', require('./components/students/ListComponent').default);
 Vue.component('store-student', require('./components/students/StoreStudentComponent').default);
 Vue.component('paginate-data', require('./components/layouts/PaginateComponent').default);
 // end Student
@@ -35,7 +35,7 @@ Vue.component('paginate-data', require('./components/layouts/PaginateComponent')
 // Student Class
 
 Vue.component('store-student-class', require('./components/studentClasses/StoreStudentClassComponent').default);
-Vue.component('student-class-list', require('./components/studentClasses/StudentClassesListComponent').default);
+Vue.component('student-class-list', require('./components/studentClasses/ListComponent').default);
 
 // end Student Class
 

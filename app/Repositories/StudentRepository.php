@@ -77,4 +77,20 @@ class StudentRepository implements StudentRepositoryInterface
             ->where('association_id', $association->id)
             ->count();
     }
+
+    public function destroyStudent(User $user)
+    {
+        try {
+            // Delete student
+            $user->delete();
+
+            return ResponseMessage::returnData(true);
+        }catch (\Exception $exception){
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+            ->log(ErrorLogEnum::DESTROY_STUDENT__REPOSITORY_ERROR);
+
+            return ResponseMessage::returnData(false);
+        }
+    }
 }

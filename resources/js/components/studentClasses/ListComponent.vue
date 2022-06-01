@@ -198,7 +198,7 @@
 
 <script>
 export default {
-    name: "StudentClassesListComponent",
+    name: "ListComponent",
     data(){
         return {
             classes:null

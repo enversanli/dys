@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Panel\StudentClassStoreRequest;
 use App\Http\Resources\Panel\StudentClassResource;
 use App\Interfaces\StudentClassRepositoryInterface;
+use App\Interfaces\Validators\StudentValidatorInterface;
+use App\Models\User;
 use App\Support\ResponseMessage;
 use Illuminate\Http\Request;
 
@@ -14,9 +16,15 @@ class StudentClassController extends Controller
     /** @var StudentClassRepositoryInterface */
     protected $studentClassRepository;
 
-    public function __construct(StudentClassRepositoryInterface $studentClassRepository)
+
+
+    public function __construct(
+        StudentClassRepositoryInterface $studentClassRepository,
+
+    )
     {
         $this->studentClassRepository = $studentClassRepository;
+        $this->studentValidator = $studentValidator;
     }
 
     public function index()
@@ -37,6 +45,10 @@ class StudentClassController extends Controller
             return ResponseMessage::failed($storedStudentClass->message);
 
         return ResponseMessage::success(null, StudentClassResource::make($storedStudentClass->data));
+    }
+
+    public function destroy(User $user){
+        $destroyedStudent = $this->studentValidator->destroy($user, );
     }
 
 }

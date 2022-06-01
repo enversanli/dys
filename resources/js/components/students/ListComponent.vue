@@ -75,6 +75,7 @@
                             <button
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                 aria-label="Delete"
+                                @click="deleteStudent(student.id)"
                             >
                                 <svg
                                     class="w-5 h-5"
@@ -116,12 +117,18 @@ export default {
 
     methods: {
         getStudents(){
-            axios.get('/student-list').then(response => {
+            axios.get('/students/list').then(response => {
                 this.students = response.data.data;
                 console.log("gekkı");
 
                 console.log(this.students);
             });
+        },
+
+        deleteStudent(id){
+            axios.delete('students/' + id).then(response => {
+                alert("Success !");
+            })
         }
     }
 
