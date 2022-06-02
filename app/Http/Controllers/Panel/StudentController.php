@@ -47,7 +47,7 @@ class StudentController extends Controller
 
     public function show()
     {
-        $student = $this->studentRepository->getStudentById(3);
+        $student = $this->studentRepository->getStudentById(11);
 
         if (!$student->status)
             return ResponseMessage::failed();

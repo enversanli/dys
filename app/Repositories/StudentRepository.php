@@ -5,12 +5,12 @@ namespace App\Repositories;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Association;
+use Illuminate\Http\Request;
 use App\Support\PaginateData;
 use App\Support\ResponseMessage;
 use App\Support\Enums\ErrorLogEnum;
 use App\Support\Enums\UserRoleKeyEnum;
 use App\Interfaces\StudentRepositoryInterface;
-use Illuminate\Http\Request;
 
 class StudentRepository implements StudentRepositoryInterface
 {

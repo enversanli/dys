@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
         Route::view('students/create', 'panel.student.create');
         Route::get('students/list', 'index')->name('student.list');
         Route::get('students/{id}', 'show');
+        Route::view('students/{id}/detail', 'panel.students.show');
         Route::post('students', 'store')->name('student.store');
         Route::delete('students/{user}', 'destroy')->name('student.destroy');
     });

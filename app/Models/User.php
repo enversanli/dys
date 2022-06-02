@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Enums\UserRoleKeyEnum;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,22 +20,22 @@ class User extends Model implements Authenticatable
      */
     protected $fillable = [
         'key',
-        'role_id',
-        'association_id',
-        'paren_id',
-        'class_id',
-        'first_name',
-        'last_name',
-        'mobile_phone',
         'phone',
         'email',
+        'status',
+        'role_id',
         'password',
+        'parent_id',
+        'class_id',
+        'last_name',
+        'photo_url',
+        'time_zone',
+        'first_name',
+        'birth_date',
+        'mobile_phone',
+        'association_id',
         'email_verified_at',
         'reset_password_code',
-        'status',
-        'photo_url',
-        'birth_date',
-        'time_zone',
     ];
 
     /**
@@ -56,16 +57,54 @@ class User extends Model implements Authenticatable
         'birth_date' => 'datetime',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * Get User's role
+     */
     public function role(){
         return $this->hasOne(UserRole::class, 'id', 'role_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * Get User's association
+     */
     public function association(){
         return $this->hasOne(Association::class, 'id', 'association_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * Get user's class
+     */
     public function class(){
         return $this->hasOne(StudentClass::class, 'id', 'class_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * If user is student, get it's parent account.
+     */
+    public function parent(){
+        return $this->belongsTo(User::class, 'parent_id', 'id');
+    }
+
+    /**
+     * Is Student account or not
+     */
+    public function isStudent(){
+        return $this->whereHas('role', function ($q){
+            return $q->where('key', UserRoleKeyEnum::STUDENT);
+        })->exists();
+    }
+
+    /**
+     * Is Parent account or not
+     */
+    public function isParent(){
+        return $this->whereHas('role', function ($q){
+            return $q->where('key', UserRoleKeyEnum::PARENT);
+        })->exists();
     }
 
 }

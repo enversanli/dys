@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'key' => $this->faker->word,
             'role_id' => $this->faker->numberBetween(-10000, 10000),
             'association_id' => $this->faker->numberBetween(-10000, 10000),
-            'paren_id' => $this->faker->numberBetween(-10000, 10000),
+            'parent_id' => $this->faker->numberBetween(-10000, 10000),
             'class_id' => $this->faker->numberBetween(-10000, 10000),
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,

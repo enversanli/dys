@@ -4,7 +4,7 @@ models:
         key: string
         role_id: integer
         association_id: integer
-        paren_id: integer nullable
+        parent_id: integer nullable
         class_id: integer nullable
         first_name: string
         last_name: string
