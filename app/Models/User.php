@@ -90,6 +90,14 @@ class User extends Model implements Authenticatable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * Returns students for parent account
+     */
+    public function students(){
+        return $this->hasMany(User::class, 'parent_id', 'id');
+    }
+
+    /**
      * Is Student account or not
      */
     public function isStudent(){

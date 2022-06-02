@@ -20,14 +20,18 @@ class UserResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'phone' => $this->phone,
+            'email' => $this->email,
             'mobile_phone' => $this->mobile_phone,
             'status' => $this->status,
             'birt_date' => $this->birth_date,
-            'phone_url' => $this->photo_url,
-
+            'photo_url' => $this->photo_url,
+            'association' => $this->association,
             $this->mergeWhen($this->isStudent(), [
-                'parent' => $this->parent
-            ])
+                'parent' => $this->parent,
+                'class' => $this->class
+            ]),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

@@ -45,9 +45,9 @@ class StudentController extends Controller
         return ResponseMessage::paginate(null, UserResource::collection($students->data));
     }
 
-    public function show()
+    public function show($id)
     {
-        $student = $this->studentRepository->getStudentById(11);
+        $student = $this->studentRepository->getStudentById($id);
 
         if (!$student->status)
             return ResponseMessage::failed();
@@ -56,7 +56,7 @@ class StudentController extends Controller
     }
 
     public function update(){
-
+        return ResponseMessage::success();
     }
 
     public function destroy($id)

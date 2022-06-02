@@ -52,7 +52,9 @@ class StudentRepository implements StudentRepositoryInterface
 
     public function getStudentById($id)
     {
-        $student = $this->model->where('id', $id)->firstOrFail();
+        $student = $this->model->where('id', $id)
+            ->with(['parent', 'class', 'association'])
+            ->firstOrFail();
 
         try {
 
@@ -63,6 +65,14 @@ class StudentRepository implements StudentRepositoryInterface
                 ->log(ErrorLogEnum::GET_STUDENT_BY_ID_REPOSITORY_ERROR->value);
 
             return ResponseMessage::returnData(false);
+        }
+    }
+
+    public function updateStudent(Request $request, User $user){
+        try {
+
+        }catch (\Exception $exception){
+
         }
     }
 

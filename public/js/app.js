@@ -6609,15 +6609,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ShowComponent",
   data: function data() {
     return {
-      student: null
+      student: null,
+      classes: {}
     };
   },
   mounted: function mounted() {
     this.getStudent();
+    this.getClasses();
   },
   methods: {
     getStudent: function getStudent() {
@@ -6626,6 +6652,18 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/students/11').then(function (response) {
         _this.student = response.data.data;
       });
+    },
+    getClasses: function getClasses() {
+      var _this2 = this;
+
+      axios.get('/classes/list').then(function (response) {
+        _this2.classes = response.data.data;
+        console.log(_this2.classes);
+      });
+    },
+    update: function update() {
+      alert("Update");
+      axios.put('/students/11').then(function (response) {});
     }
   }
 });
@@ -32625,19 +32663,80 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mx-10 my-10 d-block w-full" }, [
-    _c("div", { staticClass: "w-full inline-block border-2" }, [
-      _c("input", {
-        staticClass: "w-1/2 border-2",
-        attrs: { type: "text" },
-        domProps: { value: _vm.student.first_name },
+  return _c("div", { staticClass: " my-10 d-block w-full" }, [
+    _c("h2", { staticClass: "text-center" }, [_vm._v("Öğrenci Bilgileri")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "h-40 w-40 mx-auto my-10" }, [
+      _c("img", {
+        staticClass: "h-full w-full rounded-full  border-2 my-10 mx-auto",
+        attrs: { src: _vm.student.photo_url },
       }),
+    ]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("div", { staticClass: "grid w-full" }, [
+      _c("div", { staticClass: "w-full border-2 grid grid-cols-1 mb-10" }, [
+        _c("div", { staticClass: "grid grid-cols-2" }, [
+          _c("input", {
+            staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
+            attrs: { type: "text" },
+            domProps: { value: _vm.student.first_name },
+          }),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
+            attrs: { type: "text" },
+            domProps: { value: _vm.student.last_name },
+          }),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
+            attrs: { type: "date" },
+            domProps: { value: _vm.student.birth_date },
+          }),
+        ]),
+        _vm._v(" "),
+        _c("h3", { staticClass: "text-center my-5" }, [_vm._v("Genel")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "grid grid-cols-2" }, [
+          _c("input", {
+            staticClass: "w-full border-2 rounded-md p-1 text-xl",
+            attrs: { type: "text" },
+            domProps: { value: _vm.student.class.name },
+          }),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "w-full border-2 rounded-md p-1 text-xl",
+            attrs: { type: "text" },
+            domProps: { value: _vm.student.association.name },
+          }),
+        ]),
+        _vm._v(" "),
+        _c("h3", { staticClass: "text-center my-5" }, [
+          _vm._v("Veli Bilgileri"),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "grid grid-cols-2" }, [
+          _c("input", {
+            staticClass: "w-full border-2 rounded-md p-1 text-xl",
+            attrs: { type: "text" },
+            domProps: { value: _vm.student.parent.first_name },
+          }),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "w-full border-2 rounded-md p-1 text-xl",
+            attrs: { type: "text" },
+            domProps: { value: _vm.student.parent.last_name },
+          }),
+        ]),
+      ]),
       _vm._v(" "),
-      _c("input", {
-        staticClass: "w-1/2 border-2",
-        attrs: { type: "text" },
-        domProps: { value: _vm.student.last_name },
-      }),
+      _c(
+        "button",
+        { staticClass: "w-40 bg-success", on: { click: _vm.update } },
+        [_vm._v("Güncelle")]
+      ),
     ]),
   ])
 }

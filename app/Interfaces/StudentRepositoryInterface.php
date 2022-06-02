@@ -13,4 +13,5 @@ interface StudentRepositoryInterface
     public function getStudents(Request $request, Association $association);
     public function getTotalStudents(Association $association, $status = null);
     public function destroyStudent(User $user);
+    public function updateStudent(Request $request, User $user);
 }

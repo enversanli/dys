@@ -24,7 +24,7 @@ class StudentClassController extends Controller
     )
     {
         $this->studentClassRepository = $studentClassRepository;
-        $this->studentValidator = $studentValidator;
+
     }
 
     public function index()
