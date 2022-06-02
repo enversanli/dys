@@ -68,11 +68,21 @@ class StudentRepository implements StudentRepositoryInterface
         }
     }
 
-    public function updateStudent(Request $request, User $user){
+    public function updateStudent(Request $request, User $student){
         try {
+            $student->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'class_id' => $request->class_id,
+            ]);
 
+            return ResponseMessage::returnData(true, $student);
         }catch (\Exception $exception){
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::UPDATE_STUDENT_REPOSITORY_ERROR->value);
 
+            return ResponseMessage::returnData(false);
         }
     }
 

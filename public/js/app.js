@@ -6662,7 +6662,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     update: function update() {
-      alert("Update");
+      alert(this.student.first_name);
       axios.put('/students/11').then(function (response) {});
     }
   }

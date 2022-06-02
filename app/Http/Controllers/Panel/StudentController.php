@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Http\Requests\Panel\UpdateStudentRequest;
 use App\Interfaces\Validators\StudentValidatorInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -55,7 +56,14 @@ class StudentController extends Controller
         return ResponseMessage::success(null, UserResource::make($student->data));
     }
 
-    public function update(){
+    public function update(UpdateStudentRequest $request, $id)
+    {
+        $student = $this->studentRepository->getStudentById($id);
+
+        $updatedStudent = $this->studentRepository->updateStudent($request, $student);
+
+        if (!$updatedStudent->status)
+            return ResponseMessage::failed();
         return ResponseMessage::success();
     }
 

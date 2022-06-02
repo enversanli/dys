@@ -97,6 +97,8 @@ class User extends Model implements Authenticatable
         return $this->hasMany(User::class, 'parent_id', 'id');
     }
 
+    /** FUNCTIONS */
+
     /**
      * Is Student account or not
      */

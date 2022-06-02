@@ -59,7 +59,7 @@ export default {
             });
         },
          update(){
-            alert("Update");
+            alert(this.student.first_name);
 
             axios.put('/students/11').then(response => {
 
