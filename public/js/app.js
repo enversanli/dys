@@ -6651,6 +6651,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/students/11').then(function (response) {
         _this.student = response.data.data;
+        console.log("Gwe");
+        console.log(_this.student);
       });
     },
     getClasses: function getClasses() {
@@ -6658,12 +6660,15 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/classes/list').then(function (response) {
         _this2.classes = response.data.data;
-        console.log(_this2.classes);
       });
     },
     update: function update() {
-      alert(this.student.first_name);
-      axios.put('/students/11').then(function (response) {});
+      var data = {
+        first_name: this.student.first_name,
+        last_name: this.student.last_name
+      };
+      console.log(data);
+      axios.put('/students/11', data).then(function (response) {});
     }
   }
 });
@@ -32679,9 +32684,25 @@ var render = function () {
       _c("div", { staticClass: "w-full border-2 grid grid-cols-1 mb-10" }, [
         _c("div", { staticClass: "grid grid-cols-2" }, [
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.student.first_name,
+                expression: "student.first_name",
+              },
+            ],
             staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
             attrs: { type: "text" },
             domProps: { value: _vm.student.first_name },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.student, "first_name", $event.target.value)
+              },
+            },
           }),
           _vm._v(" "),
           _c("input", {
@@ -32700,17 +32721,21 @@ var render = function () {
         _c("h3", { staticClass: "text-center my-5" }, [_vm._v("Genel")]),
         _vm._v(" "),
         _c("div", { staticClass: "grid grid-cols-2" }, [
-          _c("input", {
-            staticClass: "w-full border-2 rounded-md p-1 text-xl",
-            attrs: { type: "text" },
-            domProps: { value: _vm.student.class.name },
-          }),
+          _vm.student.class
+            ? _c("input", {
+                staticClass: "w-full border-2 rounded-md p-1 text-xl",
+                attrs: { type: "text" },
+                domProps: { value: _vm.student.class.name },
+              })
+            : _vm._e(),
           _vm._v(" "),
-          _c("input", {
-            staticClass: "w-full border-2 rounded-md p-1 text-xl",
-            attrs: { type: "text" },
-            domProps: { value: _vm.student.association.name },
-          }),
+          _vm.student.association
+            ? _c("input", {
+                staticClass: "w-full border-2 rounded-md p-1 text-xl",
+                attrs: { type: "text" },
+                domProps: { value: _vm.student.association.name },
+              })
+            : _vm._e(),
         ]),
         _vm._v(" "),
         _c("h3", { staticClass: "text-center my-5" }, [

@@ -8,7 +8,7 @@
         <div class="grid w-full">
             <div class="w-full border-2 grid grid-cols-1 mb-10">
                 <div class="grid grid-cols-2">
-                    <input class="w-full border-2 rounded-md p-1 text-xl mb-3" type="text" :value="student.first_name">
+                    <input class="w-full border-2 rounded-md p-1 text-xl mb-3" type="text" v-model="student.first_name">
                     <input class="w-full border-2 rounded-md p-1 text-xl mb-3" type="text" :value="student.last_name">
 
                     <input class="w-full border-2 rounded-md p-1 text-xl mb-3" type="date" :value="student.birth_date">
@@ -17,8 +17,8 @@
                 <h3 class="text-center my-5">Genel</h3>
 
                 <div class="grid grid-cols-2">
-                    <input class="w-full border-2 rounded-md p-1 text-xl" type="text" :value="student.class.name">
-                    <input class="w-full border-2 rounded-md p-1 text-xl" type="text" :value="student.association.name">
+                    <input class="w-full border-2 rounded-md p-1 text-xl" type="text" v-if="student.class" :value="student.class.name">
+                    <input class="w-full border-2 rounded-md p-1 text-xl" type="text" v-if="student.association" :value="student.association.name">
                 </div>
                 <h3 class="text-center my-5">Veli Bilgileri</h3>
                 <div class="grid grid-cols-2">
@@ -49,19 +49,26 @@ export default {
         getStudent() {
             axios.get('/students/11').then(response => {
                 this.student = response.data.data;
+
+                console.log("Gwe");
+                console.log(this.student);
             });
         },
 
         getClasses() {
             axios.get('/classes/list').then(response => {
-                this.classes = response.data.data
-                console.log(this.classes);
+                this.classes = response.data.data;
             });
         },
          update(){
-            alert(this.student.first_name);
 
-            axios.put('/students/11').then(response => {
+             const data = {
+                 first_name : this.student.first_name,
+                 last_name : this.student.last_name,
+             };
+
+             console.log(data)
+            axios.put('/students/11', data).then(response => {
 
             });
          }

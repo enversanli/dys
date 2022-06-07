@@ -60,7 +60,7 @@ class StudentController extends Controller
     {
         $student = $this->studentRepository->getStudentById($id);
 
-        $updatedStudent = $this->studentRepository->updateStudent($request, $student);
+        $updatedStudent = $this->studentRepository->updateStudent($request, $student->data);
 
         if (!$updatedStudent->status)
             return ResponseMessage::failed();
