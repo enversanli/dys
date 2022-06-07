@@ -60,10 +60,13 @@ class StudentController extends Controller
     {
         $student = $this->studentRepository->getStudentById($id);
 
+        $studentValidator = $this->studentValidator->update($request, $student->data);
+
         $updatedStudent = $this->studentRepository->updateStudent($request, $student->data);
 
         if (!$updatedStudent->status)
             return ResponseMessage::failed();
+
         return ResponseMessage::success();
     }
 

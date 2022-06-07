@@ -6633,6 +6633,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ShowComponent",
   data: function data() {
@@ -6665,7 +6675,8 @@ __webpack_require__.r(__webpack_exports__);
     update: function update() {
       var data = {
         first_name: this.student.first_name,
-        last_name: this.student.last_name
+        last_name: this.student.last_name,
+        class_id: this.student.class_id
       };
       console.log(data);
       axios.put('/students/11', data).then(function (response) {});
@@ -32706,55 +32717,214 @@ var render = function () {
           }),
           _vm._v(" "),
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.student.last_name,
+                expression: "student.last_name",
+              },
+            ],
             staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
             attrs: { type: "text" },
             domProps: { value: _vm.student.last_name },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.student, "last_name", $event.target.value)
+              },
+            },
           }),
           _vm._v(" "),
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.student.birth_date,
+                expression: "student.birth_date",
+              },
+            ],
             staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
             attrs: { type: "date" },
             domProps: { value: _vm.student.birth_date },
+            on: {
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.student, "birth_date", $event.target.value)
+              },
+            },
           }),
         ]),
         _vm._v(" "),
         _c("h3", { staticClass: "text-center my-5" }, [_vm._v("Genel")]),
         _vm._v(" "),
         _c("div", { staticClass: "grid grid-cols-2" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.student.class_id,
+                  expression: "student.class_id",
+                },
+              ],
+              on: {
+                change: function ($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function (o) {
+                      return o.selected
+                    })
+                    .map(function (o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.student,
+                    "class_id",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                },
+              },
+            },
+            _vm._l(_vm.classes, function (cls) {
+              return _c(
+                "option",
+                {
+                  domProps: {
+                    value: cls.id,
+                    selected:
+                      _vm.student.class && cls.id === _vm.student.class.id,
+                  },
+                },
+                [_vm._v(_vm._s(cls.name))]
+              )
+            }),
+            0
+          ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "grid grid-cols-2" }, [
           _vm.student.class
             ? _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.student.class.name,
+                    expression: "student.class.name",
+                  },
+                ],
                 staticClass: "w-full border-2 rounded-md p-1 text-xl",
                 attrs: { type: "text" },
                 domProps: { value: _vm.student.class.name },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.student.class, "name", $event.target.value)
+                  },
+                },
               })
             : _vm._e(),
           _vm._v(" "),
           _vm.student.association
             ? _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.student.association.name,
+                    expression: "student.association.name",
+                  },
+                ],
                 staticClass: "w-full border-2 rounded-md p-1 text-xl",
                 attrs: { type: "text" },
                 domProps: { value: _vm.student.association.name },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.student.association,
+                      "name",
+                      $event.target.value
+                    )
+                  },
+                },
               })
             : _vm._e(),
         ]),
         _vm._v(" "),
-        _c("h3", { staticClass: "text-center my-5" }, [
-          _vm._v("Veli Bilgileri"),
-        ]),
+        _vm.student.parent
+          ? _c("h3", { staticClass: "text-center my-5" }, [
+              _vm._v("Veli Bilgileri"),
+            ])
+          : _vm._e(),
         _vm._v(" "),
-        _c("div", { staticClass: "grid grid-cols-2" }, [
-          _c("input", {
-            staticClass: "w-full border-2 rounded-md p-1 text-xl",
-            attrs: { type: "text" },
-            domProps: { value: _vm.student.parent.first_name },
-          }),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "w-full border-2 rounded-md p-1 text-xl",
-            attrs: { type: "text" },
-            domProps: { value: _vm.student.parent.last_name },
-          }),
-        ]),
+        _vm.student.parent
+          ? _c("div", { staticClass: "grid grid-cols-2" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.student.parent.first_name,
+                    expression: "student.parent.first_name",
+                  },
+                ],
+                staticClass: "w-full border-2 rounded-md p-1 text-xl",
+                attrs: { type: "text" },
+                domProps: { value: _vm.student.parent.first_name },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.student.parent,
+                      "first_name",
+                      $event.target.value
+                    )
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.student.parent.last_name,
+                    expression: "student.parent.last_name",
+                  },
+                ],
+                staticClass: "w-full border-2 rounded-md p-1 text-xl",
+                attrs: { type: "text" },
+                domProps: { value: _vm.student.parent.last_name },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.student.parent,
+                      "last_name",
+                      $event.target.value
+                    )
+                  },
+                },
+              }),
+            ])
+          : _vm._e(),
       ]),
       _vm._v(" "),
       _c(
