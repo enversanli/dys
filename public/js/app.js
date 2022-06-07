@@ -6679,7 +6679,9 @@ __webpack_require__.r(__webpack_exports__);
         class_id: this.student.class_id
       };
       console.log(data);
-      axios.put('/students/11', data).then(function (response) {});
+      axios.put('/students/11', data).then(function (response) {})["catch"](function (error) {
+        alert("Error !");
+      });
     }
   }
 });

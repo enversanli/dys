@@ -62,12 +62,15 @@ class StudentController extends Controller
 
         $studentValidator = $this->studentValidator->update($request, $student->data);
 
+        if (!$studentValidator->status)
+            return ResponseMessage::failed($studentValidator->message);
+
         $updatedStudent = $this->studentRepository->updateStudent($request, $student->data);
 
         if (!$updatedStudent->status)
             return ResponseMessage::failed();
 
-        return ResponseMessage::success();
+        return ResponseMessage::success(null, UserResource::make($student->data));
     }
 
     public function destroy($id)

@@ -81,6 +81,8 @@ export default {
             console.log(data)
             axios.put('/students/11', data).then(response => {
 
+            }).catch((error)=>{
+                alert("Error !");
             });
         }
     }
