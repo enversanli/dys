@@ -43,7 +43,7 @@
 
 <script>
 export default {
-    name: "ShowComponent",
+    name: "CreateComponent",
     data() {
         return {
             student: null,

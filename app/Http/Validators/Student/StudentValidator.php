@@ -12,10 +12,21 @@ use Illuminate\Http\Client\Request;
 
 class StudentValidator implements StudentValidatorInterface
 {
+    public function store(){
+        try {
+
+
+            return ResponseMessage::returnData(true);
+        }catch (\Exception $exception){
+            return ResponseMessage::returnData(false);
+        }
+    }
+
     public function update(UpdateStudentRequest $request, User $student){
         try {
+            // Get requested class
             $studentClass = $request->has('class_id') ? StudentClass::findOrFail($request->class_id) : null;
-            if ($request->has('class_id') && $student->association->id != $studentClass->association_id){
+            if ($studentClass && $student->association->id != $studentClass->association_id){
                 return ResponseMessage::returnData(false, null, '');
             }
 

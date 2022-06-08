@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\Requests\Panel\UpdateStudentRequest;
-use App\Interfaces\Validators\StudentValidatorInterface;
+use App\Http\Requests\Panel\StoreStudentRequest;
+use App\Jobs\SendQueueEmailJob;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Support\ResponseMessage;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Panel\UserResource;
 use App\Interfaces\StudentRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Panel\UpdateStudentRequest;
+use App\Interfaces\Validators\StudentValidatorInterface;
 
 class StudentController extends Controller
 {
@@ -54,6 +56,18 @@ class StudentController extends Controller
             return ResponseMessage::failed();
 
         return ResponseMessage::success(null, UserResource::make($student->data));
+    }
+
+    public function store(StoreStudentRequest $request){
+
+        $storedStudent = $this->studentRepository->storeStudent($request, $this->user->association);
+
+        if (!$storedStudent->status)
+            return ResponseMessage::failed($storedStudent->message);
+
+        SendQueueEmailJob::dispatch();
+
+        return ResponseMessage::success(_('student.created'), UserResource::make($storedStudent->data));
     }
 
     public function update(UpdateStudentRequest $request, $id)

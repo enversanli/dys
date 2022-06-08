@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'mobile_phone' => $this->mobile_phone,
             'status' => $this->status,
-            'birt_date' => $this->birth_date,
+            'birth_date' => $this->birth_date,
             'photo_url' => $this->photo_url,
             'association' => $this->association,
             $this->mergeWhen($this->isStudent(), [
