@@ -32,22 +32,21 @@
                     <option v-for="row in classes" :value="row.id">{{ row.name }}</option>
                 </select>
             </div>
-
-            <div class="w-full">
-                <label for="parent_email">Email</label>
-                <input id="email" type="text"
-                       v-model="student.email"
-                       class="w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded" name="parent_email">
-            </div>
         </div>
 
         <div class="flex w-full">
             <div class="w-full">
-                <label for="parent">Veli Durumu</label>
-                <select class="w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded" id="parent"
+                <label for="email">Email</label>
+                <input id="email" type="text"
+                       v-model="student.email"
+                       class="w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded" name="parent_email">
+            </div>
+            <div class="w-full">
+                <label for="parent_id">Veli</label>
+                <select class="w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded" id="parent_id"
                         v-model="student.parent_id"
                         v-if="classes != null">
-                    <option>Veli Seç</option>
+                    <option :selected="true">Veli Seç</option>
                     <option v-for="row in parents" :value="row.id">{{ row.first_name }}</option>
                 </select>
             </div>
@@ -57,37 +56,11 @@
 
         <hr>
         <hr>
-        <hr>
-        <div class="flex w-full hidden" id="parent_row">
-        <h2 class="text-center my-10">Veli Bilgileri</h2>
-            <div class="w-full">
-                <label for="parent_first_name">Adı</label>
-                <input id="parent_first_name" type="text"
-                       class="w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded"
-                       name="parent_first_name">
-            </div>
-            <div class="w-full">
-                <label for="parent_last_name">Soyadı</label>
-                <input id="parent_last_name" type="text" class="w-full my-5 ml-5 border p-2 border-slate-400 rounded"
-                       name="parent_last_name">
-            </div>
-        </div>
-
-        <div class="flex w-full">
-            <div class="w-full">
-                <label for="parent_email">Email</label>
-                <input id="parent_email" type="text"
-                       class="w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded" name="parent_email">
-            </div>
-            <div class="w-full">
-                <label for="parent_phone">Soyadı</label>
-                <input id="parent_phone" type="text" class="w-full my-5 ml-5 border p-2 border-slate-400 rounded"
-                       name="parent_phone">
-            </div>
-        </div>
 
         <div>
-            <button @click="storeStudent">Kaydet</button>
+            <button @click="storeStudent" type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                Kaydet
+            </button>
         </div>
 
     </div>
@@ -125,6 +98,8 @@ export default {
                 console.log(response);
 
                 alert(response.data.message);
+          }).catch(error => {
+              alert(error.response.data.message);
           });
         },
 
@@ -133,7 +108,9 @@ export default {
                 this.classes = response.data.data
                 console.log(this.classes);
             }).catch(error => {
-                alert(error.response.data.message);
+                console.log(error);
+                console.log("--------");
+                alert(error.message);
             });
         },
 

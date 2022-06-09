@@ -46,6 +46,7 @@ class StudentRepository implements StudentRepositoryInterface
                 'mobile_phone' => $request->mobile_phone ?? null,
                 'phone' => $request->phone ?? null,
                 'class_id' => $request->class_id ?? null,
+                'parent_id' => $request->parent_id ?? null,
             ]);
 
             return ResponseMessage::returnData(true, $student);

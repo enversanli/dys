@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Models\User;
-use App\Support\DTOs\Emails\EmailDataDTO;
 use Illuminate\Http\Request;
 use App\Jobs\SendQueueEmailJob;
 use App\Support\ResponseMessage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Support\DTOs\Emails\EmailDataDTO;
 use App\Http\Resources\Panel\UserResource;
 use App\Interfaces\StudentRepositoryInterface;
 use App\Http\Requests\Panel\StoreStudentRequest;
@@ -17,10 +17,10 @@ use App\Interfaces\Validators\StudentValidatorInterface;
 
 class StudentController extends Controller
 {
-    protected StudentRepositoryInterface $studentRepository;
-
     /** @var User */
     protected $user;
+
+    protected StudentRepositoryInterface $studentRepository;
 
     /** @var StudentValidatorInterface */
     protected $studentValidator;
@@ -60,6 +60,12 @@ class StudentController extends Controller
     }
 
     public function store(StoreStudentRequest $request){
+
+        $validator = $this->studentValidator->store($request, $this->user);
+
+        if (!$validator->status){
+            return ResponseMessage::failed($validator->message);
+        }
 
         $storedStudent = $this->studentRepository->storeStudent($request, $this->user->association);
 

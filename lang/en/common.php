@@ -12,4 +12,8 @@ return [
     'total_parent' => 'Total Parents',
     'total_classes' => 'Total Classes',
 
+
+    // User
+    'not_activated' => 'Your account is not activated yet.',
+    'not_have_authority' => 'You don\'t have authority for this process.',
 ];

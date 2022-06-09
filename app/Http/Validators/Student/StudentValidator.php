@@ -2,19 +2,29 @@
 
 namespace App\Http\Validators\Student;
 
+use App\Http\Requests\Panel\StoreStudentRequest;
 use App\Http\Requests\Panel\UpdateStudentRequest;
 use App\Interfaces\Validators\StudentValidatorInterface;
 use App\Models\Association;
 use App\Models\StudentClass;
 use App\Models\User;
+use App\Support\Enums\UserRoleKeyEnum;
+use App\Support\Enums\UserStatusEnum;
 use App\Support\ResponseMessage;
 use Illuminate\Http\Client\Request;
 
 class StudentValidator implements StudentValidatorInterface
 {
-    public function store(){
+    public function store(StoreStudentRequest $request, User $user){
         try {
+            // If current user account is not activated yet.
+            if ($user->status != UserStatusEnum::ACTIVE){
+                return ResponseMessage::returnData(false, null, __('common.not_activated'));
+            }
 
+           if ($user->role->key == UserRoleKeyEnum::STUDENT){
+               return ResponseMessage::returnData(false, null, __('common.not_have_authority'));
+           }
 
             return ResponseMessage::returnData(true);
         }catch (\Exception $exception){

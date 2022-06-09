@@ -6870,33 +6870,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -6923,6 +6896,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/students', data).then(function (response) {
         console.log(response);
         alert(response.data.message);
+      })["catch"](function (error) {
+        alert(error.response.data.message);
       });
     },
     getClasses: function getClasses() {
@@ -6932,7 +6907,9 @@ __webpack_require__.r(__webpack_exports__);
         _this.classes = response.data.data;
         console.log(_this.classes);
       })["catch"](function (error) {
-        alert(error.response.data.message);
+        console.log(error);
+        console.log("--------");
+        alert(error.message);
       });
     },
     getParents: function getParents() {
@@ -33578,9 +33555,11 @@ var render = function () {
             )
           : _vm._e(),
       ]),
-      _vm._v(" "),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "flex w-full" }, [
       _c("div", { staticClass: "w-full" }, [
-        _c("label", { attrs: { for: "parent_email" } }, [_vm._v("Email")]),
+        _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
         _vm._v(" "),
         _c("input", {
           directives: [
@@ -33605,11 +33584,9 @@ var render = function () {
           },
         }),
       ]),
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "flex w-full" }, [
+      _vm._v(" "),
       _c("div", { staticClass: "w-full" }, [
-        _c("label", { attrs: { for: "parent" } }, [_vm._v("Veli Durumu")]),
+        _c("label", { attrs: { for: "parent_id" } }, [_vm._v("Veli")]),
         _vm._v(" "),
         _vm.classes != null
           ? _c(
@@ -33625,7 +33602,7 @@ var render = function () {
                 ],
                 staticClass:
                   "w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded",
-                attrs: { id: "parent" },
+                attrs: { id: "parent_id" },
                 on: {
                   change: function ($event) {
                     var $$selectedVal = Array.prototype.filter
@@ -33645,7 +33622,9 @@ var render = function () {
                 },
               },
               [
-                _c("option", [_vm._v("Veli Seç")]),
+                _c("option", { domProps: { selected: true } }, [
+                  _vm._v("Veli Seç"),
+                ]),
                 _vm._v(" "),
                 _vm._l(_vm.parents, function (row) {
                   return _c("option", { domProps: { value: row.id } }, [
@@ -33665,87 +33644,21 @@ var render = function () {
     _vm._v(" "),
     _c("hr"),
     _vm._v(" "),
-    _c("hr"),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _vm._m(1),
-    _vm._v(" "),
     _c("div", [
-      _c("button", { on: { click: _vm.storeStudent } }, [_vm._v("Kaydet")]),
+      _c(
+        "button",
+        {
+          staticClass:
+            "inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
+          attrs: { type: "button" },
+          on: { click: _vm.storeStudent },
+        },
+        [_vm._v("\n            Kaydet\n        ")]
+      ),
     ]),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "flex w-full hidden", attrs: { id: "parent_row" } },
-      [
-        _c("h2", { staticClass: "text-center my-10" }, [
-          _vm._v("Veli Bilgileri"),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "w-full" }, [
-          _c("label", { attrs: { for: "parent_first_name" } }, [_vm._v("Adı")]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass:
-              "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
-            attrs: {
-              id: "parent_first_name",
-              type: "text",
-              name: "parent_first_name",
-            },
-          }),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "w-full" }, [
-          _c("label", { attrs: { for: "parent_last_name" } }, [
-            _vm._v("Soyadı"),
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "w-full my-5 ml-5 border p-2 border-slate-400 rounded",
-            attrs: {
-              id: "parent_last_name",
-              type: "text",
-              name: "parent_last_name",
-            },
-          }),
-        ]),
-      ]
-    )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex w-full" }, [
-      _c("div", { staticClass: "w-full" }, [
-        _c("label", { attrs: { for: "parent_email" } }, [_vm._v("Email")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass:
-            "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
-          attrs: { id: "parent_email", type: "text", name: "parent_email" },
-        }),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "w-full" }, [
-        _c("label", { attrs: { for: "parent_phone" } }, [_vm._v("Soyadı")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "w-full my-5 ml-5 border p-2 border-slate-400 rounded",
-          attrs: { id: "parent_phone", type: "text", name: "parent_phone" },
-        }),
-      ]),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

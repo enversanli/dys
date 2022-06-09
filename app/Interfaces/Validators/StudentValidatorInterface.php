@@ -2,13 +2,14 @@
 
 namespace App\Interfaces\Validators;
 
-use App\Http\Requests\Panel\UpdateStudentRequest;
-use App\Models\Association;
 use App\Models\User;
-use Illuminate\Http\Client\Request;
+use App\Models\Association;
+use App\Http\Requests\Panel\StoreStudentRequest;
+use App\Http\Requests\Panel\UpdateStudentRequest;
 
 interface StudentValidatorInterface
 {
-    public function update(UpdateStudentRequest $user, User $association);
+    public function store(StoreStudentRequest $request, User $association);
+    public function update(UpdateStudentRequest $request, User $user);
     public function destroy(User $user, Association $association);
 }
