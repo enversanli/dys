@@ -13,6 +13,8 @@ use App\Support\ResponseMessage;
 use App\Support\Enums\ErrorLogEnum;
 use App\Support\Enums\UserRoleKeyEnum;
 use App\Interfaces\StudentRepositoryInterface;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class StudentRepository implements StudentRepositoryInterface
 {
@@ -33,14 +35,17 @@ class StudentRepository implements StudentRepositoryInterface
     {
         try {
             $student = $this->model->create([
+                'key' => Str::slug($request->first_name . '-' . $request->last_name. Str::random(16) ),
+                'association_id' => $association->id,
+                'role_id' => UserRole::where('key', UserRoleKeyEnum::STUDENT->value)->first()->id,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
+                'password' => Hash::make(now()->timestamp),
                 'birth_date' => Carbon::make($request->birth_date)->format('Y-m-d'),
                 'mobile_phone' => $request->mobile_phone ?? null,
                 'phone' => $request->phone ?? null,
                 'class_id' => $request->class_id ?? null,
-                'association_id' => $request->association_id ?? null
             ]);
 
             return ResponseMessage::returnData(true, $student);

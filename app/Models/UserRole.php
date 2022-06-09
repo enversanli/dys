@@ -18,4 +18,9 @@ class UserRole extends Model
         'key',
         'name',
     ];
+
+
+    public static function getRoleIdByKey($key){
+
+    }
 }

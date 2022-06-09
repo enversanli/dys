@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Panel;
 
-use App\Http\Requests\Panel\StoreStudentRequest;
-use App\Jobs\SendQueueEmailJob;
 use App\Models\User;
+use App\Support\DTOs\Emails\EmailDataDTO;
 use Illuminate\Http\Request;
+use App\Jobs\SendQueueEmailJob;
 use App\Support\ResponseMessage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Panel\UserResource;
 use App\Interfaces\StudentRepositoryInterface;
+use App\Http\Requests\Panel\StoreStudentRequest;
 use App\Http\Requests\Panel\UpdateStudentRequest;
 use App\Interfaces\Validators\StudentValidatorInterface;
 
@@ -65,9 +66,19 @@ class StudentController extends Controller
         if (!$storedStudent->status)
             return ResponseMessage::failed($storedStudent->message);
 
-        SendQueueEmailJob::dispatch();
+        /** Send Mail */
+        $mailData = new EmailDataDTO();
+        $mailData->view = 'mails.student.created';
+        $mailData->subject = 'New Account';
+        $mailData->email = $storedStudent->data->email;
+        $mailData->data = (object)[
+            'student' => $storedStudent->data,
+            'role' => $storedStudent->data->role
+        ];
 
-        return ResponseMessage::success(_('student.created'), UserResource::make($storedStudent->data));
+        SendQueueEmailJob::dispatch($mailData);
+
+        return ResponseMessage::success(__('student.created'), UserResource::make($storedStudent->data));
     }
 
     public function update(UpdateStudentRequest $request, $id)
