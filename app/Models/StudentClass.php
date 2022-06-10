@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\Enums\UserRoleKeyEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,8 @@ class StudentClass extends Model
     }
 
     public function students(){
-        return $this->hasMany(User::class, 'class_id', 'id');
+        return $this->hasMany(User::class, 'class_id', 'id')->where('role_id',
+        UserRole::where('key', UserRoleKeyEnum::STUDENT)->first()->id
+        );
     }
 }

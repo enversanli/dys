@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 
 class ResponseMessage
 {
-    public static function returnData($status = true, $data = null, $message = null)
+    public static function returnData($status = true, $data = null, $message = null, $code = 400)
     {
         if (empty($message) && $status)
             $message = __('common.success');
@@ -17,7 +17,8 @@ class ResponseMessage
         return (object)[
             'status' => $status,
             'data' => $data,
-            'message' => $message
+            'message' => $message,
+            'code' => $code
         ];
     }
 

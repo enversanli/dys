@@ -1,22 +1,22 @@
 <template>
-    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+    <div class="w-full overflow-hidden rounded-lg shadow-xs mt-1    0">
         <div class="w-full overflow-x-auto">
             <table class="w-full whitespace-no-wrap">
                 <thead>
                 <tr
                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                 >
-                    <th class="px-4 py-3">Client</th>
-                    <th class="px-4 py-3">Amount</th>
-                    <th class="px-4 py-3">Status</th>
-                    <th class="px-4 py-3">Date</th>
-                    <th class="px-4 py-3">Actions</th>
+                    <th class="px-4 py-3">Sınıf</th>
+                    <th class="px-4 py-3">Öğrenci Sayısı</th>
+                    <th class="px-4 py-3">Durum</th>
+                    <th class="px-4 py-3">Tarih</th>
+                    <th class="px-4 py-3">İşlemler</th>
                 </tr>
                 </thead>
                 <tbody
                     class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                 >
-                <tr class="text-gray-700 dark:text-gray-400" v-for="">
+                <tr class="text-gray-700 dark:text-gray-400" v-for="row in classes">
                     <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                             <!-- Avatar with inset shadow -->
@@ -35,15 +35,15 @@
                                 ></div>
                             </div>
                             <div>
-                                <p class="font-semibold">Hans Burger</p>
+                                <p class="font-semibold">{{ row.name }}</p>
                                 <p class="text-xs text-gray-600 dark:text-gray-400">
-                                    10x Developer
+                                    {{ row.association.name }}
                                 </p>
                             </div>
                         </div>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        $ 863.45
+                        {{ row.students_count }}
                     </td>
                     <td class="px-4 py-3 text-xs">
                         <span
@@ -53,7 +53,7 @@
                         </span>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        6/10/2020
+                        {{dateFormatter(row.created_at)}}
                     </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
@@ -73,6 +73,7 @@
                                 </svg>
                             </button>
                             <button
+                                @click="deleteClass(row)"
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                 aria-label="Delete"
                             >
@@ -199,9 +200,9 @@
 <script>
 export default {
     name: "ListComponent",
-    data(){
+    data() {
         return {
-            classes:null
+            classes: null
         }
     },
 
@@ -210,16 +211,28 @@ export default {
         this.getList();
     },
 
-    methods:{
-        getList(){
-            axios.get('/classes/list').then(response => function () {
-                console.log("Sivas Yıldızeli Karalar Köyğ");
-                console.log(response.data);
-                this.classes = response.data;
-                console.log(this.classes);
-                alert("Deneme");
+    methods: {
+        dateFormatter(value) {
+            if (!value)
+                return '*';
+
+            var date = new Date(value);
+            return date.getMonth() + '.' + date.getDate() + '.' + date.getFullYear() ;
+        },
+
+        getList() {
+            axios.get('/classes/list').then(response => {
+                this.classes = response.data.data;
             });
-        }
+        },
+
+        deleteClass(studentClass){
+            axios.delete("/classes/" + studentClass.id).then(response =>{
+
+            }).catch(error => {
+                console.log(error);
+            });
+        },
     }
 }
 </script>

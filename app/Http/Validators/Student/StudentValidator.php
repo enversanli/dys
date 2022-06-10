@@ -2,16 +2,16 @@
 
 namespace App\Http\Validators\Student;
 
+use App\Models\User;
+use App\Models\Association;
+use App\Models\StudentClass;
+use App\Support\ResponseMessage;
+use Illuminate\Http\Client\Request;
+use App\Support\Enums\UserStatusEnum;
+use App\Support\Enums\UserRoleKeyEnum;
 use App\Http\Requests\Panel\StoreStudentRequest;
 use App\Http\Requests\Panel\UpdateStudentRequest;
 use App\Interfaces\Validators\StudentValidatorInterface;
-use App\Models\Association;
-use App\Models\StudentClass;
-use App\Models\User;
-use App\Support\Enums\UserRoleKeyEnum;
-use App\Support\Enums\UserStatusEnum;
-use App\Support\ResponseMessage;
-use Illuminate\Http\Client\Request;
 
 class StudentValidator implements StudentValidatorInterface
 {

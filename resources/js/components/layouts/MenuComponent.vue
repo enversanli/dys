@@ -162,14 +162,14 @@
                                 <li
                                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                                 >
-                                    <a class="w-full" href="classes/create-class">
+                                    <a class="w-full" href="/classes/create-class">
                                         Sınıf Oluştur
                                     </a>
                                 </li>
                                 <li
                                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                                 >
-                                    <a class="w-full" href="pages/forgot-password.html">
+                                    <a class="w-full" href="/students">
                                         Öğrenci Listesi
                                     </a>
                                 </li>
@@ -180,7 +180,7 @@
                 <div class="px-6 my-6">
                     <a
                         class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                    href="/student-create"
+                    href="/students/create"
                     >
                         Öğrenci Kaydet
                         <span class="ml-2" aria-hidden="true">+</span>

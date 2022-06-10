@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
         Route::view('classes', 'panel.studentClasses.index');
         Route::get('classes/list', 'index');
         Route::post('classes', 'store');
+        Route::delete('classes/{id}', 'destroy');
     });
     // end Student Class
 
@@ -59,4 +60,5 @@ Route::middleware('auth')->group(function () {
     // end Users
 
 });
+
 

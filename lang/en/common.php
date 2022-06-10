@@ -3,6 +3,7 @@
 return [
     'success' => 'Success',
     'went_wrong' => 'Something went wrong.',
+    'not_found' => ':param not found.',
 
     'association_name' => 'Association Name',
     'email' => 'Email',

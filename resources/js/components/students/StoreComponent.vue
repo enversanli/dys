@@ -1,4 +1,6 @@
 <template>
+
+
     <div class="w-full shadow-lg my-10 p-2.5">
         <div class="flex w-full">
             <div class="w-full">
@@ -14,8 +16,6 @@
                        name="last_name">
             </div>
         </div>
-
-
         <div class="flex w-full">
             <div class="w-full">
                 <label for="first_name">Doğum Tarihi</label>
@@ -53,7 +53,6 @@
             <div class="w-full">
             </div>
         </div>
-
         <hr>
         <hr>
 
@@ -62,6 +61,7 @@
                 Kaydet
             </button>
         </div>
+
 
     </div>
 </template>
@@ -84,7 +84,6 @@ export default {
 
     methods: {
         storeStudent(){
-
             const data =  {
               first_name : this.student.first_name,
               last_name : this.student.last_name,
@@ -95,8 +94,7 @@ export default {
             }
 
           axios.post('/students', data).then(response => {
-                console.log(response);
-
+              alert("Hello, request was successful!");
                 alert(response.data.message);
           }).catch(error => {
               alert(error.response.data.message);

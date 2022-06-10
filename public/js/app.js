@@ -6354,6 +6354,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ListComponent",
   data: function data() {
@@ -6365,15 +6366,21 @@ __webpack_require__.r(__webpack_exports__);
     this.getList();
   },
   methods: {
+    dateFormatter: function dateFormatter(value) {
+      if (!value) return '*';
+      var date = new Date(value);
+      return date.getMonth() + '.' + date.getDate() + '.' + date.getFullYear();
+    },
     getList: function getList() {
+      var _this = this;
+
       axios.get('/classes/list').then(function (response) {
-        return function () {
-          console.log("Sivas Yıldızeli Karalar Köyğ");
-          console.log(response.data);
-          this.classes = response.data;
-          console.log(this.classes);
-          alert("Deneme");
-        };
+        _this.classes = response.data.data;
+      });
+    },
+    deleteClass: function deleteClass(studentClass) {
+      axios["delete"]("/classes/" + studentClass.id).then(function (response) {})["catch"](function (error) {
+        console.log(error);
       });
     }
   }
@@ -6894,7 +6901,7 @@ __webpack_require__.r(__webpack_exports__);
         class_id: this.student.class_id
       };
       axios.post('/students', data).then(function (response) {
-        console.log(response);
+        alert("Hello, request was successful!");
         alert(response.data.message);
       })["catch"](function (error) {
         alert(error.response.data.message);
@@ -31893,7 +31900,7 @@ var staticRenderFns = [
               "a",
               {
                 staticClass: "w-full",
-                attrs: { href: "classes/create-class" },
+                attrs: { href: "/classes/create-class" },
               },
               [
                 _vm._v(
@@ -31911,18 +31918,11 @@ var staticRenderFns = [
               "px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
           },
           [
-            _c(
-              "a",
-              {
-                staticClass: "w-full",
-                attrs: { href: "pages/forgot-password.html" },
-              },
-              [
-                _vm._v(
-                  "\n                                    Öğrenci Listesi\n                                "
-                ),
-              ]
-            ),
+            _c("a", { staticClass: "w-full", attrs: { href: "/students" } }, [
+              _vm._v(
+                "\n                                    Öğrenci Listesi\n                                "
+              ),
+            ]),
           ]
         ),
       ]
@@ -31938,7 +31938,7 @@ var staticRenderFns = [
         {
           staticClass:
             "flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple",
-          attrs: { href: "/student-create" },
+          attrs: { href: "/students/create" },
         },
         [
           _vm._v("\n                    Öğrenci Kaydet\n                    "),
@@ -32087,7 +32087,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "w-full overflow-hidden rounded-lg shadow-xs" },
+    { staticClass: "w-full overflow-hidden rounded-lg shadow-xs mt-1    0" },
     [
       _c("div", { staticClass: "w-full overflow-x-auto" }, [
         _c("table", { staticClass: "w-full whitespace-no-wrap" }, [
@@ -32099,89 +32099,132 @@ var render = function () {
               staticClass:
                 "bg-white divide-y dark:divide-gray-700 dark:bg-gray-800",
             },
-            [
-              _c("tr", { staticClass: "text-gray-700 dark:text-gray-400" }, [
-                _vm._m(1),
-                _vm._v(" "),
-                _c("td", { staticClass: "px-4 py-3 text-sm" }, [
-                  _vm._v("\n                    $ 863.45\n                "),
-                ]),
-                _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
-                _c("td", { staticClass: "px-4 py-3 text-sm" }, [
-                  _vm._v("\n                    6/10/2020\n                "),
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "px-4 py-3" }, [
-                  _c(
-                    "div",
-                    { staticClass: "flex items-center space-x-4 text-sm" },
-                    [
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray",
-                          attrs: { "aria-label": "Edit" },
-                        },
-                        [
-                          _c(
-                            "svg",
-                            {
-                              staticClass: "w-5 h-5",
-                              attrs: {
-                                "aria-hidden": "true",
-                                fill: "currentColor",
-                                viewBox: "0 0 20 20",
-                              },
-                            },
-                            [
-                              _c("path", {
-                                attrs: {
-                                  d: "M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z",
-                                },
-                              }),
-                            ]
-                          ),
-                        ]
-                      ),
+            _vm._l(_vm.classes, function (row) {
+              return _c(
+                "tr",
+                { staticClass: "text-gray-700 dark:text-gray-400" },
+                [
+                  _c("td", { staticClass: "px-4 py-3" }, [
+                    _c("div", { staticClass: "flex items-center text-sm" }, [
+                      _vm._m(1, true),
                       _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray",
-                          attrs: { "aria-label": "Delete" },
-                        },
-                        [
-                          _c(
-                            "svg",
-                            {
-                              staticClass: "w-5 h-5",
-                              attrs: {
-                                "aria-hidden": "true",
-                                fill: "currentColor",
-                                viewBox: "0 0 20 20",
+                      _c("div", [
+                        _c("p", { staticClass: "font-semibold" }, [
+                          _vm._v(_vm._s(row.name)),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "p",
+                          {
+                            staticClass:
+                              "text-xs text-gray-600 dark:text-gray-400",
+                          },
+                          [
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(row.association.name) +
+                                "\n                            "
+                            ),
+                          ]
+                        ),
+                      ]),
+                    ]),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "px-4 py-3 text-sm" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(row.students_count) +
+                        "\n                "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(2, true),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "px-4 py-3 text-sm" }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(_vm.dateFormatter(row.created_at)) +
+                        "\n                "
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "px-4 py-3" }, [
+                    _c(
+                      "div",
+                      { staticClass: "flex items-center space-x-4 text-sm" },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray",
+                            attrs: { "aria-label": "Edit" },
+                          },
+                          [
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "w-5 h-5",
+                                attrs: {
+                                  "aria-hidden": "true",
+                                  fill: "currentColor",
+                                  viewBox: "0 0 20 20",
+                                },
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d: "M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z",
+                                  },
+                                }),
+                              ]
+                            ),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray",
+                            attrs: { "aria-label": "Delete" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.deleteClass(row)
                               },
                             },
-                            [
-                              _c("path", {
+                          },
+                          [
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "w-5 h-5",
                                 attrs: {
-                                  "fill-rule": "evenodd",
-                                  d: "M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z",
-                                  "clip-rule": "evenodd",
+                                  "aria-hidden": "true",
+                                  fill: "currentColor",
+                                  viewBox: "0 0 20 20",
                                 },
-                              }),
-                            ]
-                          ),
-                        ]
-                      ),
-                    ]
-                  ),
-                ]),
-              ]),
-            ]
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    "fill-rule": "evenodd",
+                                    d: "M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z",
+                                    "clip-rule": "evenodd",
+                                  },
+                                }),
+                              ]
+                            ),
+                          ]
+                        ),
+                      ]
+                    ),
+                  ]),
+                ]
+              )
+            }),
+            0
           ),
         ]),
       ]),
@@ -32304,15 +32347,15 @@ var staticRenderFns = [
             "text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800",
         },
         [
-          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("Client")]),
+          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("Sınıf")]),
           _vm._v(" "),
-          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("Amount")]),
+          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("Öğrenci Sayısı")]),
           _vm._v(" "),
-          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("Status")]),
+          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("Durum")]),
           _vm._v(" "),
-          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("Date")]),
+          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("Tarih")]),
           _vm._v(" "),
-          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("Actions")]),
+          _c("th", { staticClass: "px-4 py-3" }, [_vm._v("İşlemler")]),
         ]
       ),
     ])
@@ -32321,39 +32364,25 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "px-4 py-3" }, [
-      _c("div", { staticClass: "flex items-center text-sm" }, [
-        _c(
-          "div",
-          { staticClass: "relative hidden w-8 h-8 mr-3 rounded-full md:block" },
-          [
-            _c("img", {
-              staticClass: "object-cover w-full h-full rounded-full",
-              attrs: {
-                src: "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
-                alt: "",
-                loading: "lazy",
-              },
-            }),
-            _vm._v(" "),
-            _c("div", {
-              staticClass: "absolute inset-0 rounded-full shadow-inner",
-              attrs: { "aria-hidden": "true" },
-            }),
-          ]
-        ),
+    return _c(
+      "div",
+      { staticClass: "relative hidden w-8 h-8 mr-3 rounded-full md:block" },
+      [
+        _c("img", {
+          staticClass: "object-cover w-full h-full rounded-full",
+          attrs: {
+            src: "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ",
+            alt: "",
+            loading: "lazy",
+          },
+        }),
         _vm._v(" "),
-        _c("div", [
-          _c("p", { staticClass: "font-semibold" }, [_vm._v("Hans Burger")]),
-          _vm._v(" "),
-          _c("p", { staticClass: "text-xs text-gray-600 dark:text-gray-400" }, [
-            _vm._v(
-              "\n                                10x Developer\n                            "
-            ),
-          ]),
-        ]),
-      ]),
-    ])
+        _c("div", {
+          staticClass: "absolute inset-0 rounded-full shadow-inner",
+          attrs: { "aria-hidden": "true" },
+        }),
+      ]
+    )
   },
   function () {
     var _vm = this

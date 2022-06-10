@@ -6,6 +6,7 @@ use App\Http\Requests\Panel\StudentClassStoreRequest;
 use App\Interfaces\StudentClassRepositoryInterface;
 use App\Models\Association;
 use App\Models\StudentClass;
+use App\Models\User;
 use App\Support\Enums\ErrorLogEnum;
 use App\Support\ResponseMessage;
 use Illuminate\Support\Str;
@@ -27,6 +28,7 @@ class StudentClassRepository implements StudentClassRepositoryInterface
                     return $query->where('status', $status);
                 })
                 ->with('association')
+                ->withCount('students')
                 ->get();
 
             return ResponseMessage::returnData(true, $classes);
@@ -34,6 +36,20 @@ class StudentClassRepository implements StudentClassRepositoryInterface
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::GET_STUDENT_CLASS_REPOSITORY_ERROR->value);
+
+            return ResponseMessage::returnData(false);
+        }
+    }
+
+    public function getStudentClassById($id, User $user){
+        try {
+            $studentClass = $this->model->where('id', $id)->first();
+
+            if (!$studentClass)
+                return ResponseMessage::returnData(false, __('common.not_found', ['param' => 'Sınıf']), null, 404);
+
+            return ResponseMessage::returnData(true, $studentClass);
+        }catch (\Exception $exception){
 
             return ResponseMessage::returnData(false);
         }
