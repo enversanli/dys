@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Panel\StoreUserRequest;
+use App\Http\Requests\Panel\UpdateUserRequest;
 use App\Http\Resources\Panel\UserResource;
 use App\Interfaces\UserRepositoryInterface;
+use App\Interfaces\Validators\UserValidatorInterface;
 use App\Jobs\SendQueueEmailJob;
 use App\Models\User;
 use App\Support\DTOs\Emails\EmailDataDTO;
@@ -19,11 +22,17 @@ class UserController extends Controller
 
     private UserRepositoryInterface $userRepository;
 
+
+    /** @var UserValidatorInterface */
+    protected $userValidator;
+
     public function __construct(
-        UserRepositoryInterface $userRepository
+        UserRepositoryInterface $userRepository,
+        UserValidatorInterface $userValidator
     )
     {
         $this->userRepository = $userRepository;
+        $this->userValidator = $userValidator;
 
         $this->middleware(function ($request, $next) {
             $this->user = Auth::user();
@@ -33,7 +42,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $students = $this->userRepository->getStudents($request, $this->user->association);
+        $students = $this->userRepository->getUsers($request, $this->user->association);
 
         if (!$students->status)
             return ResponseMessage::failed();
@@ -43,7 +52,7 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $student = $this->userRepository->getStudentById($id);
+        $student = $this->userRepository->getUserById($id);
 
         if (!$student->status)
             return ResponseMessage::failed();
@@ -51,15 +60,15 @@ class UserController extends Controller
         return ResponseMessage::success(null, UserResource::make($student->data));
     }
 
-    public function store(StoreStudentRequest $request){
+    public function store(StoreUserRequest $request){
 
-        $validator = $this->studentValidator->store($request, $this->user);
+        $validator = $this->userValidator->store($request, $this->user);
 
         if (!$validator->status){
             return ResponseMessage::failed($validator->message);
         }
 
-        $storedStudent = $this->userRepository->storeStudent($request, $this->user->association);
+        $storedStudent = $this->userRepository->storeUser($request, $this->user->association);
 
         if (!$storedStudent->status)
             return ResponseMessage::failed($storedStudent->message);
@@ -79,16 +88,16 @@ class UserController extends Controller
         return ResponseMessage::success(__('student.created'), UserResource::make($storedStudent->data));
     }
 
-    public function update(UpdateStudentRequest $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        $student = $this->userRepository->getStudentById($id);
+        $student = $this->userRepository->getUserById($id);
 
-        $studentValidator = $this->studentValidator->update($request, $student->data);
+        $userValidator = $this->userValidator->update($request, $student->data);
 
-        if (!$studentValidator->status)
-            return ResponseMessage::failed($studentValidator->message);
+        if (!$userValidator->status)
+            return ResponseMessage::failed($userValidator->message);
 
-        $updatedStudent = $this->userRepository->updateStudent($request, $student->data);
+        $updatedStudent = $this->userRepository->updateUser($request, $student->data);
 
         if (!$updatedStudent->status)
             return ResponseMessage::failed();
@@ -100,12 +109,12 @@ class UserController extends Controller
     {
         $student = User::findOrFail($id);
 
-        $destroyedStudentValidator = $this->studentValidator->destroy($student, $this->user->association);
+        $destroyedStudentValidator = $this->userValidator->destroy($student, $this->user->association);
         if (!$destroyedStudentValidator->status) {
             return ResponseMessage::failed($destroyedStudentValidator->message);
         }
 
-        $destroyedStudent = $this->userRepository->destroyStudent($student);
+        $destroyedStudent = $this->userRepository->destroyUser($student);
 
         if (!$destroyedStudent->status) {
             return ResponseMessage::failed($destroyedStudent->message);

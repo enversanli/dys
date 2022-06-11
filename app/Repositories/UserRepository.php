@@ -37,6 +37,11 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
+    public function getTotalUsers(Association $association, $status = null)
+    {
+        // TODO: Implement getTotalUsers() method.
+    }
+
     public function storeUser(RegisterRequest $request, UserRole $userRole)
     {
         try {
