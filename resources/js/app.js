@@ -20,6 +20,11 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+import Vue from "vue"
+import VueSimpleAlert from "vue-simple-alert";
+
+Vue.use(VueSimpleAlert);
+
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('login-component', require('./components/auth/LoginComponent.vue').default);
 Vue.component('menu-component', require('./components/layouts/MenuComponent.vue').default);
@@ -38,6 +43,7 @@ Vue.component('paginate-data', require('./components/layouts/PaginateComponent')
 
 Vue.component('store-student-class', require('./components/studentClasses/StoreStudentClassComponent').default);
 Vue.component('student-class-list', require('./components/studentClasses/ListComponent').default);
+Vue.component('show-class', require('./components/studentClasses/ShowComponent').default);
 
 // end Student Class
 

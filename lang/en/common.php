@@ -16,5 +16,5 @@ return [
 
     // User
     'not_activated' => 'Your account is not activated yet.',
-    'not_have_authority' => 'You don\'t have authority for this process.',
+    'not_have_authority' => 'You don\'t have permission for this process.',
 ];

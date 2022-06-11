@@ -91,4 +91,21 @@ class StudentClassRepository implements StudentClassRepositoryInterface
             return ResponseMessage::returnData(false, '', __('common.went_wrong'));
         }
     }
+
+    public function destroyStudentClass(StudentClass $studentClass)
+    {
+        try {
+            // Destroy Student Class
+            $studentClass->delete();
+
+            return ResponseMessage::returnData(true);
+        }catch (\Exception $exception){
+            // Logging
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::DESTROY_STUDENT_CLASS_REPOSITORY_ERROR->value);
+
+            return ResponseMessage::returnData(false);
+        }
+    }
 }

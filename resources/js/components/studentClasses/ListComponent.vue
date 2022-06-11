@@ -57,7 +57,8 @@
                     </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
-                            <button
+                            <a
+                                :href="'/classes/' + row.id + '/detail'"
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                 aria-label="Edit"
                             >
@@ -71,7 +72,7 @@
                                         d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
                                     ></path>
                                 </svg>
-                            </button>
+                            </a>
                             <button
                                 @click="deleteClass(row)"
                                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
@@ -217,21 +218,25 @@ export default {
                 return '*';
 
             var date = new Date(value);
-            return date.getMonth() + '.' + date.getDate() + '.' + date.getFullYear() ;
+            return date.getDate()+ '.' +date.getMonth()  + '.' + date.getFullYear() ;
         },
 
         getList() {
             axios.get('/classes/list').then(response => {
                 this.classes = response.data.data;
+            }).catch(error => {
+                this.$alert(error.response.data.message, 'Hata', 'error');
             });
         },
 
         deleteClass(studentClass){
-            axios.delete("/classes/" + studentClass.id).then(response =>{
-
-            }).catch(error => {
-                console.log(error);
-            });
+           this.$confirm("Silmek istediğinizden emin misiniz ?", "Sınıf Siliniyor", "question").then(()=>{
+               axios.delete("/classes/" + studentClass.id).then(response =>{
+                    this.$alert(response.data.message, 'Başarılı', 'success');
+               }).catch(error => {
+                   this.$alert(error.response.data.message, 'Hata', 'error');
+               });
+           });
         },
     }
 }

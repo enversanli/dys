@@ -50,6 +50,19 @@ class StudentClassController extends Controller
         return ResponseMessage::success(null, StudentClassResource::collection($studentClasses->data));
     }
 
+    public function show($id){
+        $studentClass = $this->studentClassRepository->getStudentClassById($id, $this->user);
+
+        if (!$studentClass->status)
+            return ResponseMessage::failed($studentClass->message, null, $studentClass->code);
+
+        return ResponseMessage::success(null, StudentClassResource::make($studentClass->data));
+    }
+
+    public function update(){
+
+    }
+
     public function store(StudentClassStoreRequest $request)
     {
 
@@ -62,6 +75,7 @@ class StudentClassController extends Controller
     }
 
     public function destroy($id){
+        // Get Student Class
         $studentClass = $this->studentClassRepository->getStudentClassById($id, $this->user);
 
         if (!$studentClass->status)
@@ -69,8 +83,15 @@ class StudentClassController extends Controller
 
         $validator = $this->studentClassValidator->destroy($studentClass->data, $this->user);
 
+        // Check validation
         if (!$validator->status)
             return ResponseMessage::failed($validator->message, null, $validator->code);
+
+        // Destroy student class
+        $destroyedStudentClass = $this->studentClassRepository->destroyStudentClass($studentClass->data);
+
+        if (!$destroyedStudentClass->status)
+            return ResponseMessage::failed($studentClass->message, null, $studentClass->code);
 
         return ResponseMessage::success();
     }
