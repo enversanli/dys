@@ -18,6 +18,7 @@ class StudentClass extends Model
     protected $fillable = [
         'key',
         'name',
+        'teacher_id',
         'creator_id',
         'description',
         'association_id',
@@ -31,6 +32,10 @@ class StudentClass extends Model
         return $this->hasMany(User::class, 'class_id', 'id')->where('role_id',
         UserRole::where('key', UserRoleKeyEnum::STUDENT)->first()->id
         );
+    }
+
+    public function teacher(){
+        return $this->hasOne(User::class, 'id', 'teacher_id');
     }
 
     public function creator(){

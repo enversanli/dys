@@ -98,7 +98,8 @@ class StudentClassRepository implements StudentClassRepositoryInterface
         try {
             $studentClass->update([
                 'name' => $request->name,
-                'description' => $request->description
+                'description' => $request->description,
+                'teacher_id' => $request->teacher_id ?? $studentClass->teacher_id
             ]);
 
             return ResponseMessage::returnData(true, $studentClass);

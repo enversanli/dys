@@ -41,7 +41,7 @@ Vue.component('paginate-data', require('./components/layouts/PaginateComponent')
 
 // Student Class
 
-Vue.component('store-student-class', require('./components/studentClasses/StoreStudentClassComponent').default);
+Vue.component('store-student-class', require('./components/studentClasses/StoreComponent').default);
 Vue.component('student-class-list', require('./components/studentClasses/ListComponent').default);
 Vue.component('show-class', require('./components/studentClasses/ShowComponent').default);
 

@@ -62,6 +62,7 @@ export default {
             };
 
             axios.put('/classes/' + this.id, data).then(response => {
+                this.studentClass = response.data.data;
                 this.$alert('Başarıyla Güncellendi', 'İşlem Başarılı', 'success');
             }).catch(error => {
                 this.$alert(error.response.data.message, 'Hata', 'error');

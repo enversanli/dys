@@ -25,7 +25,6 @@ class StudentClassValidator implements StudentClassValidatorInterface
     {
 
         try {
-
             if ($user->role->key == UserRoleKeyEnum::PARENT || $user->role->key == UserRoleKeyEnum::STUDENT) {
                 return ResponseMessage::returnData(false, null, __('common.not_have_authority'));
             }
@@ -50,11 +49,11 @@ class StudentClassValidator implements StudentClassValidatorInterface
                 return ResponseMessage::returnData(false, __('common.not_found', ['param' => __('studentClass.class')]));
             }
 
-            if ($user->role->key != UserRoleKeyEnum::ADMIN) {
-                return ResponseMessage::returnData(false, null, __('common.not_have_authority'), 401);
+            if ($user->role->key == UserRoleKeyEnum::PARENT || $user->role->key == UserRoleKeyEnum::STUDENT) {
+                return ResponseMessage::returnData(false, null, __('common.not_have_authority'));
             }
 
-
+            return ResponseMessage::returnData(true);
         } catch (\Exception $exception) {
             return ResponseMessage::returnData(false);
         }

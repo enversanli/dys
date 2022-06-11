@@ -24,7 +24,7 @@
 
 <script>
 export default {
-    name: "StoreStudentClassComponent",
+    name: "StoreClassComponent",
     data(){
         return{
             name:null,
@@ -39,10 +39,11 @@ export default {
             };
 
             axios.post('/classes', data).then(response => function () {
-                console.log(response.data);
-                alert("Sınıf başarıyla eklendi.");
+                this.$alert('Sınıf başarıyla eklendi.', 'İşlem Başarılı', 'success');
+                this.name = null;
+                this.description = null;
             }).catch(error => {
-                alert(error.response.data.message);
+                this.$alert(error.response.data.message, 'Hata', 'error');
             })
         }
     }
