@@ -36,7 +36,7 @@
                             </div>
                             <div>
                                 <p class="font-semibold">{{ row.name }}</p>
-                                <p class="text-xs text-gray-600 dark:text-gray-400">
+                                <p v-if="row.association" class="text-xs text-gray-600 dark:text-gray-400">
                                     {{ row.association.name }}
                                 </p>
                             </div>
@@ -215,7 +215,7 @@ export default {
     methods: {
         dateFormatter(value) {
             if (!value)
-                return '*';
+                return '--.--.----';
 
             var date = new Date(value);
             return date.getDate()+ '.' +date.getMonth()  + '.' + date.getFullYear() ;

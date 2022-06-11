@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Requests\Panel\StudentClassStoreRequest;
+use App\Http\Requests\Panel\UpdateStudentClassRequest;
 use App\Interfaces\StudentClassRepositoryInterface;
 use App\Models\Association;
 use App\Models\StudentClass;
@@ -43,7 +44,7 @@ class StudentClassRepository implements StudentClassRepositoryInterface
 
     public function getStudentClassById($id, User $user){
         try {
-            $studentClass = $this->model->where('id', $id)->first();
+            $studentClass = $this->model->where('id', $id)->withCount('students')->first();
 
             if (!$studentClass)
                 return ResponseMessage::returnData(false, __('common.not_found', ['param' => 'Sınıf']), null, 404);
@@ -89,6 +90,24 @@ class StudentClassRepository implements StudentClassRepositoryInterface
                 ->log(ErrorLogEnum::STORE_STUDENT_CLASS_REPOSITORY_ERROR->value);
 
             return ResponseMessage::returnData(false, '', __('common.went_wrong'));
+        }
+    }
+
+    public function updateStudentClass(UpdateStudentClassRequest $request, StudentClass $studentClass)
+    {
+        try {
+            $studentClass->update([
+                'name' => $request->name,
+                'description' => $request->description
+            ]);
+
+            return ResponseMessage::returnData(true, $studentClass);
+        }catch (\Exception $exception){
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::UPDATE_STUDENT_CLASS_REPOSITORY_ERROR->value);
+            return ResponseMessage::returnData(false);
+
         }
     }
 

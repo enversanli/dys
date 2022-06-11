@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Panel\StudentClassStoreRequest;
+use App\Http\Requests\Panel\UpdateStudentClassRequest;
 use App\Http\Resources\Panel\StudentClassResource;
 use App\Interfaces\StudentClassRepositoryInterface;
 use App\Interfaces\Validators\StudentClassValidatorInterface;
@@ -59,8 +60,23 @@ class StudentClassController extends Controller
         return ResponseMessage::success(null, StudentClassResource::make($studentClass->data));
     }
 
-    public function update(){
+    public function update(UpdateStudentClassRequest $request, $id){
+        $studentClass = $this->studentClassRepository->getStudentClassById($id, $this->user);
 
+        if (!$studentClass->status)
+            return ResponseMessage::failed($studentClass->message, null, $studentClass->code);
+
+        $validator = $this->studentClassValidator->update($studentClass->data, $this->user);
+
+        if (!$validator->status)
+            return ResponseMessage::failed($validator->message, null, $validator->code);
+
+        $updatedStudentClass = $this->studentClassRepository->updateStudentClass($request, $studentClass->data);
+
+        if (!$updatedStudentClass->status)
+            return ResponseMessage::failed($updatedStudentClass->message, null, $updatedStudentClass->code);
+
+        return ResponseMessage::success(null, StudentClassResource::make($updatedStudentClass->data));
     }
 
     public function store(StudentClassStoreRequest $request)

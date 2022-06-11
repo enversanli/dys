@@ -32,4 +32,8 @@ class StudentClass extends Model
         UserRole::where('key', UserRoleKeyEnum::STUDENT)->first()->id
         );
     }
+
+    public function creator(){
+        return $this->hasOne(User::class, 'id', 'creator_id');
+    }
 }

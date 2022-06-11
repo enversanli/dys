@@ -6368,7 +6368,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     dateFormatter: function dateFormatter(value) {
-      if (!value) return '*';
+      if (!value) return '--.--.----';
       var date = new Date(value);
       return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear();
     },
@@ -6443,8 +6443,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "StoreStudentClassComponent",
+  props: ['id'],
   data: function data() {
     return {
+      id: null,
       studentClass: null
     };
   },
@@ -6455,11 +6457,24 @@ __webpack_require__.r(__webpack_exports__);
     getStudentClass: function getStudentClass() {
       var _this = this;
 
-      axios.get('/classes').then(function (response) {
-        _this.studentClass = response.data;
-        console.log(response.data);
+      axios.get('/classes/' + this.id).then(function (response) {
+        _this.studentClass = response.data.data;
+        console.log(response.data.data);
       })["catch"](function (error) {
         _this.$alert(error.response.data.message);
+      });
+    },
+    update: function update() {
+      var _this2 = this;
+
+      var data = {
+        name: this.studentClass.name,
+        description: this.studentClass.description
+      };
+      axios.put('/classes/' + this.id, data).then(function (response) {
+        _this2.$alert('Başarıyla Güncellendi', 'İşlem Başarılı', 'success');
+      })["catch"](function (error) {
+        _this2.$alert(error.response.data.message, 'Hata', 'error');
       });
     }
   }
@@ -35196,20 +35211,22 @@ var render = function () {
                           _vm._v(_vm._s(row.name)),
                         ]),
                         _vm._v(" "),
-                        _c(
-                          "p",
-                          {
-                            staticClass:
-                              "text-xs text-gray-600 dark:text-gray-400",
-                          },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(row.association.name) +
-                                "\n                            "
-                            ),
-                          ]
-                        ),
+                        row.association
+                          ? _c(
+                              "p",
+                              {
+                                staticClass:
+                                  "text-xs text-gray-600 dark:text-gray-400",
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(row.association.name) +
+                                    "\n                            "
+                                ),
+                              ]
+                            )
+                          : _vm._e(),
                       ]),
                     ]),
                   ]),
@@ -35696,9 +35713,9 @@ var render = function () {
         staticClass:
           "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
         attrs: { type: "submit" },
-        on: { click: _vm.store },
+        on: { click: _vm.update },
       },
-      [_vm._v("\n        Oluştur\n    ")]
+      [_vm._v("\n        Güncelle\n    ")]
     ),
     _vm._v(" "),
     _vm._m(0),

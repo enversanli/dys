@@ -1,5 +1,5 @@
 @extends('layouts.panel')
 
 @section('content')
-<show-class :id="@this"></show-class>
+<show-class :id="{{request()->id}}"></show-class>
 @endsection

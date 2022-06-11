@@ -21,9 +21,9 @@
             </textarea>
             </div>
         </div>
-        <button type="submit" @click="store"
+        <button type="submit" @click="update"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Oluştur
+            Güncelle
         </button>
 
         <p class="mt-5"><small>Sınıflar, öğrencilerin kayıt edilebilmesi için gereklidir.</small>
@@ -34,9 +34,11 @@
 <script>
 export default {
     name: "StoreStudentClassComponent",
+    props: ['id'],
     data() {
         return {
-            studentClass : null
+            id: null,
+            studentClass : null,
         }
     },
 
@@ -46,12 +48,24 @@ export default {
 
     methods: {
         getStudentClass() {
-            axios.get('/classes').then(response =>{
-                this.studentClass = response.data;
-                console.log(response.data);
+            axios.get('/classes/' + this.id).then(response =>{
+                this.studentClass = response.data.data;
+                console.log(response.data.data);
             }).catch(error => {
                 this.$alert(error.response.data.message);
             })
+        },
+        update(){
+            const data = {
+                name: this.studentClass.name,
+                description: this.studentClass.description
+            };
+
+            axios.put('/classes/' + this.id, data).then(response => {
+                this.$alert('Başarıyla Güncellendi', 'İşlem Başarılı', 'success');
+            }).catch(error => {
+                this.$alert(error.response.data.message, 'Hata', 'error');
+            });
         }
     }
 }
