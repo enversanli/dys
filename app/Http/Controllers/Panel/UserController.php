@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Jobs\SendQueueEmailJob;
+use App\Support\ResponseMessage;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Panel\StoreUserRequest;
-use App\Http\Requests\Panel\UpdateUserRequest;
+use App\Support\DTOs\Emails\EmailDataDTO;
 use App\Http\Resources\Panel\UserResource;
 use App\Interfaces\UserRepositoryInterface;
+use App\Http\Requests\Panel\StoreUserRequest;
+use App\Http\Requests\Panel\UpdateUserRequest;
 use App\Interfaces\Validators\UserValidatorInterface;
-use App\Jobs\SendQueueEmailJob;
-use App\Models\User;
-use App\Support\DTOs\Emails\EmailDataDTO;
-use App\Support\ResponseMessage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     /** @var User */
     protected $user;
 
-    private UserRepositoryInterface $userRepository;
+    /** @var UserRepositoryInterface  */
+    private  $userRepository;
 
 
     /** @var UserValidatorInterface */

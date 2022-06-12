@@ -6780,7 +6780,7 @@ __webpack_require__.r(__webpack_exports__);
     getStudents: function getStudents() {
       var _this = this;
 
-      axios.get('/students/list').then(function (response) {
+      axios.get('/users/list').then(function (response) {
         _this.students = response.data.data;
         console.log("gekkı");
         console.log(_this.students);
@@ -6976,12 +6976,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       student: {},
       classes: {},
-      parents: {}
+      parents: {},
+      role: null
     };
   },
   name: "StoreComponent",
@@ -6991,38 +7001,37 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     storeStudent: function storeStudent() {
+      var _this = this;
+
       var data = {
         first_name: this.student.first_name,
         last_name: this.student.last_name,
         email: this.student.email,
         birth_date: this.student.birth_date,
         parent_id: this.student.parent_id,
-        class_id: this.student.class_id
+        class_id: this.student.class_id,
+        role: this.role
       };
-      axios.post('/students', data).then(function (response) {
-        alert("Hello, request was successful!");
-        alert(response.data.message);
+      axios.post('/users', data).then(function (response) {
+        _this.$alert(response.data.message, 'İşlem Başarılı', 'success');
       })["catch"](function (error) {
-        alert(error.response.data.message);
+        _this.$alert(error.response.data.message, 'Hata', 'error');
       });
     },
     getClasses: function getClasses() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('/classes/list').then(function (response) {
-        _this.classes = response.data.data;
-        console.log(_this.classes);
+        _this2.classes = response.data.data;
       })["catch"](function (error) {
-        console.log(error);
-        console.log("--------");
-        alert(error.message);
+        _this2.$alert(error.message, 'Hata', 'error');
       });
     },
     getParents: function getParents() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('/users?role=parent').then(function (response) {
-        _this2.parents = response.data.data;
+        _this3.parents = response.data.data;
       });
     }
   }
@@ -36690,7 +36699,55 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "w-full shadow-lg my-10 p-2.5" }, [
+  return _c("div", { staticClass: "w-full shadow-lg my-10 p-2" }, [
+    _c(
+      "select",
+      {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.role,
+            expression: "role",
+          },
+        ],
+        staticClass:
+          "w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded",
+        on: {
+          change: function ($event) {
+            var $$selectedVal = Array.prototype.filter
+              .call($event.target.options, function (o) {
+                return o.selected
+              })
+              .map(function (o) {
+                var val = "_value" in o ? o._value : o.value
+                return val
+              })
+            _vm.role = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+          },
+        },
+      },
+      [
+        _c("option", { domProps: { selected: true } }, [
+          _vm._v("Kullanıcı Tipi"),
+        ]),
+        _vm._v(" "),
+        _c("option", { domProps: { value: "STUDENT" } }, [_vm._v("Öğrenci")]),
+        _vm._v(" "),
+        _c("option", { domProps: { value: "TEACHER" } }, [_vm._v("Öğretmen")]),
+        _vm._v(" "),
+        _c("option", { domProps: { value: "PARENT" } }, [_vm._v("Veli")]),
+        _vm._v(" "),
+        _c("option", { domProps: { value: "ASSOCIATION_MANAGER" } }, [
+          _vm._v("Yönetici"),
+        ]),
+        _vm._v(" "),
+        _c("option", { domProps: { value: "SUB_ASSOCIATION_MANAGER" } }, [
+          _vm._v("Personel"),
+        ]),
+      ]
+    ),
+    _vm._v(" "),
     _c("div", { staticClass: "flex w-full" }, [
       _c("div", { staticClass: "w-full" }, [
         _c("label", { attrs: { for: "first_name" } }, [_vm._v("Adı")]),

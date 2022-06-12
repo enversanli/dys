@@ -59,6 +59,9 @@ Route::middleware('auth')->group(function () {
     // Users
     Route::controller(\App\Http\Controllers\Panel\UserController::class)->group(function (){
         Route::get('users', 'index');
+        Route::post('users', 'store');
+        Route::get('users/list', 'index');
+
     });
     // end Users
 

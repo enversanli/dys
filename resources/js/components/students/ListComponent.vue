@@ -117,7 +117,7 @@ export default {
 
     methods: {
         getStudents(){
-            axios.get('/students/list').then(response => {
+            axios.get('/users/list').then(response => {
                 this.students = response.data.data;
                 console.log("gekkı");
 

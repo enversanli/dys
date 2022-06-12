@@ -1,7 +1,15 @@
 <template>
 
 
-    <div class="w-full shadow-lg my-10 p-2.5">
+    <div class="w-full shadow-lg my-10 p-2">
+        <select v-model="role" class="w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded">
+            <option :selected="true">Kullanıcı Tipi</option>
+            <option :value="'STUDENT'">Öğrenci</option>
+            <option :value="'TEACHER'">Öğretmen</option>
+            <option :value="'PARENT'">Veli</option>
+            <option :value="'ASSOCIATION_MANAGER'">Yönetici</option>
+            <option :value="'SUB_ASSOCIATION_MANAGER'">Personel</option>
+        </select>
         <div class="flex w-full">
             <div class="w-full">
                 <label for="first_name">Adı</label>
@@ -57,7 +65,8 @@
         <hr>
 
         <div>
-            <button @click="storeStudent" type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+            <button @click="storeStudent" type="button"
+                    class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                 Kaydet
             </button>
         </div>
@@ -70,9 +79,10 @@
 export default {
     data() {
         return {
-            student:{},
+            student: {},
             classes: {},
             parents: {},
+            role: null,
         }
     },
     name: "StoreComponent",
@@ -83,38 +93,35 @@ export default {
     },
 
     methods: {
-        storeStudent(){
-            const data =  {
-              first_name : this.student.first_name,
-              last_name : this.student.last_name,
-              email : this.student.email,
-              birth_date : this.student.birth_date,
-              parent_id : this.student.parent_id,
-              class_id : this.student.class_id,
+        storeStudent() {
+            const data = {
+                first_name: this.student.first_name,
+                last_name: this.student.last_name,
+                email: this.student.email,
+                birth_date: this.student.birth_date,
+                parent_id: this.student.parent_id,
+                class_id: this.student.class_id,
+                role: this.role
             }
 
-          axios.post('/students', data).then(response => {
-              alert("Hello, request was successful!");
-                alert(response.data.message);
-          }).catch(error => {
-              alert(error.response.data.message);
-          });
+            axios.post('/users', data).then(response => {
+                this.$alert(response.data.message, 'İşlem Başarılı', 'success');
+            }).catch(error => {
+                this.$alert(error.response.data.message, 'Hata', 'error');
+            });
         },
 
         getClasses() {
             axios.get('/classes/list').then(response => {
                 this.classes = response.data.data
-                console.log(this.classes);
             }).catch(error => {
-                console.log(error);
-                console.log("--------");
-                alert(error.message);
+                this.$alert(error.message, 'Hata', 'error');
             });
         },
 
         getParents() {
             axios.get('/users?role=parent').then(response => {
-            this.parents = response.data.data;
+                this.parents = response.data.data;
             });
         },
 

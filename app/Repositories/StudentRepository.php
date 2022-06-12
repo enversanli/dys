@@ -35,7 +35,7 @@ class StudentRepository implements StudentRepositoryInterface
     {
         try {
             $student = $this->model->create([
-                'key' => Str::slug($request->first_name . '-' . $request->last_name. Str::random(16) ),
+                'key' => Str::slug($request->first_name . '-' . $request->last_name . Str::random(16)),
                 'association_id' => $association->id,
                 'role_id' => UserRole::where('key', UserRoleKeyEnum::STUDENT->value)->first()->id,
                 'first_name' => $request->first_name,
@@ -50,12 +50,12 @@ class StudentRepository implements StudentRepositoryInterface
             ]);
 
             return ResponseMessage::returnData(true, $student);
-        }catch (\Exception $exception){
-        activity()
-            ->withProperties(['error' => $exception->getMessage()])
-            ->log(ErrorLogEnum::STORE_STUDENT_REPOSITORY_ERROR->value);
+        } catch (\Exception $exception) {
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::STORE_STUDENT_REPOSITORY_ERROR->value);
 
-        return ResponseMessage::returnData(false);
+            return ResponseMessage::returnData(false);
         }
     }
 
@@ -67,7 +67,6 @@ class StudentRepository implements StudentRepositoryInterface
      */
     public function getStudents(Request $request, Association $association)
     {
-
         $paginateData = PaginateData::fromRequest($request);
 
         try {
@@ -118,7 +117,8 @@ class StudentRepository implements StudentRepositoryInterface
      * @return object
      * Update student's information
      */
-    public function updateStudent(Request $request, User $student){
+    public function updateStudent(Request $request, User $student)
+    {
         try {
 
             $student->update([
@@ -133,7 +133,7 @@ class StudentRepository implements StudentRepositoryInterface
             ]);
 
             return ResponseMessage::returnData(true, $student);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::UPDATE_STUDENT_REPOSITORY_ERROR->value);
@@ -172,10 +172,10 @@ class StudentRepository implements StudentRepositoryInterface
             $user->delete();
 
             return ResponseMessage::returnData(true);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
-            ->log(ErrorLogEnum::DESTROY_STUDENT__REPOSITORY_ERROR);
+                ->log(ErrorLogEnum::DESTROY_STUDENT__REPOSITORY_ERROR);
 
             return ResponseMessage::returnData(false);
         }
