@@ -51,7 +51,7 @@ class StudentValidator implements StudentValidatorInterface
     {
         try {
 
-            $situation = $association->whereHas('students', function ($query) use ($student){
+            $situation = $association->whereHas('users', function ($query) use ($student){
                 return $query->where('id', $student->id);
             })->exists();
 

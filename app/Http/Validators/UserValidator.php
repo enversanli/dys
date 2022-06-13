@@ -11,9 +11,39 @@ use App\Support\Enums\UserRoleKeyEnum;
 use App\Http\Requests\Panel\StoreUserRequest;
 use App\Http\Requests\Panel\UpdateStudentRequest;
 use App\Interfaces\Validators\UserValidatorInterface;
+use Illuminate\Http\Request;
 
 class UserValidator implements UserValidatorInterface
 {
+    public function index(Request $request, User $user)
+    {
+
+        try {
+            if ($user->role->key != UserRoleKeyEnum::ASSOCIATION_MANAGER->value &&
+                $user->role->key != UserRoleKeyEnum::SUB_ASSOCIATION_MANAGER->value
+            ){
+                return ResponseMessage::returnData(false, null, __('common.not_have_authority'), 401);
+            }
+
+            if ($user->role->key == UserRoleKeyEnum::TEACHER->value && (
+                $request->role == UserRoleKeyEnum::SUB_ASSOCIATION_MANAGER->value
+                ||
+                $request->role == UserRoleKeyEnum::ASSOCIATION_MANAGER->value
+                ||
+                $request->role == UserRoleKeyEnum::ADMIN->value
+                )){
+                return ResponseMessage::returnData(false, null, __('common.not_have_authority'), 401);
+            }
+
+
+
+            return ResponseMessage::returnData(true);
+        }catch (\Exception $exception){
+
+            return ResponseMessage::returnData(false);
+        }
+    }
+
     public function store(StoreUserRequest $request, User $user)
     {
         try {
@@ -58,7 +88,7 @@ class UserValidator implements UserValidatorInterface
     public function destroy(User $student, Association $association)
     {
         try {
-            $situation = $association->whereHas('students', function ($query) use ($student) {
+            $situation = $association->whereHas('users', function ($query) use ($student) {
                 return $query->where('id', $student->id);
             })->exists();
 

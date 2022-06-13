@@ -45,22 +45,23 @@ Route::middleware('auth')->group(function () {
 
     // Student
     Route::controller(\App\Http\Controllers\Panel\StudentController::class)->group(function (){
-        Route::view('students/create', 'panel.students.store');
-        Route::get('students/{id}', 'show');
-        Route::put('students/{id}', 'update');
-        Route::view('students', 'panel.students.index');
-        Route::view('students/{id}/detail', 'panel.students.show');
-        Route::post('students', 'store')->name('student.store');
-        Route::get('students/list', 'index')->name('student.list');
-        Route::delete('students/{user}', 'destroy')->name('student.destroy');
+
+        Route::view('users', 'panel.users.index');
+        Route::view('users/{id}/detail', 'panel.users.show');
+        Route::post('users', 'store')->name('student.store');
+        Route::get('users/list', 'index')->name('student.list');
+        Route::delete('users/{user}', 'destroy')->name('student.destroy');
     });
     // end Student
 
     // Users
     Route::controller(\App\Http\Controllers\Panel\UserController::class)->group(function (){
+        Route::view('users/list', 'panel.users.index');
+        Route::view('users/create', 'panel.users.store');
+        Route::get('users/{id}', 'show');
+        Route::put('users/{id}', 'update');
         Route::get('users', 'index');
         Route::post('users', 'store');
-        Route::get('users/list', 'index');
 
     });
     // end Users

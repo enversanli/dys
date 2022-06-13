@@ -1,5 +1,12 @@
 <template>
     <div class="w-full overflow-hidden rounded-lg shadow-xs my-10">
+        <select @change="getUsers" v-model="role">
+            <option :value="''">Tümü</option>
+            <option :value="'STUDENT'">Öğrenci</option>
+            <option :value="'PARENT'">Veli</option>
+            <option :value="'ASSOCIATION_MANAGER'">Yönetici</option>
+            <option :value="'SUB_ASSOCIATION_MANAGER'">Personel</option>
+        </select>
         <div class="w-full overflow-x-auto">
             <table class="w-full whitespace-no-wrap">
                 <thead>
@@ -107,28 +114,34 @@ export default {
     data(){
         return {
             students : {},
+            role : ''
         }
     },
     name: "StudentListComponent",
 
     mounted() {
-        this.getStudents();
+        this.getUsers();
     },
 
     methods: {
-        getStudents(){
-            axios.get('/users/list').then(response => {
+        getUsers(){
+            axios.get('/users?role=' + this.role).then(response => {
                 this.students = response.data.data;
-                console.log("gekkı");
-
-                console.log(this.students);
+            }).catch(error =>{
+                this.$alert(error.response.data.message, 'Hata', 'error')
             });
         },
 
+
         deleteStudent(id){
-            axios.delete('students/' + id).then(response => {
-                alert("Success !");
-            })
+            this.$confirm("Bu kullanıcıyı silmek istediğinizden emin misiniz ?", "Kullanıcı Siliniyor", "question").then(()=> {
+                axios.delete('students/' + id).then(response => {
+                    this.$alert('İşlem Başarılı', 'Kullanıcı başarıyla silindi.', 'success');
+                }).catch(error => {
+                    this.$alert(error.response.data.message, 'Hata', 'error');
+                });
+            });
+
         }
     }
 

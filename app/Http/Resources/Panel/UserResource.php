@@ -26,6 +26,7 @@ class UserResource extends JsonResource
             'birth_date' => $this->birth_date,
             'photo_url' => $this->photo_url,
             'association' => $this->association,
+            'role' => $this->role,
             $this->mergeWhen($this->isStudent(), [
                 'parent' => $this->parent,
                 'class' => $this->class

@@ -63,7 +63,7 @@ class StudentRepository implements StudentRepositoryInterface
      * @param Request $request
      * @param Association $association
      * @return object
-     * Get requested association's students
+     * Get requested association's users
      */
     public function getStudents(Request $request, Association $association)
     {

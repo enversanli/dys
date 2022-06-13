@@ -18,7 +18,7 @@ class PaginateData
     public static function fromRequest(Request $request)
     {
         $data = [
-            'per_page' => intval($request->input('per_page') ?? 1),
+            'per_page' => intval($request->input('per_page') ?? 10),
             'page' => intval($request->input('page') ?? 1),
             'sort' => $request->input('sort') ?? "",
         ];

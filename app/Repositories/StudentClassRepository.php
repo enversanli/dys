@@ -29,7 +29,7 @@ class StudentClassRepository implements StudentClassRepositoryInterface
                     return $query->where('status', $status);
                 })
                 ->with('association')
-                ->withCount('students')
+                ->withCount('users')
                 ->get();
 
             return ResponseMessage::returnData(true, $classes);
@@ -44,7 +44,7 @@ class StudentClassRepository implements StudentClassRepositoryInterface
 
     public function getStudentClassById($id, User $user){
         try {
-            $studentClass = $this->model->where('id', $id)->withCount('students')->first();
+            $studentClass = $this->model->where('id', $id)->withCount('users')->first();
 
             if (!$studentClass)
                 return ResponseMessage::returnData(false, __('common.not_found', ['param' => 'Sınıf']), null, 404);

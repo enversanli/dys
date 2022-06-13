@@ -7,6 +7,7 @@ use App\Models\Association;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Support\Enums\UserRoleKeyEnum;
+use App\Support\Enums\UserStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Support\PaginateData;
@@ -53,13 +54,15 @@ class UserRepository implements UserRepositoryInterface
             $paginateData = PaginateData::fromRequest($request);
 
             $users = User::where('association_id', $association->id)
-                ->when($request->role, function ($q) use ($request) {
+                ->when($request->role && $request->role != null, function ($q) use ($request) {
                     $q->where('role_id', UserRole::where('key', $request->role)->first()->id);
                 })
+                //->where('status', UserStatusEnum::ACTIVE)
                 ->paginate($paginateData->per_page, '*', 'page', $paginateData->page);
 
             return ResponseMessage::returnData(true, $users);
         } catch (\Exception $exception) {
+
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::GET_USER_USERS_REPOSITORY->value);

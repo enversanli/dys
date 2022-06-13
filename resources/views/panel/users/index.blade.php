@@ -1,5 +1,5 @@
 @extends('layouts.panel')
 
 @section('content')
-<student-list></student-list>
+<users-list></users-list>
 @endsection

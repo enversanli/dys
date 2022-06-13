@@ -20,8 +20,8 @@ class UserController extends Controller
     /** @var User */
     protected $user;
 
-    /** @var UserRepositoryInterface  */
-    private  $userRepository;
+    /** @var UserRepositoryInterface */
+    private $userRepository;
 
 
     /** @var UserValidatorInterface */
@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function __construct(
         UserRepositoryInterface $userRepository,
-        UserValidatorInterface $userValidator
+        UserValidatorInterface  $userValidator
     )
     {
         $this->userRepository = $userRepository;
@@ -43,6 +43,11 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $validator = $this->userValidator->index($request, $this->user);
+
+        if (!$validator->status)
+            return ResponseMessage::failed($validator->message, $validator->data, $validator->code);
+
         $students = $this->userRepository->getUsers($request, $this->user->association);
 
         if (!$students->status)
@@ -61,11 +66,12 @@ class UserController extends Controller
         return ResponseMessage::success(null, UserResource::make($student->data));
     }
 
-    public function store(StoreUserRequest $request){
+    public function store(StoreUserRequest $request)
+    {
 
         $validator = $this->userValidator->store($request, $this->user);
 
-        if (!$validator->status){
+        if (!$validator->status) {
             return ResponseMessage::failed($validator->message);
         }
 
