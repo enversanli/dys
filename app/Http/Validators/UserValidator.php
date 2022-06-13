@@ -2,6 +2,7 @@
 
 namespace App\Http\Validators;
 
+use App\Http\Requests\Panel\UpdateUserRequest;
 use App\Models\User;
 use App\Models\Association;
 use App\Models\StudentClass;
@@ -69,12 +70,12 @@ class UserValidator implements UserValidatorInterface
         }
     }
 
-    public function update(UpdateStudentRequest $request, User $student)
+    public function update(UpdateUserRequest $request, User $user)
     {
         try {
             // Get requested class
             $studentClass = $request->has('class_id') ? StudentClass::findOrFail($request->class_id) : null;
-            if ($studentClass && $student->association->id != $studentClass->association_id) {
+            if ($studentClass && $user->association->id != $studentClass->association_id) {
                 return ResponseMessage::returnData(false, null, '');
             }
 
@@ -85,20 +86,17 @@ class UserValidator implements UserValidatorInterface
         }
     }
 
-    public function destroy(User $student, Association $association)
+    public function destroy(User $authUser, User $targetUser)
     {
         try {
-            $situation = $association->whereHas('users', function ($query) use ($student) {
-                return $query->where('id', $student->id);
-            })->exists();
-
-            if (!$situation) {
-                return ResponseMessage::returnData(false, null, __('student.not_found'));
+            if ($authUser->association->id != $targetUser->association->id &&
+                $authUser->role->key != UserRoleKeyEnum::ADMIN
+            ){
+                return ResponseMessage::returnData(false, [], __('user.not_found'), 401);
             }
 
             return ResponseMessage::returnData(true);
         } catch (\Exception $exception) {
-
             return ResponseMessage::returnData(false);
         }
     }

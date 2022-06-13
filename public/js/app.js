@@ -6773,10 +6773,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      students: {},
+      users: {},
       role: ''
     };
   },
@@ -6789,7 +6790,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/users?role=' + this.role).then(function (response) {
-        _this.students = response.data.data;
+        _this.users = response.data.data;
       })["catch"](function (error) {
         _this.$alert(error.response.data.message, 'Hata', 'error');
       });
@@ -6798,8 +6799,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.$confirm("Bu kullanıcıyı silmek istediğinizden emin misiniz ?", "Kullanıcı Siliniyor", "question").then(function () {
-        axios["delete"]('students/' + id).then(function (response) {
+        axios["delete"]('/users/' + id).then(function (response) {
           _this2.$alert('İşlem Başarılı', 'Kullanıcı başarıyla silindi.', 'success');
+
+          _this2.getUsers();
         })["catch"](function (error) {
           _this2.$alert(error.response.data.message, 'Hata', 'error');
         });
@@ -6866,9 +6869,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ShowComponent",
+  props: ['id'],
   data: function data() {
     return {
-      student: null,
+      user: null,
       classes: {}
     };
   },
@@ -6880,10 +6884,10 @@ __webpack_require__.r(__webpack_exports__);
     getStudent: function getStudent() {
       var _this = this;
 
-      axios.get('/students/11').then(function (response) {
-        _this.student = response.data.data;
-        console.log("Gwe");
-        console.log(_this.student);
+      axios.get('/users/' + this.id).then(function (response) {
+        _this.user = response.data.data;
+      })["catch"](function (error) {
+        _this.$alert(error.response.data.message, 'Hata', 'error');
       });
     },
     getClasses: function getClasses() {
@@ -6894,16 +6898,18 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     update: function update() {
-      alert(this.student.birth_date);
+      var _this3 = this;
+
       var data = {
-        first_name: this.student.first_name,
-        last_name: this.student.last_name,
-        class_id: this.student.class_id,
-        birth_date: this.student.birth_date
+        first_name: this.user.first_name,
+        last_name: this.user.last_name,
+        class_id: this.user.class_id,
+        birth_date: this.user.birth_date
       };
-      console.log(data);
-      axios.put('/students/11', data).then(function (response) {})["catch"](function (error) {
-        alert("Error !");
+      axios.put('/users/' + +this.id, data).then(function (response) {
+        _this3.$alert('Kullanıcı başarıyla güncellendi..', 'İşlem Başarılı', 'success');
+      })["catch"](function (error) {
+        _this3.$alert(error.response.data.message, 'Hata', 'error');
       });
     }
   }
@@ -35046,9 +35052,9 @@ var staticRenderFns = [
               "px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
           },
           [
-            _c("a", { staticClass: "w-full", attrs: { href: "/users" } }, [
+            _c("a", { staticClass: "w-full", attrs: { href: "/users/list" } }, [
               _vm._v(
-                "\n                                    Öğrenci Listesi\n                                "
+                "\n                                    Kullanıcılar\n                                "
               ),
             ]),
           ]
@@ -36259,7 +36265,7 @@ var render = function () {
               staticClass:
                 "bg-white divide-y dark:divide-gray-700 dark:bg-gray-800",
             },
-            _vm._l(_vm.students, function (student) {
+            _vm._l(_vm.users, function (user) {
               return _c(
                 "tr",
                 { staticClass: "text-gray-700 dark:text-gray-400" },
@@ -36271,13 +36277,13 @@ var render = function () {
                       _c("div", [
                         _c("p", { staticClass: "font-semibold" }, [
                           _vm._v(
-                            _vm._s(student.first_name) +
+                            _vm._s(user.first_name) +
                               "  " +
-                              _vm._s(student.last_name)
+                              _vm._s(user.last_name)
                           ),
                         ]),
                         _vm._v(" "),
-                        student.class
+                        user.class
                           ? _c(
                               "p",
                               {
@@ -36287,7 +36293,7 @@ var render = function () {
                               [
                                 _c("small", [_vm._v("Sınıfı : ")]),
                                 _vm._v(
-                                  _vm._s(student.class.name) +
+                                  _vm._s(user.class.name) +
                                     "\n                            "
                                 ),
                               ]
@@ -36313,7 +36319,7 @@ var render = function () {
                       [
                         _vm._v(
                           "\n                      " +
-                            _vm._s(student.status) +
+                            _vm._s(user.status) +
                             "\n                    "
                         ),
                       ]
@@ -36323,7 +36329,7 @@ var render = function () {
                   _c("td", { staticClass: "px-4 py-3 text-sm" }, [
                     _vm._v(
                       "\n                    " +
-                        _vm._s(student.created_at) +
+                        _vm._s(user.created_at) +
                         "\n                "
                     ),
                   ]),
@@ -36334,11 +36340,14 @@ var render = function () {
                       { staticClass: "flex items-center space-x-4 text-sm" },
                       [
                         _c(
-                          "button",
+                          "a",
                           {
                             staticClass:
                               "flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray",
-                            attrs: { "aria-label": "Edit" },
+                            attrs: {
+                              href: "/users/" + user.id + "/detail",
+                              "aria-label": "Edit",
+                            },
                           },
                           [
                             _c(
@@ -36370,7 +36379,7 @@ var render = function () {
                             attrs: { "aria-label": "Delete" },
                             on: {
                               click: function ($event) {
-                                return _vm.deleteStudent(student.id)
+                                return _vm.deleteStudent(user.id)
                               },
                             },
                           },
@@ -36408,7 +36417,7 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c("paginate-data", { attrs: { paginateData: _vm.students.pagination } }),
+      _c("paginate-data", { attrs: { paginateData: _vm.users.pagination } }),
     ],
     1
   )
@@ -36492,7 +36501,7 @@ var render = function () {
     _c("div", { staticClass: "h-40 w-40 mx-auto my-10" }, [
       _c("img", {
         staticClass: "h-full w-full rounded-full  border-2 my-10 mx-auto",
-        attrs: { src: _vm.student.photo_url },
+        attrs: { src: _vm.user.photo_url },
       }),
     ]),
     _vm._v(" "),
@@ -36506,19 +36515,19 @@ var render = function () {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.student.first_name,
-                expression: "student.first_name",
+                value: _vm.user.first_name,
+                expression: "user.first_name",
               },
             ],
             staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
             attrs: { type: "text" },
-            domProps: { value: _vm.student.first_name },
+            domProps: { value: _vm.user.first_name },
             on: {
               input: function ($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.student, "first_name", $event.target.value)
+                _vm.$set(_vm.user, "first_name", $event.target.value)
               },
             },
           }),
@@ -36528,19 +36537,19 @@ var render = function () {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.student.last_name,
-                expression: "student.last_name",
+                value: _vm.user.last_name,
+                expression: "user.last_name",
               },
             ],
             staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
             attrs: { type: "text" },
-            domProps: { value: _vm.student.last_name },
+            domProps: { value: _vm.user.last_name },
             on: {
               input: function ($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.student, "last_name", $event.target.value)
+                _vm.$set(_vm.user, "last_name", $event.target.value)
               },
             },
           }),
@@ -36550,19 +36559,19 @@ var render = function () {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.student.birth_date,
-                expression: "student.birth_date",
+                value: _vm.user.birth_date,
+                expression: "user.birth_date",
               },
             ],
             staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
             attrs: { type: "date" },
-            domProps: { value: _vm.student.birth_date },
+            domProps: { value: _vm.user.birth_date },
             on: {
               input: function ($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.student, "birth_date", $event.target.value)
+                _vm.$set(_vm.user, "birth_date", $event.target.value)
               },
             },
           }),
@@ -36578,8 +36587,8 @@ var render = function () {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.student.class_id,
-                  expression: "student.class_id",
+                  value: _vm.user.class_id,
+                  expression: "user.class_id",
                 },
               ],
               on: {
@@ -36593,7 +36602,7 @@ var render = function () {
                       return val
                     })
                   _vm.$set(
-                    _vm.student,
+                    _vm.user,
                     "class_id",
                     $event.target.multiple ? $$selectedVal : $$selectedVal[0]
                   )
@@ -36606,8 +36615,7 @@ var render = function () {
                 {
                   domProps: {
                     value: cls.id,
-                    selected:
-                      _vm.student.class && cls.id === _vm.student.class.id,
+                    selected: _vm.user.class && cls.id === _vm.user.class.id,
                   },
                 },
                 [_vm._v(_vm._s(cls.name))]
@@ -36618,89 +36626,81 @@ var render = function () {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "grid grid-cols-2" }, [
-          _vm.student.class
+          _vm.user.class
             ? _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.student.class.name,
-                    expression: "student.class.name",
+                    value: _vm.user.class.name,
+                    expression: "user.class.name",
                   },
                 ],
                 staticClass: "w-full border-2 rounded-md p-1 text-xl",
                 attrs: { type: "text" },
-                domProps: { value: _vm.student.class.name },
+                domProps: { value: _vm.user.class.name },
                 on: {
                   input: function ($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.student.class, "name", $event.target.value)
+                    _vm.$set(_vm.user.class, "name", $event.target.value)
                   },
                 },
               })
             : _vm._e(),
           _vm._v(" "),
-          _vm.student.association
+          _vm.user.association
             ? _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.student.association.name,
-                    expression: "student.association.name",
+                    value: _vm.user.association.name,
+                    expression: "user.association.name",
                   },
                 ],
                 staticClass: "w-full border-2 rounded-md p-1 text-xl",
                 attrs: { type: "text" },
-                domProps: { value: _vm.student.association.name },
+                domProps: { value: _vm.user.association.name },
                 on: {
                   input: function ($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(
-                      _vm.student.association,
-                      "name",
-                      $event.target.value
-                    )
+                    _vm.$set(_vm.user.association, "name", $event.target.value)
                   },
                 },
               })
             : _vm._e(),
         ]),
         _vm._v(" "),
-        _vm.student.parent
+        _vm.user.parent
           ? _c("h3", { staticClass: "text-center my-5" }, [
               _vm._v("Veli Bilgileri"),
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm.student.parent
+        _vm.user.parent
           ? _c("div", { staticClass: "grid grid-cols-2" }, [
               _c("input", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.student.parent.first_name,
-                    expression: "student.parent.first_name",
+                    value: _vm.user.parent.first_name,
+                    expression: "user.parent.first_name",
                   },
                 ],
                 staticClass: "w-full border-2 rounded-md p-1 text-xl",
                 attrs: { type: "text" },
-                domProps: { value: _vm.student.parent.first_name },
+                domProps: { value: _vm.user.parent.first_name },
                 on: {
                   input: function ($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(
-                      _vm.student.parent,
-                      "first_name",
-                      $event.target.value
-                    )
+                    _vm.$set(_vm.user.parent, "first_name", $event.target.value)
                   },
                 },
               }),
@@ -36710,23 +36710,19 @@ var render = function () {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.student.parent.last_name,
-                    expression: "student.parent.last_name",
+                    value: _vm.user.parent.last_name,
+                    expression: "user.parent.last_name",
                   },
                 ],
                 staticClass: "w-full border-2 rounded-md p-1 text-xl",
                 attrs: { type: "text" },
-                domProps: { value: _vm.student.parent.last_name },
+                domProps: { value: _vm.user.parent.last_name },
                 on: {
                   input: function ($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(
-                      _vm.student.parent,
-                      "last_name",
-                      $event.target.value
-                    )
+                    _vm.$set(_vm.user.parent, "last_name", $event.target.value)
                   },
                 },
               }),

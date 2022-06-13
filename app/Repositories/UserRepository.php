@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Requests\Panel\StoreUserRequest;
+use App\Http\Requests\Panel\UpdateUserRequest;
 use App\Models\Association;
 use App\Models\User;
 use App\Models\UserRole;
@@ -21,22 +22,38 @@ use App\Http\Requests\Panel\RegisterRequest;
 class UserRepository implements UserRepositoryInterface
 {
     /** @var User */
-    protected $user;
+    protected $model;
 
     public function __construct(User $user)
     {
         $this->model = $user;
     }
 
-    public function updateUser(Request $request, User $user)
+    public function updateUser(UpdateUserRequest $request, User $user)
     {
         try {
 
+            $user->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'class_id' => $request->class_id ?? $user->class_id,
+                'phone' => $request->phone ?? $user->phone,
+                'mobile_phone' => $request->mobile_phone ?? $user->mobile_phone,
+                'status' => $request->status ?? $user->status,
+                'timezone' => $request->timezone ?? $user->timezone,
+                'birth_date' => $request->birth_date ? Carbon::make($request->birth_date)->format('Y-m-d') : $user->birth_date,
+            ]);
+
+            return ResponseMessage::returnData(true, $user);
         } catch (\Exception $exception) {
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::UPDATE_STUDENT_REPOSITORY_ERROR->value);
 
             return ResponseMessage::returnData(false);
         }
     }
+
 
     public function getUserById($id)
     {
@@ -119,9 +136,9 @@ class UserRepository implements UserRepositoryInterface
             }
 
             // Create row
-            $student = $this->model->create($data);
+            $user = $this->model->create($data);
 
-            return ResponseMessage::returnData(true, $student);
+            return ResponseMessage::returnData(true, $user);
         } catch (\Exception $exception) {
             activity()
                 ->withProperties(['error' => $exception->getMessage()])

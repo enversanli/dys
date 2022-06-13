@@ -58,10 +58,12 @@ Route::middleware('auth')->group(function () {
     Route::controller(\App\Http\Controllers\Panel\UserController::class)->group(function (){
         Route::view('users/list', 'panel.users.index');
         Route::view('users/create', 'panel.users.store');
-        Route::get('users/{id}', 'show');
-        Route::put('users/{id}', 'update');
+        Route::view('users/{id}/detail', 'panel.users.show');
+        Route::get('users/{user}', 'show');
+        Route::put('users/{user}', 'update');
         Route::get('users', 'index');
         Route::post('users', 'store');
+        Route::delete('users/{user}', 'destroy');
 
     });
     // end Users

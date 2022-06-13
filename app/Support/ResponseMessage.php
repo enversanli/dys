@@ -70,4 +70,17 @@ class ResponseMessage
             'code' => $code
         ], $code);
     }
+
+    public static function unauthorized($message = null)
+    {
+        if (is_null($message)) {
+            $message = __('Error');
+        }
+
+        return response()->json([
+            'code' => Response::HTTP_UNAUTHORIZED,
+            'message' => $message
+        ], Response::HTTP_UNAUTHORIZED);
+    }
+
 }

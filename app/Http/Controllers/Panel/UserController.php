@@ -48,22 +48,17 @@ class UserController extends Controller
         if (!$validator->status)
             return ResponseMessage::failed($validator->message, $validator->data, $validator->code);
 
-        $students = $this->userRepository->getUsers($request, $this->user->association);
+        $users = $this->userRepository->getUsers($request, $this->user->association);
 
-        if (!$students->status)
+        if (!$users->status)
             return ResponseMessage::failed();
 
-        return ResponseMessage::paginate(null, UserResource::collection($students->data));
+        return ResponseMessage::paginate(null, UserResource::collection($users->data));
     }
 
-    public function show($id)
+    public function show(User $user)
     {
-        $student = $this->userRepository->getUserById($id);
-
-        if (!$student->status)
-            return ResponseMessage::failed();
-
-        return ResponseMessage::success(null, UserResource::make($student->data));
+        return ResponseMessage::success(null, UserResource::make($user));
     }
 
     public function store(StoreUserRequest $request)
@@ -95,33 +90,31 @@ class UserController extends Controller
         return ResponseMessage::success(__('student.created'), UserResource::make($storedStudent->data));
     }
 
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $student = $this->userRepository->getUserById($id);
 
-        $userValidator = $this->userValidator->update($request, $student->data);
+        $userValidator = $this->userValidator->update($request, $user);
 
         if (!$userValidator->status)
             return ResponseMessage::failed($userValidator->message);
 
-        $updatedStudent = $this->userRepository->updateUser($request, $student->data);
+        $updatedUser = $this->userRepository->updateUser($request, $user);
 
-        if (!$updatedStudent->status)
+        if (!$updatedUser->status)
             return ResponseMessage::failed();
 
-        return ResponseMessage::success(null, UserResource::make($student->data));
+        return ResponseMessage::success(null, UserResource::make($updatedUser->data));
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $student = User::findOrFail($id);
 
-        $destroyedStudentValidator = $this->userValidator->destroy($student, $this->user->association);
-        if (!$destroyedStudentValidator->status) {
-            return ResponseMessage::failed($destroyedStudentValidator->message);
+        $destroyValidator = $this->userValidator->destroy($this->user, $user);
+        if (!$destroyValidator->status) {
+            return ResponseMessage::failed($destroyValidator->message);
         }
 
-        $destroyedStudent = $this->userRepository->destroyUser($student);
+        $destroyedStudent = $this->userRepository->destroyUser($user);
 
         if (!$destroyedStudent->status) {
             return ResponseMessage::failed($destroyedStudent->message);
