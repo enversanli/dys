@@ -29,12 +29,13 @@ class StudentClassRepository implements StudentClassRepositoryInterface
                     return $query->where('status', $status);
                 })
                 ->with('association')
-                ->withCount('users')
+                ->withCount('students')
                 ->get();
 
             return ResponseMessage::returnData(true, $classes);
         }catch (\Exception $exception){
-            activity()
+            dd($exception->getMessage())
+;            activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::GET_STUDENT_CLASS_REPOSITORY_ERROR->value);
 

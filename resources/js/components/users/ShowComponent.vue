@@ -71,6 +71,7 @@ export default {
                 this.classes = response.data.data;
             });
         },
+
         update() {
             const data = {
                 first_name: this.user.first_name,
