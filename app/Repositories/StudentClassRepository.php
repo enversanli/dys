@@ -34,7 +34,6 @@ class StudentClassRepository implements StudentClassRepositoryInterface
 
             return ResponseMessage::returnData(true, $classes);
         }catch (\Exception $exception){
-            dd($exception->getMessage())
 ;            activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::GET_STUDENT_CLASS_REPOSITORY_ERROR->value);

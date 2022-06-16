@@ -103,18 +103,29 @@ class User extends Model implements Authenticatable
      * Is Student account or not
      */
     public function isStudent(){
-        return $this->whereHas('role', function ($q){
-            return $q->where('key', UserRoleKeyEnum::STUDENT);
-        })->exists();
+        return $this->role->key == UserRoleKeyEnum::STUDENT->value ? true : false;
     }
 
     /**
      * Is Parent account or not
      */
     public function isParent(){
-        return $this->whereHas('role', function ($q){
-            return $q->where('key', UserRoleKeyEnum::PARENT);
-        })->exists();
+        return $this->role->key == UserRoleKeyEnum::PARENT->value ? true : false;
+    }
+
+    /**
+     * Is Admin account or not
+     */
+    public function isAdmin(){
+        return $this->role->key == UserRoleKeyEnum::ADMIN->value ? true : false;
+    }
+
+
+    /**
+     * Is Teacher account or not
+     */
+    public function isTeacher(){
+        return $this->role->key == UserRoleKeyEnum::TEACHER->value ? true : false;
     }
 
 }

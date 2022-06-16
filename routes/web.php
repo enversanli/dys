@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::view('users/{id}/detail', 'panel.users.show');
         Route::get('users/{user}', 'show');
         Route::put('users/{user}', 'update');
-        Route::get('users', 'index');
+        Route::get('users', 'index')->name('users.list');
         Route::post('users', 'store');
         Route::delete('users/{user}', 'destroy');
 

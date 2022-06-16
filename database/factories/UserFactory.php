@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'mobile_phone' => $this->faker->numberBetween(-10000, 10000),
-            'phone' => $this->faker->phoneNumber,
+            'phone' => $this->faker->numberBetween(-10000, 10000),
             'email' => $this->faker->safeEmail,
             'password' => $this->faker->password,
             'email_verified_at' => $this->faker->dateTime(),

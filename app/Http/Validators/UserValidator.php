@@ -20,9 +20,8 @@ class UserValidator implements UserValidatorInterface
     {
 
         try {
-            if ($user->role->key != UserRoleKeyEnum::ASSOCIATION_MANAGER->value &&
-                $user->role->key != UserRoleKeyEnum::SUB_ASSOCIATION_MANAGER->value
-            ){
+
+            if (!$user->isAdmin() && !$user->isTeacher()){
                 return ResponseMessage::returnData(false, null, __('common.not_have_authority'), 401);
             }
 
