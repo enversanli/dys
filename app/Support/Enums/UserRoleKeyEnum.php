@@ -15,6 +15,12 @@ enum UserRoleKeyEnum: string
         return self::cases();
     }
 
+    public function KeyAndValue(){
+        return [
+
+        ];
+    }
+
     public static function getValue($key){
         return self::getValue($key);
     }

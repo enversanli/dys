@@ -22,6 +22,7 @@ class User extends Model implements Authenticatable
         'key',
         'phone',
         'email',
+        'gender',
         'status',
         'role_id',
         'password',
@@ -126,6 +127,20 @@ class User extends Model implements Authenticatable
      */
     public function isTeacher(){
         return $this->role->key == UserRoleKeyEnum::TEACHER->value ? true : false;
+    }
+
+    /**
+     * Is Manager account or not
+     */
+    public function isManager(){
+        return $this->role->key == UserRoleKeyEnum::ASSOCIATION_MANAGER->value ? true : false;
+    }
+
+    /**
+     * Is Sub Manager account or not
+     */
+    public function isSubManager(){
+        return $this->role->key == UserRoleKeyEnum::ASSOCIATION_MANAGER->value ? true : false;
     }
 
 }

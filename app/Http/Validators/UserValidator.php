@@ -21,11 +21,11 @@ class UserValidator implements UserValidatorInterface
 
         try {
 
-            if (!$user->isAdmin() && !$user->isTeacher()){
+            if (!$user->isAdmin() && !$user->isTeacher() && !$user->isManager() || !$user->isSubManager()){
                 return ResponseMessage::returnData(false, null, __('common.not_have_authority'), 401);
             }
 
-            if ($user->role->key == UserRoleKeyEnum::TEACHER->value && (
+            if ($user->isTeacher() && (
                 $request->role == UserRoleKeyEnum::SUB_ASSOCIATION_MANAGER->value
                 ||
                 $request->role == UserRoleKeyEnum::ASSOCIATION_MANAGER->value

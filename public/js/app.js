@@ -6867,18 +6867,108 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ShowComponent",
   props: ['id'],
   data: function data() {
     return {
       user: null,
-      classes: {}
+      userRoles: {},
+      classes: {},
+      studentForm: false
     };
   },
   mounted: function mounted() {
     this.getStudent();
     this.getClasses();
+    this.getUserRoles();
   },
   methods: {
     getStudent: function getStudent() {
@@ -6897,8 +6987,17 @@ __webpack_require__.r(__webpack_exports__);
         _this2.classes = response.data.data;
       });
     },
-    update: function update() {
+    getUserRoles: function getUserRoles() {
       var _this3 = this;
+
+      axios.get('/user-roles').then(function (response) {
+        _this3.userRoles = response.data.data;
+      })["catch"](function (error) {
+        _this3.$alert(error.response.data.message, 'HATA', 'error');
+      });
+    },
+    update: function update() {
+      var _this4 = this;
 
       var data = {
         first_name: this.user.first_name,
@@ -6907,10 +7006,18 @@ __webpack_require__.r(__webpack_exports__);
         birth_date: this.user.birth_date
       };
       axios.put('/users/' + +this.id, data).then(function (response) {
-        _this3.$alert('Kullanıcı başarıyla güncellendi..', 'İşlem Başarılı', 'success');
+        _this4.$alert('Kullanıcı başarıyla güncellendi..', 'İşlem Başarılı', 'success');
       })["catch"](function (error) {
-        _this3.$alert(error.response.data.message, 'Hata', 'error');
+        _this4.$alert(error.response.data.message, 'Hata', 'error');
       });
+    },
+    checkForms: function checkForms(event) {
+      if (event.target.value === 'student') {
+        this.studentForm = true;
+        return true;
+      }
+
+      this.studentForm = false;
     }
   }
 });
@@ -7005,32 +7112,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      student: {},
+      user: {},
       classes: {},
       parents: {},
-      role: null
+      userRoles: {},
+      role: null,
+      studentForm: false
     };
   },
   name: "StoreComponent",
   mounted: function mounted() {
     this.getClasses();
     this.getParents();
+    this.getUserRoles();
   },
   methods: {
-    storeStudent: function storeStudent() {
+    storeUser: function storeUser() {
       var _this = this;
 
       var data = {
-        first_name: this.student.first_name,
-        last_name: this.student.last_name,
-        email: this.student.email,
-        birth_date: this.student.birth_date,
-        parent_id: this.student.parent_id,
-        class_id: this.student.class_id,
-        role: this.role
+        first_name: this.user.first_name,
+        last_name: this.user.last_name,
+        email: this.user.email,
+        birth_date: this.user.birth_date,
+        parent_id: this.user.parent_id,
+        class_id: this.user.class_id,
+        role: this.role,
+        gender: this.gender
       };
       axios.post('/users', data).then(function (response) {
         _this.$alert(response.data.message, 'İşlem Başarılı', 'success');
@@ -7052,7 +7173,26 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/users?role=parent').then(function (response) {
         _this3.parents = response.data.data;
+      })["catch"](function (error) {
+        _this3.$alert(error.response.data.message, 'HATA', 'error');
       });
+    },
+    getUserRoles: function getUserRoles() {
+      var _this4 = this;
+
+      axios.get('/user-roles').then(function (response) {
+        _this4.userRoles = response.data.data;
+      })["catch"](function (error) {
+        _this4.$alert(error.response.data.message, 'HATA', 'error');
+      });
+    },
+    checkForms: function checkForms(event) {
+      if (event.target.value === 'student') {
+        this.studentForm = true;
+        return true;
+      }
+
+      this.studentForm = false;
     }
   }
 });
@@ -34772,7 +34912,7 @@ var render = function () {
                   {
                     staticClass:
                       "inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100",
-                    attrs: { href: "index.html" },
+                    attrs: { href: "/dashboard" },
                   },
                   [
                     _c(
@@ -35072,7 +35212,7 @@ var staticRenderFns = [
         {
           staticClass:
             "flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple",
-          attrs: { href: "/students/create" },
+          attrs: { href: "/users/create" },
         },
         [
           _vm._v("\n                    Öğrenci Kaydet\n                    "),
@@ -36495,250 +36635,375 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: " my-10 d-block w-full" }, [
-    _c("h2", { staticClass: "text-center" }, [_vm._v("Öğrenci Bilgileri")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "h-40 w-40 mx-auto my-10" }, [
-      _c("img", {
-        staticClass: "h-full w-full rounded-full  border-2 my-10 mx-auto",
-        attrs: { src: _vm.user.photo_url },
-      }),
+  return _c("div", { staticClass: "w-full shadow-lg my-10 p-2" }, [
+    _c("div", { staticClass: "px-4" }, [
+      _c("label", [_vm._v("\n                Kullanıcı Tipi\n            ")]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.role,
+              expression: "role",
+            },
+          ],
+          staticClass:
+            "w-full my-5 border-gray-800  border p-2 border-slate-400 rounded",
+          on: {
+            change: [
+              function ($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function (o) {
+                    return o.selected
+                  })
+                  .map(function (o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.role = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              function ($event) {
+                return _vm.checkForms($event)
+              },
+            ],
+          },
+        },
+        _vm._l(_vm.userRoles, function (userRole) {
+          return _c("option", { domProps: { value: userRole.key } }, [
+            _vm._v(_vm._s(userRole.translated)),
+          ])
+        }),
+        0
+      ),
     ]),
     _vm._v(" "),
-    _c("hr"),
-    _vm._v(" "),
-    _c("div", { staticClass: "grid w-full" }, [
-      _c("div", { staticClass: "w-full border-2 grid grid-cols-1 mb-10" }, [
-        _c("div", { staticClass: "grid grid-cols-2" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.user.first_name,
-                expression: "user.first_name",
-              },
-            ],
-            staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
-            attrs: { type: "text" },
-            domProps: { value: _vm.user.first_name },
-            on: {
-              input: function ($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.user, "first_name", $event.target.value)
-              },
-            },
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.user.last_name,
-                expression: "user.last_name",
-              },
-            ],
-            staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
-            attrs: { type: "text" },
-            domProps: { value: _vm.user.last_name },
-            on: {
-              input: function ($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.user, "last_name", $event.target.value)
-              },
-            },
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.user.birth_date,
-                expression: "user.birth_date",
-              },
-            ],
-            staticClass: "w-full border-2 rounded-md p-1 text-xl mb-3",
-            attrs: { type: "date" },
-            domProps: { value: _vm.user.birth_date },
-            on: {
-              input: function ($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.user, "birth_date", $event.target.value)
-              },
-            },
-          }),
-        ]),
+    _c("div", { staticClass: "flex w-full" }, [
+      _c("div", { staticClass: "w-full px-3" }, [
+        _c("label", { attrs: { for: "first_name" } }, [_vm._v("Adı")]),
         _vm._v(" "),
-        _c("h3", { staticClass: "text-center my-5" }, [_vm._v("Genel")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "grid grid-cols-2" }, [
-          _c(
-            "select",
+        _c("input", {
+          directives: [
             {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.user.class_id,
-                  expression: "user.class_id",
-                },
-              ],
-              on: {
-                change: function ($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function (o) {
-                      return o.selected
-                    })
-                    .map(function (o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.user,
-                    "class_id",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                },
-              },
+              name: "model",
+              rawName: "v-model",
+              value: _vm.user.first_name,
+              expression: "user.first_name",
             },
-            _vm._l(_vm.classes, function (cls) {
-              return _c(
-                "option",
-                {
-                  domProps: {
-                    value: cls.id,
-                    selected: _vm.user.class && cls.id === _vm.user.class.id,
-                  },
-                },
-                [_vm._v(_vm._s(cls.name))]
-              )
-            }),
-            0
-          ),
-        ]),
+          ],
+          staticClass:
+            "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
+          attrs: { id: "first_name", type: "text", name: "first_name" },
+          domProps: { value: _vm.user.first_name },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.user, "first_name", $event.target.value)
+            },
+          },
+        }),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full px-3" }, [
+        _c("label", { attrs: { for: "last_name" } }, [_vm._v("Soyadı")]),
         _vm._v(" "),
-        _c("div", { staticClass: "grid grid-cols-2" }, [
-          _vm.user.class
-            ? _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.class.name,
-                    expression: "user.class.name",
-                  },
-                ],
-                staticClass: "w-full border-2 rounded-md p-1 text-xl",
-                attrs: { type: "text" },
-                domProps: { value: _vm.user.class.name },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user.class, "name", $event.target.value)
-                  },
-                },
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.user.association
-            ? _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.association.name,
-                    expression: "user.association.name",
-                  },
-                ],
-                staticClass: "w-full border-2 rounded-md p-1 text-xl",
-                attrs: { type: "text" },
-                domProps: { value: _vm.user.association.name },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user.association, "name", $event.target.value)
-                  },
-                },
-              })
-            : _vm._e(),
-        ]),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.user.last_name,
+              expression: "user.last_name",
+            },
+          ],
+          staticClass: "w-full my-5 border p-2 border-slate-400 rounded",
+          attrs: { id: "last_name", type: "text", name: "last_name" },
+          domProps: { value: _vm.user.last_name },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.user, "last_name", $event.target.value)
+            },
+          },
+        }),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "flex w-full" }, [
+      _c("div", { staticClass: "w-full px-3" }, [
+        _c("label", { attrs: { for: "first_name" } }, [_vm._v("Doğum Tarihi")]),
         _vm._v(" "),
-        _vm.user.parent
-          ? _c("h3", { staticClass: "text-center my-5" }, [
-              _vm._v("Veli Bilgileri"),
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.user.parent
-          ? _c("div", { staticClass: "grid grid-cols-2" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.parent.first_name,
-                    expression: "user.parent.first_name",
-                  },
-                ],
-                staticClass: "w-full border-2 rounded-md p-1 text-xl",
-                attrs: { type: "text" },
-                domProps: { value: _vm.user.parent.first_name },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user.parent, "first_name", $event.target.value)
-                  },
-                },
-              }),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.user.parent.last_name,
-                    expression: "user.parent.last_name",
-                  },
-                ],
-                staticClass: "w-full border-2 rounded-md p-1 text-xl",
-                attrs: { type: "text" },
-                domProps: { value: _vm.user.parent.last_name },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.user.parent, "last_name", $event.target.value)
-                  },
-                },
-              }),
-            ])
-          : _vm._e(),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.user.birth_date,
+              expression: "user.birth_date",
+            },
+          ],
+          staticClass:
+            "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded",
+          attrs: { id: "birth_date", type: "date", name: "first_name" },
+          domProps: { value: _vm.user.birth_date },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.user, "birth_date", $event.target.value)
+            },
+          },
+        }),
       ]),
       _vm._v(" "),
       _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.studentForm,
+              expression: "studentForm",
+            },
+          ],
+          staticClass: "w-full px-3",
+        },
+        [
+          _c("label", { attrs: { for: "last_name" } }, [_vm._v("Sınıfı")]),
+          _vm._v(" "),
+          _vm.classes != null
+            ? _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.class_id,
+                      expression: "user.class_id",
+                    },
+                  ],
+                  staticClass:
+                    "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded",
+                  attrs: { name: "class_id" },
+                  on: {
+                    change: function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.user,
+                        "class_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                  },
+                },
+                [
+                  _c("option", [_vm._v("Sınıf Seç")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.classes, function (row) {
+                    return _c("option", { domProps: { value: row.id } }, [
+                      _vm._v(_vm._s(row.name)),
+                    ])
+                  }),
+                ],
+                2
+              )
+            : _vm._e(),
+        ]
+      ),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "flex w-full" }, [
+      _c("div", { staticClass: "w-full px-3" }, [
+        _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.user.email,
+              expression: "user.email",
+            },
+          ],
+          staticClass:
+            "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded",
+          attrs: { id: "email", type: "text", name: "parent_email" },
+          domProps: { value: _vm.user.email },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.user, "email", $event.target.value)
+            },
+          },
+        }),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-full px-3" }, [
+        _c("label", { attrs: { for: "parent_id" } }, [_vm._v("Cinsiyet")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.user.gender,
+                expression: "user.gender",
+              },
+            ],
+            staticClass:
+              "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded student-input",
+            attrs: { id: "parent_id" },
+            on: {
+              change: function ($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function (o) {
+                    return o.selected
+                  })
+                  .map(function (o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.user,
+                  "gender",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              },
+            },
+          },
+          [
+            _c("option", { domProps: { selected: true, value: 1 } }, [
+              _vm._v("Erkek"),
+            ]),
+            _vm._v(" "),
+            _c("option", { domProps: { selected: true, value: 0 } }, [
+              _vm._v("Kız"),
+            ]),
+          ]
+        ),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "flex w-full" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.studentForm,
+              expression: "studentForm",
+            },
+          ],
+          staticClass: "w-full px-3",
+        },
+        [
+          _c("label", { attrs: { for: "parent_id" } }, [_vm._v("Veli")]),
+          _vm._v(" "),
+          _vm.classes != null
+            ? _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.parent_id,
+                      expression: "user.parent_id",
+                    },
+                  ],
+                  staticClass:
+                    "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded student-input",
+                  attrs: { id: "parent_id" },
+                  on: {
+                    change: function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.user,
+                        "parent_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                  },
+                },
+                [
+                  _c("option", { domProps: { selected: true } }, [
+                    _vm._v("Veli Seç"),
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.parents, function (row) {
+                    return _c("option", { domProps: { value: row.id } }, [
+                      _vm._v(_vm._s(row.first_name + " " + row.last_name)),
+                    ])
+                  }),
+                ],
+                2
+              )
+            : _vm._e(),
+        ]
+      ),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "text-right" }, [
+      _c(
         "button",
-        { staticClass: "w-40 bg-success", on: { click: _vm.update } },
-        [_vm._v("Güncelle")]
+        {
+          staticClass:
+            "text-xl mr-2 inline-block px-6 py-2.5 bg-blue-600 text-white font-medium leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
+          attrs: { type: "button" },
+          on: { click: _vm.update },
+        },
+        [_vm._v("\n                Güncelle\n            ")]
       ),
     ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full px-3" }, [
+      _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -36762,56 +37027,54 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "w-full shadow-lg my-10 p-2" }, [
-    _c(
-      "select",
-      {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.role,
-            expression: "role",
-          },
-        ],
-        staticClass:
-          "w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded",
-        on: {
-          change: function ($event) {
-            var $$selectedVal = Array.prototype.filter
-              .call($event.target.options, function (o) {
-                return o.selected
-              })
-              .map(function (o) {
-                var val = "_value" in o ? o._value : o.value
-                return val
-              })
-            _vm.role = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+    _c("div", { staticClass: "px-4" }, [
+      _c("label", [_vm._v("\n            Kullanıcı Tipi\n        ")]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.role,
+              expression: "role",
+            },
+          ],
+          staticClass:
+            "w-full my-5 border-gray-800  border p-2 border-slate-400 rounded",
+          on: {
+            change: [
+              function ($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function (o) {
+                    return o.selected
+                  })
+                  .map(function (o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.role = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              function ($event) {
+                return _vm.checkForms($event)
+              },
+            ],
           },
         },
-      },
-      [
-        _c("option", { domProps: { selected: true } }, [
-          _vm._v("Kullanıcı Tipi"),
-        ]),
-        _vm._v(" "),
-        _c("option", { domProps: { value: "STUDENT" } }, [_vm._v("Öğrenci")]),
-        _vm._v(" "),
-        _c("option", { domProps: { value: "TEACHER" } }, [_vm._v("Öğretmen")]),
-        _vm._v(" "),
-        _c("option", { domProps: { value: "PARENT" } }, [_vm._v("Veli")]),
-        _vm._v(" "),
-        _c("option", { domProps: { value: "ASSOCIATION_MANAGER" } }, [
-          _vm._v("Yönetici"),
-        ]),
-        _vm._v(" "),
-        _c("option", { domProps: { value: "SUB_ASSOCIATION_MANAGER" } }, [
-          _vm._v("Personel"),
-        ]),
-      ]
-    ),
+        _vm._l(_vm.userRoles, function (userRole) {
+          return _c("option", { domProps: { value: userRole.key } }, [
+            _vm._v(_vm._s(userRole.translated)),
+          ])
+        }),
+        0
+      ),
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "flex w-full" }, [
-      _c("div", { staticClass: "w-full" }, [
+      _c("div", { staticClass: "w-full px-3" }, [
         _c("label", { attrs: { for: "first_name" } }, [_vm._v("Adı")]),
         _vm._v(" "),
         _c("input", {
@@ -36819,26 +37082,26 @@ var render = function () {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.student.first_name,
-              expression: "student.first_name",
+              value: _vm.user.first_name,
+              expression: "user.first_name",
             },
           ],
           staticClass:
             "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
           attrs: { id: "first_name", type: "text", name: "first_name" },
-          domProps: { value: _vm.student.first_name },
+          domProps: { value: _vm.user.first_name },
           on: {
             input: function ($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.student, "first_name", $event.target.value)
+              _vm.$set(_vm.user, "first_name", $event.target.value)
             },
           },
         }),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "w-full" }, [
+      _c("div", { staticClass: "w-full px-3" }, [
         _c("label", { attrs: { for: "last_name" } }, [_vm._v("Soyadı")]),
         _vm._v(" "),
         _c("input", {
@@ -36846,19 +37109,19 @@ var render = function () {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.student.last_name,
-              expression: "student.last_name",
+              value: _vm.user.last_name,
+              expression: "user.last_name",
             },
           ],
-          staticClass: "w-full my-5 ml-5 border p-2 border-slate-400 rounded",
+          staticClass: "w-full my-5 border p-2 border-slate-400 rounded",
           attrs: { id: "last_name", type: "text", name: "last_name" },
-          domProps: { value: _vm.student.last_name },
+          domProps: { value: _vm.user.last_name },
           on: {
             input: function ($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.student, "last_name", $event.target.value)
+              _vm.$set(_vm.user, "last_name", $event.target.value)
             },
           },
         }),
@@ -36866,7 +37129,7 @@ var render = function () {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "flex w-full" }, [
-      _c("div", { staticClass: "w-full" }, [
+      _c("div", { staticClass: "w-full px-3" }, [
         _c("label", { attrs: { for: "first_name" } }, [_vm._v("Doğum Tarihi")]),
         _vm._v(" "),
         _c("input", {
@@ -36874,78 +37137,94 @@ var render = function () {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.student.birth_date,
-              expression: "student.birth_date",
+              value: _vm.user.birth_date,
+              expression: "user.birth_date",
             },
           ],
           staticClass:
-            "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
+            "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded",
           attrs: { id: "birth_date", type: "date", name: "first_name" },
-          domProps: { value: _vm.student.birth_date },
+          domProps: { value: _vm.user.birth_date },
           on: {
             input: function ($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.student, "birth_date", $event.target.value)
+              _vm.$set(_vm.user, "birth_date", $event.target.value)
             },
           },
         }),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "w-full" }, [
-        _c("label", { attrs: { for: "last_name" } }, [_vm._v("Sınıfı")]),
-        _vm._v(" "),
-        _vm.classes != null
-          ? _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.student.class_id,
-                    expression: "student.class_id",
-                  },
-                ],
-                staticClass:
-                  "w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded",
-                attrs: { name: "class_id" },
-                on: {
-                  change: function ($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function (o) {
-                        return o.selected
-                      })
-                      .map(function (o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.student,
-                      "class_id",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.studentForm,
+              expression: "studentForm",
+            },
+          ],
+          staticClass: "w-full px-3",
+        },
+        [
+          _c("label", { attrs: { for: "last_name" } }, [_vm._v("Sınıfı")]),
+          _vm._v(" "),
+          _vm.classes != null
+            ? _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.class_id,
+                      expression: "user.class_id",
+                    },
+                  ],
+                  staticClass:
+                    "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded",
+                  attrs: { name: "class_id" },
+                  on: {
+                    change: function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.user,
+                        "class_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
                   },
                 },
-              },
-              [
-                _c("option", [_vm._v("Sınıf Seç")]),
-                _vm._v(" "),
-                _vm._l(_vm.classes, function (row) {
-                  return _c("option", { domProps: { value: row.id } }, [
-                    _vm._v(_vm._s(row.name)),
-                  ])
-                }),
-              ],
-              2
-            )
-          : _vm._e(),
-      ]),
+                [
+                  _c("option", [_vm._v("Sınıf Seç")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.classes, function (row) {
+                    return _c("option", { domProps: { value: row.id } }, [
+                      _vm._v(_vm._s(row.name)),
+                    ])
+                  }),
+                ],
+                2
+              )
+            : _vm._e(),
+        ]
+      ),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "flex w-full" }, [
-      _c("div", { staticClass: "w-full" }, [
+      _c("div", { staticClass: "w-full px-3" }, [
         _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
         _vm._v(" "),
         _c("input", {
@@ -36953,99 +37232,169 @@ var render = function () {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.student.email,
-              expression: "student.email",
+              value: _vm.user.email,
+              expression: "user.email",
             },
           ],
           staticClass:
-            "w-full my-5 border-gray-800 mr-5 border p-2 border-slate-400 rounded",
+            "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded",
           attrs: { id: "email", type: "text", name: "parent_email" },
-          domProps: { value: _vm.student.email },
+          domProps: { value: _vm.user.email },
           on: {
             input: function ($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.$set(_vm.student, "email", $event.target.value)
+              _vm.$set(_vm.user, "email", $event.target.value)
             },
           },
         }),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "w-full" }, [
-        _c("label", { attrs: { for: "parent_id" } }, [_vm._v("Veli")]),
+      _c("div", { staticClass: "w-full px-3" }, [
+        _c("label", { attrs: { for: "parent_id" } }, [_vm._v("Cinsiyet")]),
         _vm._v(" "),
-        _vm.classes != null
-          ? _c(
-              "select",
+        _c(
+          "select",
+          {
+            directives: [
               {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.student.parent_id,
-                    expression: "student.parent_id",
-                  },
-                ],
-                staticClass:
-                  "w-full my-5 border-gray-800 ml-5 border p-2 border-slate-400 rounded",
-                attrs: { id: "parent_id" },
-                on: {
-                  change: function ($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function (o) {
-                        return o.selected
-                      })
-                      .map(function (o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.$set(
-                      _vm.student,
-                      "parent_id",
-                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                    )
-                  },
-                },
+                name: "model",
+                rawName: "v-model",
+                value: _vm.user.gender,
+                expression: "user.gender",
               },
-              [
-                _c("option", { domProps: { selected: true } }, [
-                  _vm._v("Veli Seç"),
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.parents, function (row) {
-                  return _c("option", { domProps: { value: row.id } }, [
-                    _vm._v(_vm._s(row.first_name)),
-                  ])
-                }),
-              ],
-              2
-            )
-          : _vm._e(),
+            ],
+            staticClass:
+              "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded student-input",
+            attrs: { id: "parent_id" },
+            on: {
+              change: function ($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function (o) {
+                    return o.selected
+                  })
+                  .map(function (o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.user,
+                  "gender",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              },
+            },
+          },
+          [
+            _c("option", { domProps: { selected: true, value: 1 } }, [
+              _vm._v("Erkek"),
+            ]),
+            _vm._v(" "),
+            _c("option", { domProps: { selected: true, value: 0 } }, [
+              _vm._v("Kız"),
+            ]),
+          ]
+        ),
       ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "w-full" }),
     ]),
     _vm._v(" "),
-    _c("hr"),
+    _c("div", { staticClass: "flex w-full" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.studentForm,
+              expression: "studentForm",
+            },
+          ],
+          staticClass: "w-full px-3",
+        },
+        [
+          _c("label", { attrs: { for: "parent_id" } }, [_vm._v("Veli")]),
+          _vm._v(" "),
+          _vm.classes != null
+            ? _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.user.parent_id,
+                      expression: "user.parent_id",
+                    },
+                  ],
+                  staticClass:
+                    "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded student-input",
+                  attrs: { id: "parent_id" },
+                  on: {
+                    change: function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.user,
+                        "parent_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    },
+                  },
+                },
+                [
+                  _c("option", { domProps: { selected: true } }, [
+                    _vm._v("Veli Seç"),
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.parents, function (row) {
+                    return _c("option", { domProps: { value: row.id } }, [
+                      _vm._v(_vm._s(row.first_name + " " + row.last_name)),
+                    ])
+                  }),
+                ],
+                2
+              )
+            : _vm._e(),
+        ]
+      ),
+    ]),
     _vm._v(" "),
-    _c("hr"),
-    _vm._v(" "),
-    _c("div", [
+    _c("div", { staticClass: "text-right" }, [
       _c(
         "button",
         {
           staticClass:
-            "inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
+            "text-xl mr-2 inline-block px-6 py-2.5 bg-blue-600 text-white font-medium leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
           attrs: { type: "button" },
-          on: { click: _vm.storeStudent },
+          on: { click: _vm.storeUser },
         },
         [_vm._v("\n            Kaydet\n        ")]
       ),
     ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "w-full px-3" }, [
+      _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
+    ])
+  },
+]
 render._withStripped = true
 
 

@@ -64,10 +64,13 @@ Route::middleware('auth')->group(function () {
         Route::get('users', 'index')->name('users.list');
         Route::post('users', 'store');
         Route::delete('users/{user}', 'destroy');
+        Route::view('ogrenci-kayit', 'web.auth.student-register');
 
     });
     // end Users
 
 });
+
+Route::get('user-roles', [\App\Http\Controllers\Panel\UserRoleController::class, 'index']);
 
 

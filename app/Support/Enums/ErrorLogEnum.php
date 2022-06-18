@@ -30,4 +30,8 @@ enum ErrorLogEnum:string
 
     // User
     case DESTROY_USER__REPOSITORY_ERROR = 'DESTROY_USER__REPOSITORY_ERROR';
+
+
+    // User Role
+    case GET_USER_ROLES_REPOSITORY_ERROR = 'GET_USER_ROLES_REPOSITORY_ERROR';
 }
