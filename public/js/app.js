@@ -6270,97 +6270,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ListComponent",
   data: function data() {
     return {
-      classes: null
+      classes: null,
+      paginateData: null
     };
   },
   mounted: function mounted() {
@@ -6377,6 +6292,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/classes/list').then(function (response) {
         _this.classes = response.data.data;
+        _this.paginateData = response.data.pagination;
       })["catch"](function (error) {
         _this.$alert(error.response.data.message, 'Hata', 'error');
       });
@@ -35971,8 +35887,17 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "w-full overflow-hidden rounded-lg shadow-xs mt-1    0" },
+    { staticClass: "w-full overflow-hidden rounded-lg shadow-xs mt-1" },
     [
+      _c(
+        "h1",
+        {
+          staticClass:
+            "font-medium leading-tight text-3xl mt-0 my-2 text-black-600",
+        },
+        [_vm._v("Sınıflar")]
+      ),
+      _vm._v(" "),
       _c("div", { staticClass: "w-full overflow-x-auto" }, [
         _c("table", { staticClass: "w-full whitespace-no-wrap" }, [
           _vm._m(0),
@@ -36118,108 +36043,42 @@ var render = function () {
         ]),
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass:
-            "grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800",
-        },
-        [
-          _c("span", { staticClass: "flex items-center col-span-3" }, [
-            _vm._v("\n              Showing 21-30 of 100\n            "),
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "col-span-2" }),
-          _vm._v(" "),
-          _c(
-            "span",
-            { staticClass: "flex col-span-4 mt-2 sm:mt-auto sm:justify-end" },
-            [
-              _c("nav", { attrs: { "aria-label": "Table navigation" } }, [
-                _c("ul", { staticClass: "inline-flex items-center" }, [
-                  _c("li", [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple",
-                        attrs: { "aria-label": "Previous" },
-                      },
-                      [
-                        _c(
-                          "svg",
-                          {
-                            staticClass: "w-4 h-4 fill-current",
-                            attrs: {
-                              "aria-hidden": "true",
-                              viewBox: "0 0 20 20",
-                            },
-                          },
-                          [
-                            _c("path", {
-                              attrs: {
-                                d: "M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z",
-                                "clip-rule": "evenodd",
-                                "fill-rule": "evenodd",
-                              },
-                            }),
-                          ]
-                        ),
-                      ]
-                    ),
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(3),
-                  _vm._v(" "),
-                  _vm._m(4),
-                  _vm._v(" "),
-                  _vm._m(5),
-                  _vm._v(" "),
-                  _vm._m(6),
-                  _vm._v(" "),
-                  _vm._m(7),
-                  _vm._v(" "),
-                  _vm._m(8),
-                  _vm._v(" "),
-                  _vm._m(9),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple",
-                        attrs: { "aria-label": "Next" },
-                      },
-                      [
-                        _c(
-                          "svg",
-                          {
-                            staticClass: "w-4 h-4 fill-current",
-                            attrs: {
-                              "aria-hidden": "true",
-                              viewBox: "0 0 20 20",
-                            },
-                          },
-                          [
-                            _c("path", {
-                              attrs: {
-                                d: "M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z",
-                                "clip-rule": "evenodd",
-                                "fill-rule": "evenodd",
-                              },
-                            }),
-                          ]
-                        ),
-                      ]
-                    ),
-                  ]),
-                ]),
-              ]),
-            ]
-          ),
-        ]
-      ),
+      (_vm.paginateData =  true && _vm.paginateData.lastPage > 1)
+        ? _c("div", { staticClass: "w-full m-3 text-center" }, [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "text-xl rounded-md shadow-sm px-4 py-1 border-2 hover:shadow-lg duration-200 cursor-pointer text-gray-600",
+                attrs: { disabled: _vm.paginateData.currentPage === 1 },
+                on: {
+                  click: function ($event) {
+                    return _vm.getList(_vm.paginateData.currentPage - 1)
+                  },
+                },
+              },
+              [_vm._v("Geri\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "text-xl rounded-md shadow-sm px-4 py-1 border-2 hover:shadow-lg duration-200 cursor-pointer text-gray-600",
+                attrs: {
+                  disabled:
+                    _vm.paginateData.lastPage === _vm.paginateData.currentPage,
+                },
+                on: {
+                  click: function ($event) {
+                    return _vm.getList(_vm.paginateData.currentPage + 1)
+                  },
+                },
+              },
+              [_vm._v("İleri\n        ")]
+            ),
+          ])
+        : _vm._e(),
     ]
   )
 }
@@ -36285,102 +36144,6 @@ var staticRenderFns = [
             "px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100",
         },
         [_vm._v("\n                      Approved\n                    ")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c(
-        "button",
-        {
-          staticClass:
-            "px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple",
-        },
-        [_vm._v("\n                      1\n                    ")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c(
-        "button",
-        {
-          staticClass:
-            "px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple",
-        },
-        [_vm._v("\n                      2\n                    ")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c(
-        "button",
-        {
-          staticClass:
-            "px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple",
-        },
-        [_vm._v("\n                      3\n                    ")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c(
-        "button",
-        {
-          staticClass:
-            "px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple",
-        },
-        [_vm._v("\n                      4\n                    ")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [_c("span", { staticClass: "px-3 py-1" }, [_vm._v("...")])])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c(
-        "button",
-        {
-          staticClass:
-            "px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple",
-        },
-        [_vm._v("\n                      8\n                    ")]
-      ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c(
-        "button",
-        {
-          staticClass:
-            "px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple",
-        },
-        [_vm._v("\n                      9\n                    ")]
       ),
     ])
   },

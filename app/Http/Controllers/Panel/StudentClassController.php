@@ -42,13 +42,13 @@ class StudentClassController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $studentClasses = $this->studentClassRepository->getClasses(auth()->user()->association);
+        $studentClasses = $this->studentClassRepository->getClasses($request, auth()->user()->association);
         if (!$studentClasses->status)
             return ResponseMessage::failed();
 
-        return ResponseMessage::success(null, StudentClassResource::collection($studentClasses->data));
+        return ResponseMessage::paginate(null, StudentClassResource::collection($studentClasses->data));
     }
 
     public function show($id){

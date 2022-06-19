@@ -9,7 +9,9 @@ use App\Models\Association;
 use App\Models\StudentClass;
 use App\Models\User;
 use App\Support\Enums\ErrorLogEnum;
+use App\Support\PaginateData;
 use App\Support\ResponseMessage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class StudentClassRepository implements StudentClassRepositoryInterface
@@ -21,8 +23,9 @@ class StudentClassRepository implements StudentClassRepositoryInterface
         $this->model = $studentClass;
     }
 
-    public function getClasses(Association $association, $status = null)
+    public function getClasses(Request $request, Association $association, $status = null)
     {
+        $paginateData = PaginateData::fromRequest($request);
         try {
             $classes = $this->model->where('association_id', $association->id)
                 ->when($status, function ($query) use ($status){
@@ -30,7 +33,7 @@ class StudentClassRepository implements StudentClassRepositoryInterface
                 })
                 ->with('association')
                 ->withCount('students')
-                ->get();
+                ->paginate($paginateData->per_page, '*', 'page', $paginateData->page);
 
             return ResponseMessage::returnData(true, $classes);
         }catch (\Exception $exception){
@@ -44,14 +47,13 @@ class StudentClassRepository implements StudentClassRepositoryInterface
 
     public function getStudentClassById($id, User $user){
         try {
-            $studentClass = $this->model->where('id', $id)->withCount('users')->first();
+            $studentClass = $this->model->where('id', $id)->withCount('students')->first();
 
             if (!$studentClass)
                 return ResponseMessage::returnData(false, __('common.not_found', ['param' => 'Sınıf']), null, 404);
 
             return ResponseMessage::returnData(true, $studentClass);
         }catch (\Exception $exception){
-
             return ResponseMessage::returnData(false);
         }
     }
