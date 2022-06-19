@@ -35,9 +35,9 @@ class ResponseMessage
             'pagination' => [
                 'total' => $data->resource->total(),
                 'count' => $data->resource->count(),
-                'per_page' => $data->resource->perPage(),
-                'current_page' => $data->resource->currentPage(),
-                'total_pages' => $data->resource->lastPage()
+                'perPage' => $data->resource->perPage(),
+                'currentPage' => $data->resource->currentPage(),
+                'lastPage' => $data->resource->lastPage()
             ],
         ], Response::HTTP_OK);
 

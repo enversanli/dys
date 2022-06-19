@@ -8,7 +8,7 @@ require('./bootstrap');
 const events = require("events");
 
 window.Vue = require('vue').default;
-
+Vue.use(require('vue-resource'));
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -22,6 +22,7 @@ window.Vue = require('vue').default;
 
 import Vue from "vue"
 import VueSimpleAlert from "vue-simple-alert";
+
 
 Vue.use(VueSimpleAlert);
 
@@ -46,6 +47,9 @@ Vue.component('student-class-list', require('./components/studentClasses/ListCom
 Vue.component('show-class', require('./components/studentClasses/ShowComponent').default);
 
 // end Student Class
+
+
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

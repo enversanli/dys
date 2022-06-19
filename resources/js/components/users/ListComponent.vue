@@ -42,9 +42,9 @@
                                 ></div>
                             </div>
                             <div>
-                                <p class="font-semibold">{{user.first_name}}  {{user.last_name}}</p>
+                                <p class="font-semibold">{{ user.first_name }} {{ user.last_name }}</p>
                                 <p class="text-xs text-gray-600 dark:text-gray-400" v-if="user.class">
-                                    <small>Sınıfı : </small>{{user.class.name}}
+                                    <small>Sınıfı : </small>{{ user.class.name }}
                                 </p>
                             </div>
                         </div>
@@ -56,11 +56,11 @@
                         <span
                             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                         >
-                          {{user.status}}
+                          {{ user.status }}
                         </span>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        {{user.created_at}}
+                        {{ user.created_at }}
                     </td>
                     <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
@@ -106,16 +106,26 @@
                 </tbody>
             </table>
         </div>
-        <paginate-data :paginateData='users.pagination'></paginate-data>
+
+        <div class="w-full m-3 text-center" v-if="paginateData.lastPage > 1">
+            <button @click="getUsers(paginateData.currentPage - 1)" :disabled="paginateData.currentPage === 1"
+            class="text-xl rounded-md shadow-sm px-4 py-1 border-2 hover:shadow-lg duration-200 cursor-pointer text-gray-600">Geri
+            </button>
+            <button @click="getUsers(paginateData.currentPage + 1)"
+                    :disabled="paginateData.lastPage === paginateData.currentPage"
+                    class="text-xl rounded-md shadow-sm px-4 py-1 border-2 hover:shadow-lg duration-200 cursor-pointer text-gray-600">İleri
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-    data(){
+    data() {
         return {
-            users : {},
-            role : ''
+            users: {},
+            role: '',
+            paginateData: null
         }
     },
     name: "StudentListComponent",
@@ -125,17 +135,25 @@ export default {
     },
 
     methods: {
-        getUsers(){
-            axios.get('/users?role=' + this.role).then(response => {
+        getUsers(page) {
+
+            if (typeof page === 'undefined') {
+                page = 1;
+            }
+
+            axios.get('/users?role=' + this.role + '&page=' + page).then(response => {
                 this.users = response.data.data;
-            }).catch(error =>{
+                this.paginateData = response.data.pagination;
+
+                console.log(this.paginateData.pagination);
+            }).catch(error => {
                 this.$alert(error.response.data.message, 'Hata', 'error')
             });
         },
 
 
-        deleteStudent(id){
-            this.$confirm("Bu kullanıcıyı silmek istediğinizden emin misiniz ?", "Kullanıcı Siliniyor", "question").then(()=> {
+        deleteStudent(id) {
+            this.$confirm("Bu kullanıcıyı silmek istediğinizden emin misiniz ?", "Kullanıcı Siliniyor", "question").then(() => {
                 axios.delete('/users/' + id).then(response => {
                     this.$alert('İşlem Başarılı', 'Kullanıcı başarıyla silindi.', 'success');
 
