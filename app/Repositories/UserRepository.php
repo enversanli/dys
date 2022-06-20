@@ -66,7 +66,7 @@ class UserRepository implements UserRepositoryInterface
         }
     }
 
-    public function getUsers(Request $request, Association $association)
+    public function getUsers(Request $request, Association $association, User $authUser)
     {
         try {
             $paginateData = PaginateData::fromRequest($request);
@@ -74,9 +74,14 @@ class UserRepository implements UserRepositoryInterface
             $users = User::where('association_id', $association->id)
                 ->when($request->role && $request->role != null, function ($q) use ($request) {
                     $q->where('role_id', UserRole::where('key', $request->role)->first()->id);
-                })
-                //->where('status', UserStatusEnum::ACTIVE)
-                ->paginate($paginateData->per_page, '*', 'page', $paginateData->page);
+                });
+
+            // If Auth user is parent then gets his/her students
+            if ($authUser->isParent()) {
+                $users->where('parent_id', $authUser->id);
+            }
+
+            $users = $users->paginate($paginateData->per_page, '*', 'page', $paginateData->page);
 
             return ResponseMessage::returnData(true, $users);
         } catch (\Exception $exception) {
@@ -104,7 +109,7 @@ class UserRepository implements UserRepositoryInterface
     public function storeUser(StoreUserRequest $request, Association $association)
     {
         try {
-            $data =[
+            $data = [
                 'key' => Str::slug($request->first_name . '-' . $request->last_name . Str::random(16)),
                 'association_id' => $association->id,
                 'role_id' => UserRole::where('key', $request->role)->first()->id,
@@ -116,25 +121,25 @@ class UserRepository implements UserRepositoryInterface
                 'password' => Hash::make(now()->timestamp),
             ];
 
-            if ($request->role == UserRoleKeyEnum::STUDENT){
+            if ($request->role == UserRoleKeyEnum::STUDENT) {
                 $data['parent_id'] = $request->parent_id;
                 $data['class_id'] = $request->class_id;
                 $data['birth_date'] = Carbon::make($request->birth_date)->format('Y-m-d');
             }
 
-            if ($request->role == UserRoleKeyEnum::PARENT){
+            if ($request->role == UserRoleKeyEnum::PARENT) {
 
             }
 
-            if ($request->role == UserRoleKeyEnum::TEACHER){
+            if ($request->role == UserRoleKeyEnum::TEACHER) {
 
             }
 
-            if ($request->role == UserRoleKeyEnum::ASSOCIATION_MANAGER){
+            if ($request->role == UserRoleKeyEnum::ASSOCIATION_MANAGER) {
 
             }
 
-            if ($request->role == UserRoleKeyEnum::SUB_ASSOCIATION_MANAGER){
+            if ($request->role == UserRoleKeyEnum::SUB_ASSOCIATION_MANAGER) {
 
             }
 

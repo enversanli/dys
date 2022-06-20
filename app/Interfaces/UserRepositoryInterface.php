@@ -16,7 +16,7 @@ interface UserRepositoryInterface
 
     public function storeUser(StoreUserRequest $request, Association $association);
     public function getUserById($id);
-    public function getUsers(Request $request, Association $association);
+    public function getUsers(Request $request, Association $association, User $authUser);
     public function getTotalUsers(Association $association, $status = null);
     public function destroyUser(User $user);
     public function updateUser(UpdateUserRequest $request, User $user);

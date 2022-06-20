@@ -21,7 +21,7 @@ class UserValidator implements UserValidatorInterface
 
         try {
 
-            if (!$user->isAdmin() && !$user->isTeacher() && !$user->isManager() || !$user->isSubManager()){
+            if ($user->isStudent()){
                 return ResponseMessage::returnData(false, null, __('common.not_have_authority'), 401);
             }
 
@@ -88,10 +88,12 @@ class UserValidator implements UserValidatorInterface
     public function destroy(User $authUser, User $targetUser)
     {
         try {
-            if ($authUser->association->id != $targetUser->association->id &&
-                $authUser->role->key != UserRoleKeyEnum::ADMIN
-            ){
+            if ($authUser->association->id != $targetUser->association->id){
                 return ResponseMessage::returnData(false, [], __('user.not_found'), 401);
+            }
+
+            if ($authUser->id == $targetUser->id){
+                return ResponseMessage::returnData(false, [], __('user.canNotDeleteOwn'));
             }
 
             return ResponseMessage::returnData(true);

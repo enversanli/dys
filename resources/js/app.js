@@ -26,6 +26,16 @@ import VueSimpleAlert from "vue-simple-alert";
 
 Vue.use(VueSimpleAlert);
 
+// Menus
+
+Vue.component('admin-menu', require('./components/menus/adminComponent').default);
+Vue.component('manager-menu', require('./components/menus/managerComponent').default);
+Vue.component('parent-menu', require('./components/menus/parentComponent').default);
+Vue.component('student-menu', require('./components/menus/studentComponent').default);
+Vue.component('teacher-menu', require('./components/menus/teacherComponent').default);
+
+// end Menus
+
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('login-component', require('./components/auth/LoginComponent.vue').default);
 Vue.component('menu-component', require('./components/layouts/MenuComponent.vue').default);

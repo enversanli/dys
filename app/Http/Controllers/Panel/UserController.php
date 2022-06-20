@@ -48,7 +48,7 @@ class UserController extends Controller
         if (!$validator->status)
             return ResponseMessage::failed($validator->message, $validator->data, $validator->code);
 
-        $users = $this->userRepository->getUsers($request, $this->user->association);
+        $users = $this->userRepository->getUsers($request, $this->user->association, $this->user);
 
         if (!$users->status)
             return ResponseMessage::failed();
@@ -70,24 +70,24 @@ class UserController extends Controller
             return ResponseMessage::failed($validator->message);
         }
 
-        $storedStudent = $this->userRepository->storeUser($request, $this->user->association);
+        $storedUser = $this->userRepository->storeUser($request, $this->user->association);
 
-        if (!$storedStudent->status)
-            return ResponseMessage::failed($storedStudent->message);
+        if (!$storedUser->status)
+            return ResponseMessage::failed($storedUser->message);
 
         /** Send Mail */
         $mailData = new EmailDataDTO();
         $mailData->view = 'mails.student.created';
         $mailData->subject = 'New Account';
-        $mailData->email = $storedStudent->data->email;
+        $mailData->email = $storedUser->data->email;
         $mailData->data = (object)[
-            'student' => $storedStudent->data,
-            'role' => $storedStudent->data->role
+            'student' => $storedUser->data,
+            'role' => $storedUser->data->role
         ];
 
         SendQueueEmailJob::dispatch($mailData);
 
-        return ResponseMessage::success(__('student.created'), UserResource::make($storedStudent->data));
+        return ResponseMessage::success(__('student.created'), UserResource::make($storedUser->data));
     }
 
     public function update(UpdateUserRequest $request, User $user)

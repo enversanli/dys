@@ -36,7 +36,7 @@
     id="app"
     class="flex h-screen bg-gray-50 dark:bg-white">
     <!-- Desktop sidebar -->
-    <menu-component></menu-component>
+    <menu-component :user="{{auth()->user()->load('role')}}"></menu-component>
     <div class="flex flex-col flex-1 w-full">
         <header-component></header-component>
         <main class="h-full overflow-y-auto">

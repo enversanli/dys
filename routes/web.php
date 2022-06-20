@@ -27,7 +27,7 @@ Route::post('forgot-password', [\App\Http\Controllers\Auth\ForgotPasswordControl
 Route::view('login', 'auth.login')->name('auth.login');
 Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
 
-Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('logout');
+Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     // Home Page
