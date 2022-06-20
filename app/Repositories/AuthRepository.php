@@ -3,8 +3,10 @@
 namespace App\Repositories;
 
 use App\Http\Requests\Auth\ForgetPasswordRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Interfaces\AssociationRepositoryInterface;
 use App\Interfaces\AuthRepositoryInterface;
+use App\Jobs\SendQueueEmailJob;
 use App\Models\Association;
 use App\Models\User;
 use App\Support\DTOs\Emails\EmailDataDTO;
@@ -42,18 +44,19 @@ class AuthRepository implements AuthRepositoryInterface
         $user = $this->model->where('email', $request->email)->firstOrFail();
         try {
             $user->update([
-                'reset_password_code' => Str::random(16),
+                'reset_password_code' => Hash::make(Str::random(16)),
                 'status' => UserStatusEnum::FORGOT_PASSWORD
             ]);
 
-            $resetPasswordUrl =
+            $resetPasswordUrl = route('password.reset') . '?code=' . $user->reset_password_code;
 
             $mailData = new EmailDataDTO();
             $mailData->email = $user->email;
             $mailData->view ='mails.auth.forgot-password';
             $mailData->subject = 'auth.forgotPassword';
-            $mailData->data = ['user' => $user];
+            $mailData->data = ['user' => $user, 'resetPasswordUrl' => $resetPasswordUrl];
 
+            SendQueueEmailJob::dispatch($mailData);
 
             return ResponseMessage::returnData(true);
         } catch (\Exception $exception) {
@@ -65,7 +68,7 @@ class AuthRepository implements AuthRepositoryInterface
         }
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(ResetPasswordRequest $request)
     {
         $user = $this->model->where('email', $request->email)->firstOrFail();
         try {

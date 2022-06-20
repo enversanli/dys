@@ -19,8 +19,8 @@ Route::get('/', function () {
 
 Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'create'])->name('register');
 Route::view('register', 'auth.register');
-Route::view('reset-password', 'auth.register');
-Route::put('reset-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, '']);
+Route::view('reset-password', 'auth.passwords.reset');
+Route::post('reset-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'resetPassword'])->name('password.reset');
 Route::view('forgot-password', 'auth.passwords.forgot')->name('auth.forgot-password');
 Route::post('forgot-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'update'])->name('password.update');
 

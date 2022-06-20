@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Validators\AuthValidator;
 use App\Http\Validators\Student\StudentValidator;
 use App\Http\Validators\StudentClassValidator;
 use App\Http\Validators\UserValidator;
@@ -12,6 +13,7 @@ use App\Interfaces\StudentClassRepositoryInterface;
 use App\Interfaces\StudentRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\UserRoleRepositoryInterface;
+use App\Interfaces\Validators\AuthValidatorInterface;
 use App\Interfaces\Validators\StudentClassValidatorInterface;
 use App\Interfaces\Validators\StudentValidatorInterface;
 use App\Interfaces\Validators\UserValidatorInterface;
@@ -33,6 +35,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(AuthValidatorInterface::class, AuthValidator::class);
         $this->app->bind(UserValidatorInterface::class, UserValidator::class);
         $this->app->bind(AuthRepositoryInterface::class, AuthRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
