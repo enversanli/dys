@@ -5,12 +5,7 @@
         <div class="px-8 py-6 mx-4 mt-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
             <h3 class="text-2xl font-bold text-center">{{ __('auth.forgotPassword') }}</h3>
             <form method="POST" action="{{ route('password.update') }}">
-
-                <input type="hidden" name="role" value="{{request()->role ?? null}}">
-                <input type="hidden" name="association" value="{{request()->association ?? null}}">
                 @csrf
-                <input type="hidden" name="role_key"
-                       value="{{\App\Support\Enums\UserRoleKeyEnum::ASSOCIATION_MANAGER->value}}">
                 <div class="mt-4">
 
                     <div class="mt-4">
@@ -36,6 +31,12 @@
                         <a class="text-blue-600 hover:underline" href="{{route('auth.login')}}">
                             {{__('auth.login')}}
                         </a>
+
+                        <div>
+                            @if(Session::has('message'))
+                                <p class="mt-4 alert text-gray-700">* {{ Session::get('message') }}</p>
+                            @endif
+                        </div>
                     </div>
                 </div>
 

@@ -83,7 +83,11 @@
                                     </p>
                                 </div>
                             </form>
-
+                        <div>
+                            @if(Session::has('message'))
+                                <p class="alert text-gray-700">* {{ Session::get('message') }}</p>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

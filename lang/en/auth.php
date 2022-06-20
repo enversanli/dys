@@ -16,6 +16,8 @@ return [
     'resetPassword' => 'Reset Password',
     'login' => 'Login',
     'forgotPassword' => 'Forgot Password',
+    'forgotPasswordSuccess' => 'We sent reset link to your email address.',
+    'passwordChanged' => 'Your password has been changed successfully.',
 
 
     'failed' => 'These credentials do not match our records.',

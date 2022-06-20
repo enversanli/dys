@@ -53,7 +53,7 @@ class AuthRepository implements AuthRepositoryInterface
             $mailData = new EmailDataDTO();
             $mailData->email = $user->email;
             $mailData->view ='mails.auth.forgot-password';
-            $mailData->subject = 'auth.forgotPassword';
+            $mailData->subject = __('auth.forgotPassword');
             $mailData->data = ['user' => $user, 'resetPasswordUrl' => $resetPasswordUrl];
 
             SendQueueEmailJob::dispatch($mailData);

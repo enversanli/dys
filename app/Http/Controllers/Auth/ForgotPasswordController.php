@@ -26,9 +26,9 @@ class ForgotPasswordController extends Controller
 
         $forgotPassword = $this->authRepository->forgotPassword($request);
         if (!$forgotPassword->status)
-            return redirect()->back()->withErrors(['msh' => $forgotPassword->message]);
+            return redirect()->back()->with(['message' => $forgotPassword->message]);
 
-        return redirect()->route('auth.login');
+        return redirect()->route('auth.login')->with(['message' => __('auth.forgotPasswordSuccess')]);
     }
 
     public function resetPassword(ResetPasswordRequest $request){
@@ -41,8 +41,8 @@ class ForgotPasswordController extends Controller
         $resetPassword = $this->authRepository->resetPassword($request);
 
         if (!$resetPassword->status)
-            return redirect()->back()->withErrors(['message' => $resetPassword->message]);
+            return redirect()->back()->with(['message' => $resetPassword->message]);
 
-        return redirect()->route('auth.login');
+        return redirect()->route('auth.login')->with(['message' => __('auth.passwordChanged')]);
     }
 }
