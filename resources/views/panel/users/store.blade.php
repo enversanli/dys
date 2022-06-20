@@ -1,5 +1,5 @@
 @extends('layouts.panel')
 
 @section('content')
-    <store-student></store-student>
+    <student-show :id="''"></student-show>
 @endsection

@@ -112,6 +112,7 @@ class UserRepository implements UserRepositoryInterface
                 'last_name' => $request->last_name,
                 'gender' => $request->gender ?? null,
                 'email' => $request->email,
+                'mobile_phone' => $request->mobile_phone ?? null,
                 'password' => Hash::make(now()->timestamp),
             ];
 

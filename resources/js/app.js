@@ -34,7 +34,7 @@ Vue.component('header-component', require('./components/layouts/HeaderComponent.
 
 // Student
 Vue.component('users-list', require('./components/users/ListComponent').default);
-Vue.component('student-show', require('./components/users/ShowComponent').default);
+Vue.component('student-show', require('./components/users/ShowAndStoreComponent').default);
 Vue.component('student-create', require('./components/users/CreateComponent').default);
 Vue.component('store-student', require('./components/users/StoreComponent').default);
 Vue.component('paginate-data', require('./components/layouts/PaginateComponent').default);
