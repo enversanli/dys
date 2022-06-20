@@ -21,10 +21,10 @@ Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, '
 Route::view('register', 'auth.register');
 Route::view('reset-password', 'auth.register');
 Route::put('reset-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, '']);
-Route::view('forgot-password', 'auth.register');
-Route::put('forgot-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, '']);
+Route::view('forgot-password', 'auth.passwords.forgot')->name('auth.forgot-password');
+Route::post('forgot-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'update'])->name('password.update');
 
-Route::view('login', 'auth.login');
+Route::view('login', 'auth.login')->name('auth.login');
 Route::post('login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
 
 Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('logout');

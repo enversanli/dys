@@ -2,10 +2,12 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\Auth\ForgetPasswordRequest;
 use App\Interfaces\AssociationRepositoryInterface;
 use App\Interfaces\AuthRepositoryInterface;
 use App\Models\Association;
 use App\Models\User;
+use App\Support\DTOs\Emails\EmailDataDTO;
 use App\Support\Enums\ErrorLogEnum;
 use App\Support\Enums\UserStatusEnum;
 use App\Support\ResponseMessage;
@@ -35,7 +37,7 @@ class AuthRepository implements AuthRepositoryInterface
         }
     }
 
-    public function forgotPassword(Request $request)
+    public function forgotPassword(ForgetPasswordRequest $request)
     {
         $user = $this->model->where('email', $request->email)->firstOrFail();
         try {
@@ -43,6 +45,15 @@ class AuthRepository implements AuthRepositoryInterface
                 'reset_password_code' => Str::random(16),
                 'status' => UserStatusEnum::FORGOT_PASSWORD
             ]);
+
+            $resetPasswordUrl =
+
+            $mailData = new EmailDataDTO();
+            $mailData->email = $user->email;
+            $mailData->view ='mails.auth.forgot-password';
+            $mailData->subject = 'auth.forgotPassword';
+            $mailData->data = ['user' => $user];
+
 
             return ResponseMessage::returnData(true);
         } catch (\Exception $exception) {

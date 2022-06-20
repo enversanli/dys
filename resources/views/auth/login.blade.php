@@ -63,7 +63,7 @@
                                         >Remember me</label
                                         >
                                     </div>
-                                    <a href="#!" class="text-gray-800">{{ __('Forgot Your Password?') }}</a>
+                                    <a href="{{route('auth.forgot-password')}}" class="text-gray-800">{{ __('Forgot Your Password?') }}</a>
                                 </div>
 
                                 <div class="text-center lg:text-left">

@@ -3,20 +3,22 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use App\Http\Requests\Auth\ForgetPasswordRequest;
+use App\Interfaces\AuthRepositoryInterface;
 
 class ForgotPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset emails and
-    | includes a trait which assists in sending these notifications from
-    | your application to your users. Feel free to explore this trait.
-    |
-    */
+    /** @var AuthRepositoryInterface */
+    protected $authRepository;
 
-    use SendsPasswordResetEmails;
+    public function __construct(AuthRepositoryInterface $authRepository){
+        $this->authRepository = $authRepository;
+    }
+
+    public function update(ForgetPasswordRequest $request){
+
+        $forgotPassword = $this->authRepository->forgotPassword($request);
+
+        dd("asd");
+    }
 }
