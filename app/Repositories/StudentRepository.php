@@ -29,7 +29,7 @@ class StudentRepository implements StudentRepositoryInterface
      * @param StoreStudentRequest $request
      * @param Association $association
      * @return object
-     * Create a new student account
+     * Create a new user account
      */
     public function storeStudent(StoreStudentRequest $request, Association $association)
     {
@@ -71,7 +71,7 @@ class StudentRepository implements StudentRepositoryInterface
 
         try {
             $students = $this->model->whereHas('role', function ($query) {
-                return $query->where('role_id', UserRole::where('key', UserRoleKeyEnum::STUDENT)->first()->id);
+                return $query->where('role_id', UserRole::where('key', UserRoleKeyEnum::STUDENT->value)->first()->id);
             })
                 ->where('association_id', $association->id)
                 ->where('association_id', auth()->user()->association->id)
@@ -91,7 +91,7 @@ class StudentRepository implements StudentRepositoryInterface
     /**
      * @param $id
      * @return object
-     * Get student by requested id
+     * Get user by requested id
      */
     public function getStudentById($id)
     {
@@ -115,7 +115,7 @@ class StudentRepository implements StudentRepositoryInterface
      * @param Request $request
      * @param User $student
      * @return object
-     * Update student's information
+     * Update user's information
      */
     public function updateStudent(Request $request, User $student)
     {
@@ -146,13 +146,12 @@ class StudentRepository implements StudentRepositoryInterface
      * @param Association $association
      * @param null $status
      * @return mixed
-     * Get total student's for requested association
+     * Get total user's for requested association
      */
     public function getTotalStudents(Association $association, $status = null)
     {
-        return User::whereHas('role', function ($query) {
-            return $query->where('role_id', UserRole::where('key', UserRoleKeyEnum::STUDENT)->first()->id);
-        })
+
+        return User::where('role_id', UserRole::where('key', UserRoleKeyEnum::STUDENT->value)->first()->id)
             ->when($status != null, function ($query) use ($status) {
                 return $query->where('status', $status);
             })
@@ -163,12 +162,12 @@ class StudentRepository implements StudentRepositoryInterface
     /**
      * @param User $user
      * @return object
-     * Destroy student
+     * Destroy user
      */
     public function destroyStudent(User $user)
     {
         try {
-            // Delete student
+            // Delete user
             $user->delete();
 
             return ResponseMessage::returnData(true);

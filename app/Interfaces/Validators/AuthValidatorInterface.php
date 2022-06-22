@@ -13,5 +13,8 @@ use Illuminate\Http\Request;
 interface AuthValidatorInterface
 {
     public function resetPassword(ResetPasswordRequest $request);
+
     public function forgotPassword(ForgetPasswordRequest $request);
+
+    public function verify(Request $request);
 }

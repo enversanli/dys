@@ -12,4 +12,5 @@ interface AuthRepositoryInterface
     public function register(RegisterRequest $request);
     public function forgotPassword(ForgetPasswordRequest $request);
     public function resetPassword(ResetPasswordRequest $request);
+    public function verify(Request $request);
 }

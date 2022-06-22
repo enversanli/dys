@@ -62,7 +62,7 @@ class UserValidator implements UserValidatorInterface
                 return ResponseMessage::returnData(false, null, __('common.not_have_authority'));
             }
 
-            // check parent for student
+            // check parent for user
             if ($request->role == UserRoleKeyEnum::STUDENT && !$request->has('parent_id')) {
                 return ResponseMessage::returnData(false, null, __('user.parent_required'));
             }
@@ -97,7 +97,7 @@ class UserValidator implements UserValidatorInterface
             }
 
             if ($authUser->id == $targetUser->id){
-                return ResponseMessage::returnData(false, [], __('user.canNotDeleteOwn'));
+                return ResponseMessage::returnData(false, [], __('user.can_not_delete_own'));
             }
 
             return ResponseMessage::returnData(true);

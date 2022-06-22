@@ -17,7 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'create'])->name('register');
+Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'store'])->name('register');
+Route::get('verify', [\App\Http\Controllers\Auth\RegisterController::class, 'verify'])->name('register.verify');
 Route::view('register', 'auth.register');
 Route::view('reset-password', 'auth.passwords.reset');
 Route::post('reset-password', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'resetPassword'])->name('password.reset');
@@ -52,9 +53,9 @@ Route::middleware('auth')->group(function () {
 
         Route::view('users', 'panel.users.index');
         Route::view('users/{id}/detail', 'panel.users.show');
-        Route::post('users', 'store')->name('student.store');
-        Route::get('users/list', 'index')->name('student.list');
-        Route::delete('users/{user}', 'destroy')->name('student.destroy');
+        Route::post('users', 'store')->name('user.store');
+        Route::get('users/list', 'index')->name('user.list');
+        Route::delete('users/{user}', 'destroy')->name('user.destroy');
     });
     // end Student
 
@@ -69,7 +70,7 @@ Route::middleware('auth')->group(function () {
         Route::get('users', 'index')->name('users.list');
         Route::post('users', 'store');
         Route::delete('users/{user}', 'destroy');
-        Route::view('ogrenci-kayit', 'web.auth.student-register');
+        Route::view('ogrenci-kayit', 'web.auth.user-register');
 
     });
     // end Users

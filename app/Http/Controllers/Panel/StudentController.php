@@ -74,17 +74,17 @@ class StudentController extends Controller
 
         /** Send Mail */
         $mailData = new EmailDataDTO();
-        $mailData->view = 'mails.student.created';
+        $mailData->view = 'mails.user.created';
         $mailData->subject = 'New Account';
         $mailData->email = $storedStudent->data->email;
         $mailData->data = (object)[
-            'student' => $storedStudent->data,
+            'user' => $storedStudent->data,
             'role' => $storedStudent->data->role
         ];
 
         SendQueueEmailJob::dispatch($mailData);
 
-        return ResponseMessage::success(__('student.created'), UserResource::make($storedStudent->data));
+        return ResponseMessage::success(__('user.created'), UserResource::make($storedStudent->data));
     }
 
     public function update(UpdateStudentRequest $request, $id)

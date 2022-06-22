@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Panel\StoreUserRequest;
+use App\Http\Validators\AuthValidator;
 use App\Interfaces\UserRepositoryInterface;
 use App\Http\Requests\Panel\RegisterRequest;
 use App\Interfaces\UserRoleRepositoryInterface;
@@ -11,6 +12,7 @@ use App\Repositories\AssociationRepository;
 use App\Repositories\AuthRepository;
 use App\Support\Enums\UserRoleKeyEnum;
 use App\Support\ResponseMessage;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -33,20 +35,25 @@ class RegisterController extends Controller
      */
     protected AssociationRepository $associationRepository;
 
+    /** @var AuthValidator */
+    protected $authValidator;
+
     public function __construct(
+        AuthValidator               $authValidator,
         AuthRepository              $authRepository,
         UserRepositoryInterface     $userRepository,
-        AssociationRepository       $associationRepository,
         UserRoleRepositoryInterface $userRoleRepository,
+        AssociationRepository       $associationRepository,
     )
     {
+        $this->authValidator = $authValidator;
         $this->authRepository = $authRepository;
         $this->userRepository = $userRepository;
         $this->userRoleRepository = $userRoleRepository;
         $this->associationRepository = $associationRepository;
     }
 
-    protected function create(StoreUserRequest $request)
+    protected function store(StoreUserRequest $request)
     {
         $newAssociation = false;
 
@@ -80,5 +87,22 @@ class RegisterController extends Controller
             ]);
         }
         return redirect()->back()->with(['message' => 'Gayet iyi']);
+    }
+
+    public function verify(Request $request)
+    {
+        $validator = $this->authValidator->verify($request);
+
+        if (!$validator->status)
+            return view('panel.result')->with(['message' => $validator->message]);
+
+        $verifyUser = $this->authRepository->verify($request);
+
+        if (!$verifyUser->status) {
+            return view('panel.result')->with(['message' => $verifyUser->message]);
+        }
+
+
+        return redirect()->route('login')->with(['message' => __('user.account_verified')]);
     }
 }

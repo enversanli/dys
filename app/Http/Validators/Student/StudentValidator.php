@@ -56,7 +56,7 @@ class StudentValidator implements StudentValidatorInterface
             })->exists();
 
             if (!$situation){
-                return ResponseMessage::returnData(false, null, __('student.not_found'));
+                return ResponseMessage::returnData(false, null, __('user.not_found'));
             }
 
             return ResponseMessage::returnData(true);

@@ -103,7 +103,7 @@ class StudentClassController extends Controller
         if (!$validator->status)
             return ResponseMessage::failed($validator->message, null, $validator->code);
 
-        // Destroy student class
+        // Destroy user class
         $destroyedStudentClass = $this->studentClassRepository->destroyStudentClass($studentClass->data);
 
         if (!$destroyedStudentClass->status)

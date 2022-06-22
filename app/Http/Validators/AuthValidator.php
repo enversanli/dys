@@ -16,6 +16,7 @@ use App\Http\Requests\Panel\StoreUserRequest;
 use App\Http\Requests\Panel\UpdateStudentRequest;
 use App\Interfaces\Validators\UserValidatorInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthValidator implements AuthValidatorInterface
 {
@@ -47,6 +48,25 @@ class AuthValidator implements AuthValidatorInterface
             return ResponseMessage::returnData(true);
         } catch (\Exception $exception) {
 
+            return ResponseMessage::returnData(false);
+        }
+    }
+
+    public function verify(Request $request){
+        try {
+
+            $user = User::where('verification_code', $request->code)->first();
+
+            if (!$user){
+                return ResponseMessage::returnData(false, null, __('user.not_found'));
+            }
+
+            if ($user->email_verified_at && $user->status != UserStatusEnum::MAIL_VERIFICATION->value){
+                return ResponseMessage::returnData(false, '', __('user.already_verified'));
+            }
+
+            return ResponseMessage::returnData(true);
+        }catch (\Exception $exception){
             return ResponseMessage::returnData(false);
         }
     }

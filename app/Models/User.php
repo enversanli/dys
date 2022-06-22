@@ -35,6 +35,7 @@ class User extends Model implements Authenticatable
         'birth_date',
         'mobile_phone',
         'association_id',
+        'verification_code',
         'email_verified_at',
         'reset_password_code',
     ];
@@ -84,7 +85,7 @@ class User extends Model implements Authenticatable
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     * If user is student, get it's parent account.
+     * If user is user, get it's parent account.
      */
     public function parent(){
         return $this->belongsTo(User::class, 'parent_id', 'id');

@@ -12,6 +12,7 @@ use App\Models\Association;
 use App\Models\User;
 use App\Support\DTOs\Emails\EmailDataDTO;
 use App\Support\Enums\ErrorLogEnum;
+use App\Support\Enums\UserRoleKeyEnum;
 use App\Support\Enums\UserStatusEnum;
 use App\Support\ResponseMessage;
 use Illuminate\Http\Request;
@@ -88,6 +89,28 @@ class AuthRepository implements AuthRepositoryInterface
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::RESET_PASSWORD_AUTH_REPOSITORY_ERROR->value);
 
+            return ResponseMessage::returnData(false);
+        }
+    }
+
+    public function verify(Request $request){
+        try {
+            $user = $this->model->where('verification_code', $request->code)->first();
+
+            $data = [
+                'email_verified_at' => now()->format('Y-m-d H:i:s'),
+                'status' => UserStatusEnum::ACTIVE
+            ];
+
+            if ($user->role->key == UserRoleKeyEnum::STUDENT){
+                $data['status'] = UserStatusEnum::TEACHER_CONFIRMATION->value;
+            }
+
+            $user->update($data);
+
+            return ResponseMessage::returnData(true);
+        }catch (\Exception $exception){
+            dd($exception->getMessage());
             return ResponseMessage::returnData(false);
         }
     }

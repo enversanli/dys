@@ -77,17 +77,17 @@ class UserController extends Controller
 
         /** Send Mail */
         $mailData = new EmailDataDTO();
-        $mailData->view = 'mails.student.created';
-        $mailData->subject = 'New Account';
+        $mailData->view = 'mails.user.created';
+        $mailData->subject = __('user.account_verification');
         $mailData->email = $storedUser->data->email;
         $mailData->data = (object)[
-            'student' => $storedUser->data,
+            'user' => $storedUser->data,
             'role' => $storedUser->data->role
         ];
 
         SendQueueEmailJob::dispatch($mailData);
 
-        return ResponseMessage::success(__('student.created'), UserResource::make($storedUser->data));
+        return ResponseMessage::success(__('user.created'), UserResource::make($storedUser->data));
     }
 
     public function update(UpdateUserRequest $request, User $user)

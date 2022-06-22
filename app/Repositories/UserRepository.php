@@ -81,9 +81,9 @@ class UserRepository implements UserRepositoryInterface
                 $users->where('parent_id', $authUser->id);
             }
 
-            if($request->has('class_id')){
-                $users->whereHas('class', function ($q) use($request){
-                   return $q->where('id', $request->class_id);
+            if ($request->has('class_id')) {
+                $users->whereHas('class', function ($q) use ($request) {
+                    return $q->where('id', $request->class_id);
                 });
             }
 
@@ -103,7 +103,7 @@ class UserRepository implements UserRepositoryInterface
     public function getTotalUsers(Association $association, $status = null)
     {
         return User::whereHas('role', function ($query) {
-            return $query->where('role_id', UserRole::where('key', UserRoleKeyEnum::STUDENT)->first()->id);
+            return $query->where('role_id', UserRole::where('key', UserRoleKeyEnum::STUDENT->value)->first()->id);
         })
             ->when($status != null, function ($query) use ($status) {
                 return $query->where('status', $status);
@@ -124,13 +124,15 @@ class UserRepository implements UserRepositoryInterface
                 'gender' => $request->gender ?? null,
                 'email' => $request->email,
                 'mobile_phone' => $request->mobile_phone ?? null,
-                'password' => Hash::make(now()->timestamp),
+                'password' => $request->password ? Hash::make($request->password) : Hash::make(now()->timestamp),
+                'verification_code' => Hash::make(Str::random()),
+                'status' => UserStatusEnum::MAIL_VERIFICATION,
             ];
 
             if ($request->role == UserRoleKeyEnum::STUDENT) {
                 $data['parent_id'] = $request->parent_id;
                 $data['class_id'] = $request->class_id;
-                $data['birth_date'] = Carbon::make($request->birth_date)->format('Y-m-d');
+                $data['birth_date'] = $request->birth_date ? Carbon::make($request->birth_date)->format('Y-m-d') : null;
             }
 
             if ($request->role == UserRoleKeyEnum::PARENT) {
@@ -166,7 +168,7 @@ class UserRepository implements UserRepositoryInterface
     public function destroyUser(User $user)
     {
         try {
-            // Delete student
+            // Delete user
             $user->delete();
 
             return ResponseMessage::returnData(true);
