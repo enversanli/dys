@@ -7166,31 +7166,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ShowAndStoreComponent",
-  props: ['id'],
+  props: ['id', 'authUser'],
   data: function data() {
     return {
       user: {},
       userRoles: {},
       classes: {},
-      studentForm: false,
-      teacherForm: false,
+      studentForm: true,
+      teacherForm: true,
       parents: {},
       role: null
     };
   },
   mounted: function mounted() {
     if (this.id) {
-      this.getStudent();
+      this.getUser();
     }
 
-    this.getClasses();
+    if (this.authUser && this.authUser.role !== 'parent') {
+      this.getClasses();
+      this.getParents();
+    }
+
+    if (!this.authUser) {
+      this.getMe();
+    }
+
     this.getUserRoles();
-    this.getParents();
+    this.checkForms(null);
   },
   methods: {
-    getStudent: function getStudent() {
+    // This function returns requested user to frontend by API request
+    getUser: function getUser() {
       var _this = this;
 
       axios.get('/users/' + this.id).then(function (response) {
@@ -7240,11 +7255,26 @@ __webpack_require__.r(__webpack_exports__);
         role: this.role,
         gender: this.gender
       };
-      axios.put('/users/' + +this.id, data).then(function (response) {
-        _this5.$alert('Kullanıcı başarıyla güncellendi..', 'İşlem Başarılı', 'success');
-      })["catch"](function (error) {
-        _this5.$alert(error.response.data.message, 'Hata', 'error');
-      });
+
+      if (this.id) {
+        axios.put('/users/' + +this.id, data).then(function (response) {
+          _this5.$alert('Kullanıcı başarıyla güncellendi..', 'İşlem Başarılı', 'success');
+        })["catch"](function (error) {
+          _this5.$alert(error.response.data.message, 'Hata', 'error');
+        });
+      }
+
+      if (!this.id) {
+        if (this.myRole('parent')) {
+          this.role = 'student';
+        }
+
+        axios.post('/users', data).then(function (response) {
+          _this5.$alert(response.data.message, 'İşlem Başarılı', 'success');
+        })["catch"](function (error) {
+          _this5.$alert(error.response.data.message, 'Hata', 'error');
+        });
+      }
     },
     checkForms: function checkForms(event) {
       if (event.target.value === 'student') {
@@ -7260,6 +7290,18 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.studentForm = false;
+    },
+    getMe: function getMe() {
+      var _this6 = this;
+
+      axios.get('/me').then(function (response) {
+        _this6.authUser = response.data.data;
+      })["catch"](function (error) {
+        _this6.$alert('Bir sorunla karşılaşıldı.', 'Hata', 'error');
+      });
+    },
+    myRole: function myRole(key) {
+      return this.authUser.role.key === key ? true : false;
     }
   }
 });
@@ -36947,7 +36989,7 @@ var render = function () {
             ]
           ),
           _vm._v(" "),
-          _c("span", { staticClass: "ml-4" }, [_vm._v("Aidatlar")]),
+          _c("span", { staticClass: "ml-4" }, [_vm._v("Aidatlarım")]),
         ]
       ),
     ]),
@@ -38184,74 +38226,88 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "w-full shadow-lg my-10 p-2" }, [
-    _c("div", { staticClass: "text-center" }, [
+    _c("div", { staticClass: "text-center mb-8" }, [
       _c("img", {
         staticClass: "mx-auto h-40 rounded-full shadow-lg",
         attrs: { src: "/user.png" },
       }),
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "px-4" }, [
-      _c("label", [_vm._v("\n            Kullanıcı Tipi\n        ")]),
-      _vm._v(" "),
-      _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.role,
-              expression: "role",
-            },
-          ],
-          staticClass:
-            "w-full my-5 border-gray-800  border p-2 border-slate-400 rounded",
-          on: {
-            change: [
-              function ($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function (o) {
-                    return o.selected
-                  })
-                  .map(function (o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.role = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              function ($event) {
-                return _vm.checkForms($event)
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.authUser.role.key !== "parent",
+            expression: "authUser.role.key !== 'parent'",
+          },
+        ],
+        staticClass: "px-4",
+      },
+      [
+        _c("label", [_vm._v("\n            Kullanıcı Tipi\n        ")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.role,
+                expression: "role",
               },
             ],
-          },
-        },
-        _vm._l(_vm.userRoles, function (userRole) {
-          return _c(
-            "option",
-            {
-              domProps: {
-                value: userRole.key,
-                selected:
-                  _vm.user.role && userRole.key === _vm.user.role.key
-                    ? true
-                    : false,
-              },
+            staticClass:
+              "w-full my-5 border-gray-800  border p-2 border-slate-400 rounded",
+            on: {
+              change: [
+                function ($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function (o) {
+                      return o.selected
+                    })
+                    .map(function (o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.role = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                },
+                function ($event) {
+                  return _vm.checkForms($event)
+                },
+              ],
             },
-            [
-              _vm._v(
-                "\n                " +
-                  _vm._s(userRole.translated) +
-                  "\n            "
-              ),
-            ]
-          )
-        }),
-        0
-      ),
-    ]),
+          },
+          _vm._l(_vm.userRoles, function (userRole) {
+            return _c(
+              "option",
+              {
+                domProps: {
+                  value: userRole.key,
+                  selected:
+                    _vm.user.role && userRole.key === _vm.user.role.key
+                      ? true
+                      : false,
+                },
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(userRole.translated) +
+                    "\n            "
+                ),
+              ]
+            )
+          }),
+          0
+        ),
+      ]
+    ),
     _vm._v(" "),
     _c("div", { staticClass: "flex w-full" }, [
       _c("div", { staticClass: "w-full px-3" }, [
@@ -38355,7 +38411,7 @@ var render = function () {
           attrs: {
             id: "email",
             type: "text",
-            disabled: "",
+            disabled: _vm.user.email,
             name: "parent_email",
           },
           domProps: { value: _vm.user.email },
@@ -38541,6 +38597,12 @@ var render = function () {
                 {
                   directives: [
                     {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.myRole("parent"),
+                      expression: "!myRole('parent')",
+                    },
+                    {
                       name: "model",
                       rawName: "v-model",
                       value: _vm.user.parent_id,
@@ -38571,19 +38633,38 @@ var render = function () {
                   },
                 },
                 [
-                  _c("option", { domProps: { selected: true } }, [
+                  _c("option", { attrs: { selected: "" } }, [
                     _vm._v("Veli Seç"),
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.parents, function (row) {
-                    return _c("option", { domProps: { value: row.id } }, [
-                      _vm._v(_vm._s(row.first_name + " " + row.last_name)),
-                    ])
+                    return _vm.authUser.role.key !== "parent"
+                      ? _c("option", { domProps: { value: row.id } }, [
+                          _vm._v(_vm._s(row.first_name + " " + row.last_name)),
+                        ])
+                      : _vm._e()
                   }),
                 ],
                 2
               )
             : _vm._e(),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.myRole("parent"),
+                expression: "myRole('parent')",
+              },
+            ],
+            staticClass:
+              "w-full my-5 border-gray-800 border p-2 border-slate-400 rounded",
+            attrs: { id: "parent", type: "text", disabled: "" },
+            domProps: {
+              value: _vm.authUser.first_name + " " + _vm.authUser.last_name,
+            },
+          }),
         ]),
       ]
     ),

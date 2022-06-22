@@ -123,4 +123,8 @@ class UserController extends Controller
         return ResponseMessage::success(__('common.success'));
     }
 
+    public function me(){
+        return ResponseMessage::success(null, UserResource::make($this->user));
+    }
+
 }

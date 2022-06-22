@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
 
     // Users
     Route::controller(\App\Http\Controllers\Panel\UserController::class)->group(function (){
+        Route::get('me', 'me');
         Route::view('users/list', 'panel.users.index');
         Route::view('users/create', 'panel.users.store');
         Route::view('users/{id}/detail', 'panel.users.show');

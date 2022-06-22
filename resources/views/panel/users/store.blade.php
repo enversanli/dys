@@ -1,5 +1,5 @@
 @extends('layouts.panel')
 
 @section('content')
-    <student-show :id="''"></student-show>
+    <student-show :id="''" :authUser="{{auth()->user()->load('role')}}"></student-show>
 @endsection

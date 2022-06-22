@@ -81,6 +81,12 @@ class UserRepository implements UserRepositoryInterface
                 $users->where('parent_id', $authUser->id);
             }
 
+            if($request->has('class_id')){
+                $users->whereHas('class', function ($q) use($request){
+                   return $q->where('id', $request->class_id);
+                });
+            }
+
             $users = $users->paginate($paginateData->per_page, '*', 'page', $paginateData->page);
 
             return ResponseMessage::returnData(true, $users);

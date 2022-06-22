@@ -35,6 +35,10 @@ class UserValidator implements UserValidatorInterface
                 return ResponseMessage::returnData(false, null, __('common.not_have_authority'), 401);
             }
 
+            if ($user->isParent() && $request->role && ($request->role != UserRoleKeyEnum::STUDENT->value && $request->role != UserRoleKeyEnum::PARENT->value)){
+                return ResponseMessage::returnData(false, null, __('common.not_have_authority'));
+            }
+
 
 
             return ResponseMessage::returnData(true);

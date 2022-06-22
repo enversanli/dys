@@ -1,16 +1,18 @@
 <template>
 
     <div class="w-full shadow-lg my-10 p-2">
-        <div class="text-center">
+        <div class="text-center mb-8">
             <img :src="'/user.png'" class="mx-auto h-40 rounded-full shadow-lg">
         </div>
-        <div class="px-4">
+        <div class="px-4" v-show="authUser.role.key !== 'parent'">
             <label>
                 Kullanıcı Tipi
             </label>
             <select @change="checkForms($event)" v-model="role"
                     class="w-full my-5 border-gray-800  border p-2 border-slate-400 rounded">
-                <option v-for="userRole in userRoles" :value="userRole.key" :selected="user.role && userRole.key === user.role.key ? true : false">
+                <option v-for="userRole in userRoles" :value="userRole.key"
+                        :selected="user.role && userRole.key === user.role.key ? true : false"
+                >
                     {{ userRole.translated }}
                 </option>
             </select>
@@ -40,7 +42,7 @@
                 <label for="email">Email</label>
                 <input id="email" type="text"
                        v-model="user.email"
-                       disabled
+                       :disabled="user.email"
                        class="w-full my-5 border-gray-800 border p-2 border-slate-400 rounded" name="parent_email">
 
 
@@ -80,11 +82,17 @@
                 <label for="parent_id">Veli</label>
                 <select class="w-full my-5 border-gray-800 border p-2 border-slate-400 rounded student-input"
                         id="parent_id"
+                        v-show="!myRole('parent')"
                         v-model="user.parent_id"
                         v-if="classes != null">
-                    <option :selected="true">Veli Seç</option>
-                    <option v-for="row in parents" :value="row.id">{{ row.first_name + ' ' + row.last_name }}</option>
+                    <option selected>Veli Seç</option>
+                    <option v-if="authUser.role.key !== 'parent'" v-for="row in parents" :value="row.id">{{ row.first_name + ' ' + row.last_name }}</option>
                 </select>
+                <input id="parent" type="text"
+                       disabled
+                       v-show="myRole('parent')"
+                       :value="authUser.first_name + ' ' + authUser.last_name"
+                       class="w-full my-5 border-gray-800 border p-2 border-slate-400 rounded">
             </div>
         </div>
 
@@ -95,39 +103,46 @@
                 Güncelle
             </button>
         </div>
-
-
     </div>
 </template>
 
 <script>
 export default {
     name: "ShowAndStoreComponent",
-    props: ['id'],
+    props: ['id', 'authUser'],
     data() {
         return {
             user: {},
             userRoles: {},
             classes: {},
-            studentForm: false,
-            teacherForm: false,
+            studentForm: true,
+            teacherForm: true,
             parents: {},
             role: null
         }
     },
     mounted() {
-
         if (this.id) {
-            this.getStudent();
+            this.getUser();
         }
-        this.getClasses();
+
+        if (this.authUser && this.authUser.role !== 'parent') {
+            this.getClasses();
+            this.getParents();
+        }
+
+        if (!this.authUser) {
+            this.getMe();
+        }
         this.getUserRoles();
-        this.getParents();
+        this.checkForms(null);
     },
 
 
     methods: {
-        getStudent() {
+
+        // This function returns requested user to frontend by API request
+        getUser() {
             axios.get('/users/' + this.id).then(response => {
                 this.user = response.data.data;
                 this.role = this.user.role.key
@@ -147,7 +162,6 @@ export default {
                 this.parents = response.data.data;
 
             }).catch(error => {
-
                 this.$alert(error.response.data.message, 'Hata', 'error');
             });
         },
@@ -176,14 +190,29 @@ export default {
                 gender: this.gender,
             };
 
-            axios.put('/users/' + +this.id, data).then(response => {
-                this.$alert('Kullanıcı başarıyla güncellendi..', 'İşlem Başarılı', 'success')
-            }).catch((error) => {
-                this.$alert(error.response.data.message, 'Hata', 'error');
-            });
+            if (this.id){
+                axios.put('/users/' + +this.id, data).then(response => {
+                    this.$alert('Kullanıcı başarıyla güncellendi..', 'İşlem Başarılı', 'success')
+                }).catch((error) => {
+                    this.$alert(error.response.data.message, 'Hata', 'error');
+                });
+            }
+
+            if (!this.id){
+                if (this.myRole('parent')){
+                    this.role = 'student';
+                }
+
+                axios.post('/users', data).then(response => {
+                    this.$alert(response.data.message, 'İşlem Başarılı', 'success');
+                }).catch(error => {
+                    this.$alert(error.response.data.message, 'Hata', 'error');
+                });
+            }
         },
 
         checkForms(event) {
+
             if (event.target.value === 'student') {
                 this.studentForm = true;
                 this.teacherForm = false;
@@ -197,6 +226,19 @@ export default {
 
             this.studentForm = false;
         },
+
+
+        getMe() {
+            axios.get('/me').then(response => {
+                this.authUser = response.data.data;
+            }).catch(error => {
+                this.$alert('Bir sorunla karşılaşıldı.', 'Hata', 'error');
+            });
+        },
+
+        myRole(key){
+            return this.authUser.role.key === key ? true : false;
+        }
     }
 }
 </script>
