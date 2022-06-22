@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 interface AssociationRepositoryInterface
 {
-    public function storeAssociation(Request $request, User $user);
+    public function getAssociationByKey($key);
+    public function storeAssociation(Request $request);
     public function updateAssociation(Request $request, User $user);
 }

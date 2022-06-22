@@ -12,20 +12,41 @@ use Illuminate\Support\Str;
 
 class AssociationRepository implements AssociationRepositoryInterface
 {
-    public function storeAssociation(Request $request, User $user)
+    /** @var Association */
+    protected $model;
+
+    public function __construct(Association $association){
+        $this->model = $association;
+    }
+
+    public function getAssociationByKey($key){
+        try {
+            $association = $this->model->where('key', $key)->first();
+
+            if (!$association){
+                return ResponseMessage::returnData(false, null, __('association.not_found'));
+            }
+
+            return ResponseMessage::returnData(true, $association);
+        }catch (\Exception $exception){
+
+            return ResponseMessage::returnData(false);
+        }
+    }
+    public function storeAssociation(Request $request)
     {
         // TODO: Implement storeAssociation() method.
 
         try {
             $association = Association::create([
-                'creator_id' => $user->id,
-                'key' => Str::slug($request->association_name . ' ' . $user->id),
+                //'creator_id' => $user->id,
+                'key' => Str::slug($request->association_name) . '-' . now()->timestamp,
                 'name' => $request->association_name,
             ]);
 
-            $user->update([
-                'association_id' => $association->id
-            ]);
+            //$user->update([
+            //    'association_id' => $association->id
+            //]);
 
             return ResponseMessage::returnData(true, $association);
         } catch (\Exception $exception) {
@@ -36,5 +57,10 @@ class AssociationRepository implements AssociationRepositoryInterface
             return ResponseMessage::returnData(false);
         }
 
+    }
+
+    public function updateAssociation(Request $request, User $user)
+    {
+        // TODO: Implement updateAssociation() method.
     }
 }

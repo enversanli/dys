@@ -42,7 +42,7 @@
                 <label for="email">Email</label>
                 <input id="email" type="text"
                        v-model="user.email"
-                       :disabled="user.email"
+                       :disabled="!user"
                        class="w-full my-5 border-gray-800 border p-2 border-slate-400 rounded" name="parent_email">
 
 
@@ -55,8 +55,7 @@
                 <select class="w-full my-5 border-gray-800 border p-2 border-slate-400 rounded"
                         v-model="user.class_id"
                         v-if="classes != null">
-                    <option>Sınıf Seç</option>
-                    <option v-for="row in classes" :value="row.id">{{ row.name }}</option>
+                    <option :disabled="myRole('parent')" v-for="row in classes" :value="row.id">{{ row.name }}</option>
                 </select>
             </div>
             <div class="w-full px-3" v-if="studentForm">
@@ -65,8 +64,8 @@
                         id="parent_id"
                         v-model="user.gender"
                 >
-                    <option :selected="true" :value="1">Erkek</option>
-                    <option :selected="true" :value="0">Kız</option>
+                    <option :value="1" :selected="user.gender === '1'">Erkek</option>
+                    <option :value="0" :selected="user.gender === '0'">Kız</option>
                 </select>
             </div>
         </div>
@@ -86,7 +85,9 @@
                         v-model="user.parent_id"
                         v-if="classes != null">
                     <option selected>Veli Seç</option>
-                    <option v-if="authUser.role.key !== 'parent'" v-for="row in parents" :value="row.id">{{ row.first_name + ' ' + row.last_name }}</option>
+                    <option v-if="authUser.role.key !== 'parent'" v-for="row in parents" :value="row.id">
+                        {{ row.first_name + ' ' + row.last_name }}
+                    </option>
                 </select>
                 <input id="parent" type="text"
                        disabled
@@ -127,13 +128,14 @@ export default {
         }
 
         if (this.authUser && this.authUser.role !== 'parent') {
-            this.getClasses();
             this.getParents();
         }
 
         if (!this.authUser) {
             this.getMe();
         }
+
+        this.getClasses();
         this.getUserRoles();
         this.checkForms(null);
     },
@@ -179,18 +181,9 @@ export default {
             });
         },
         update() {
-            const data = {
-                first_name: this.user.first_name,
-                last_name: this.user.last_name,
-                email: this.user.email,
-                birth_date: this.user.birth_date,
-                parent_id: this.user.parent_id,
-                class_id: this.user.class_id,
-                role: this.role,
-                gender: this.gender,
-            };
+            var data = this.getUserData();
 
-            if (this.id){
+            if (this.id) {
                 axios.put('/users/' + +this.id, data).then(response => {
                     this.$alert('Kullanıcı başarıyla güncellendi..', 'İşlem Başarılı', 'success')
                 }).catch((error) => {
@@ -198,8 +191,8 @@ export default {
                 });
             }
 
-            if (!this.id){
-                if (this.myRole('parent')){
+            if (!this.id) {
+                if (this.myRole('parent')) {
                     this.role = 'student';
                 }
 
@@ -209,6 +202,27 @@ export default {
                     this.$alert(error.response.data.message, 'Hata', 'error');
                 });
             }
+        },
+
+        getUserData() {
+            const data = {
+                first_name: this.user.first_name,
+                last_name: this.user.last_name,
+                email: this.user.email,
+                birth_date: this.user.birth_date,
+                parent_id: this.user.parent_id,
+                class_id: this.user.class_id,
+                role: this.role,
+                gender: this.gender,
+                mobile_phone : this.user.mobile_phone
+            };
+
+            if (this.myRole('parent')) {
+                data['parent_id'] = this.authUser.id;
+                data['role'] = 'student';
+            }
+
+            return data;
         },
 
         checkForms(event) {
@@ -236,7 +250,7 @@ export default {
             });
         },
 
-        myRole(key){
+        myRole(key) {
             return this.authUser.role.key === key ? true : false;
         }
     }

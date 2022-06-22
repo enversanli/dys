@@ -19,8 +19,17 @@ class UserRoleRepository implements UserRoleRepositoryInterface
     }
 
     public function getRoleByKey($key){
-        $role = UserRole::where('key', $key)->first();
-        return ResponseMessage::returnData(true, $role);
+        try {
+            $role = $this->model->where('key', $key)->first();
+
+            if (!$role)
+                return ResponseMessage::returnData(false, null, __('userRole.not_found'));
+
+            return ResponseMessage::returnData(true, $role);
+        }catch (\Exception $exception){
+
+            return ResponseMessage::returnData(false);
+        }
     }
 
     public function getUserRoles()

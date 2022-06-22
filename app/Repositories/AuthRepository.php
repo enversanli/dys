@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Http\Requests\Auth\ForgetPasswordRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Http\Requests\Panel\RegisterRequest;
 use App\Interfaces\AssociationRepositoryInterface;
 use App\Interfaces\AuthRepositoryInterface;
 use App\Jobs\SendQueueEmailJob;
@@ -27,10 +28,13 @@ class AuthRepository implements AuthRepositoryInterface
         $this->model = $user;
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
         try {
-
+            $data = [
+              'first_name' => $request->first_name,
+              'last_name' => $request->last_name
+            ];
 
             return ResponseMessage::returnData(true);
         } catch (\Exception $exception) {

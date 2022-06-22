@@ -7172,6 +7172,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ShowAndStoreComponent",
   props: ['id', 'authUser'],
@@ -7192,7 +7193,6 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     if (this.authUser && this.authUser.role !== 'parent') {
-      this.getClasses();
       this.getParents();
     }
 
@@ -7200,6 +7200,7 @@ __webpack_require__.r(__webpack_exports__);
       this.getMe();
     }
 
+    this.getClasses();
     this.getUserRoles();
     this.checkForms(null);
   },
@@ -7245,16 +7246,7 @@ __webpack_require__.r(__webpack_exports__);
     update: function update() {
       var _this5 = this;
 
-      var data = {
-        first_name: this.user.first_name,
-        last_name: this.user.last_name,
-        email: this.user.email,
-        birth_date: this.user.birth_date,
-        parent_id: this.user.parent_id,
-        class_id: this.user.class_id,
-        role: this.role,
-        gender: this.gender
-      };
+      var data = this.getUserData();
 
       if (this.id) {
         axios.put('/users/' + +this.id, data).then(function (response) {
@@ -7275,6 +7267,26 @@ __webpack_require__.r(__webpack_exports__);
           _this5.$alert(error.response.data.message, 'Hata', 'error');
         });
       }
+    },
+    getUserData: function getUserData() {
+      var data = {
+        first_name: this.user.first_name,
+        last_name: this.user.last_name,
+        email: this.user.email,
+        birth_date: this.user.birth_date,
+        parent_id: this.user.parent_id,
+        class_id: this.user.class_id,
+        role: this.role,
+        gender: this.gender,
+        mobile_phone: this.user.mobile_phone
+      };
+
+      if (this.myRole('parent')) {
+        data['parent_id'] = this.authUser.id;
+        data['role'] = 'student';
+      }
+
+      return data;
     },
     checkForms: function checkForms(event) {
       if (event.target.value === 'student') {
@@ -38411,7 +38423,7 @@ var render = function () {
           attrs: {
             id: "email",
             type: "text",
-            disabled: _vm.user.email,
+            disabled: !_vm.user,
             name: "parent_email",
           },
           domProps: { value: _vm.user.email },
@@ -38478,16 +38490,17 @@ var render = function () {
                     },
                   },
                 },
-                [
-                  _c("option", [_vm._v("Sınıf Seç")]),
-                  _vm._v(" "),
-                  _vm._l(_vm.classes, function (row) {
-                    return _c("option", { domProps: { value: row.id } }, [
-                      _vm._v(_vm._s(row.name)),
-                    ])
-                  }),
-                ],
-                2
+                _vm._l(_vm.classes, function (row) {
+                  return _c(
+                    "option",
+                    {
+                      attrs: { disabled: _vm.myRole("parent") },
+                      domProps: { value: row.id },
+                    },
+                    [_vm._v(_vm._s(row.name))]
+                  )
+                }),
+                0
               )
             : _vm._e(),
         ]),
@@ -38531,13 +38544,21 @@ var render = function () {
                   },
                 },
                 [
-                  _c("option", { domProps: { selected: true, value: 1 } }, [
-                    _vm._v("Erkek"),
-                  ]),
+                  _c(
+                    "option",
+                    {
+                      domProps: { value: 1, selected: _vm.user.gender === "1" },
+                    },
+                    [_vm._v("Erkek")]
+                  ),
                   _vm._v(" "),
-                  _c("option", { domProps: { selected: true, value: 0 } }, [
-                    _vm._v("Kız"),
-                  ]),
+                  _c(
+                    "option",
+                    {
+                      domProps: { value: 0, selected: _vm.user.gender === "0" },
+                    },
+                    [_vm._v("Kız")]
+                  ),
                 ]
               ),
             ])
@@ -38640,7 +38661,11 @@ var render = function () {
                   _vm._l(_vm.parents, function (row) {
                     return _vm.authUser.role.key !== "parent"
                       ? _c("option", { domProps: { value: row.id } }, [
-                          _vm._v(_vm._s(row.first_name + " " + row.last_name)),
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(row.first_name + " " + row.last_name) +
+                              "\n                "
+                          ),
                         ])
                       : _vm._e()
                   }),

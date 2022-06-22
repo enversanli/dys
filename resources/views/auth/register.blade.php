@@ -4,11 +4,13 @@
     <div class="flex items-center justify-center min-h-screen bg-gray-100">
         <div class="px-8 py-6 mx-4 mt-4 text-left bg-white shadow-lg md:w-1/3 lg:w-1/3 sm:w-1/3">
             <h3 class="text-2xl font-bold text-center">{{ __('Register') }}</h3>
+            @if(Session::has('message'))
+                <p class="alert text-blue-500">* {{ Session::get('message') }}</p>
+            @endif
             <form method="POST" action="{{ route('register') }}">
                 <input type="hidden" name="role" value="{{request()->role ?? null}}">
                 <input type="hidden" name="association" value="{{request()->association ?? null}}">
                 @csrf
-                <input type="hidden" name="role_key" value="{{\App\Support\Enums\UserRoleKeyEnum::ASSOCIATION_MANAGER->value}}">
                 <div class="mt-4">
                     <div>
                         <label class="block" for="name">{{ __('Name') }}<label>
