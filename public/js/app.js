@@ -5632,7 +5632,7 @@ __webpack_require__.r(__webpack_exports__);
         this.year = new Date().getFullYear();
       }
 
-      axios.get('/duesses?user_id=' + this.userId + '?year=' + this.year).then(function (response) {
+      axios.get('/duesses?user_id=' + this.userId + '&year=' + this.year).then(function (response) {
         _this2.duesses = response.data.data;
       })["catch"](function (error) {
         _this2.$alert(error.response.data.message, 'Hata', 'error');

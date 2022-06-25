@@ -132,7 +132,7 @@ export default {
                 this.year = new Date().getFullYear();
             }
 
-            axios.get('/duesses?user_id=' + this.userId + '?year=' + this.year).then(response => {
+            axios.get('/duesses?user_id=' + this.userId + '&year=' + this.year).then(response => {
                this.duesses = response.data.data;
             }).catch(error => {
                 this.$alert(error.response.data.message, 'Hata', 'error');
