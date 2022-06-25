@@ -45,7 +45,7 @@
 
                 <!-- Admin Menu -->
                 <admin-menu
-                    v-if="user.role.key === 'association_manager' || user.role.key === 'sub_association_manager'"></admin-menu>
+                    v-if="user.role.key === 'admin'"></admin-menu>
                 <!-- end Admin Menu -->
 
                 <!-- Manager Menu -->

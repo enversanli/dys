@@ -75,6 +75,15 @@ Route::middleware('auth')->group(function () {
     });
     // end Users
 
+    // Dues
+    Route::controller(\App\Http\Controllers\Panel\DuesController::class)->group(function (){
+        Route::view('duesses/list', 'panel.duesses.index');
+        Route::get('duesses', 'index');
+        Route::post('duesses', 'store');
+        Route::put('duesses', 'update');
+    });
+    // end Dues
+
 });
 
 Route::get('user-roles', [\App\Http\Controllers\Panel\UserRoleController::class, 'index']);

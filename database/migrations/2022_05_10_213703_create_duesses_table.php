@@ -16,9 +16,14 @@ class CreateDuessesTable extends Migration
         Schema::create('duesses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->integer('dues_type_id');
+            $table->integer('dues_type_id')->nullable();
+            $table->integer('status')->nullable();
             $table->integer('year');
             $table->integer('month');
+            $table->integer('fee')->nullable();
+            $table->dateTime('paid_at')->nullable();
+            $table->integer('approved_by')->nullable();
+            $table->dateTime('approved_at')->nullable();
             $table->timestamps();
         });
     }

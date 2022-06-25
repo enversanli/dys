@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Duess;
+use App\Models\Dues;
 
 class DuessFactory extends Factory
 {
@@ -13,7 +13,7 @@ class DuessFactory extends Factory
      *
      * @var string
      */
-    protected $model = Duess::class;
+    protected $model = Dues::class;
 
     /**
      * Define the model's default state.

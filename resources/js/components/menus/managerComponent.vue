@@ -47,7 +47,7 @@
         <li class="relative px-6 py-3">
             <a
                 class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                href="tables.html"
+                href="/duesses"
             >
                 <svg
                     class="w-5 h-5"
@@ -61,7 +61,7 @@
                 >
                     <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
                 </svg>
-                <span class="ml-4">Tables</span>
+                <span class="ml-4">Aidatlar</span>
             </a>
         </li>
         <li class="relative px-6 py-3">
@@ -138,7 +138,59 @@
 
 <script>
 export default {
-    name: "student"
+    name: "managerComponent",
+    data() {
+        return {
+            isSideMenuOpen: false,
+            isNotificationsMenuOpen: false,
+            isProfileMenuOpen: false,
+            isPagesMenuOpen: false,
+            isModalOpen: false,
+            trapCleanup: null,
+        }
+    },
+
+    methods: {
+        toggleTheme() {
+            this.dark = !this.dark
+            setThemeToLocalStorage(this.dark)
+        },
+
+        toggleSideMenu() {
+            this.isSideMenuOpen = !this.isSideMenuOpen
+        },
+        closeSideMenu() {
+            this.isSideMenuOpen = false
+        },
+
+        toggleNotificationsMenu() {
+            this.isNotificationsMenuOpen = !this.isNotificationsMenuOpen
+        },
+        closeNotificationsMenu() {
+            this.isNotificationsMenuOpen = false
+        },
+
+        toggleProfileMenu() {
+            this.isProfileMenuOpen = !this.isProfileMenuOpen
+        },
+        closeProfileMenu() {
+            this.isProfileMenuOpen = false
+        },
+
+        togglePagesMenu() {
+            this.isPagesMenuOpen = !this.isPagesMenuOpen
+        },
+        // Modal
+
+        openModal() {
+            this.isModalOpen = true
+            this.trapCleanup = focusTrap(document.querySelector('#modal'))
+        },
+        closeModal() {
+            this.isModalOpen = false
+            this.trapCleanup()
+        },
+    }
 }
 </script>
 

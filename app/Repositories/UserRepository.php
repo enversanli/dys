@@ -59,8 +59,18 @@ class UserRepository implements UserRepositoryInterface
     public function getUserById($id)
     {
         try {
+            $user = $this->model->where('id', $id)->first();
+
+            if (!$user){
+                return ResponseMessage::returnData(false, null, __('user.not_found'), 404);
+            }
+
+            return ResponseMessage::returnData(true, $user);
 
         } catch (\Exception $exception) {
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::GET_USER_BY_ID_REPOSITORY_ERROR->value);
 
             return ResponseMessage::returnData(false);
         }
@@ -72,26 +82,32 @@ class UserRepository implements UserRepositoryInterface
             $paginateData = PaginateData::fromRequest($request);
 
             $users = User::where('association_id', $association->id)
-                ->when($request->role && $request->role != null, function ($q) use ($request) {
-                    $q->where('role_id', UserRole::where('key', $request->role)->first()->id);
-                });
+                ->when(isset($request->role) && $request->role != null, function ($q) use ($request) {
+                    return $q->where('role_id', UserRole::where('key', $request->role)->first()->id);
+                })
+            ->when($request->class_id, function ($q) use ($request){
+                return $q->where('class_id', $request->class_id);
+            })
+            ->when($request->search, function ($q) use ($request){
+                return $q->where('first_name', 'like', $request->search)
+                    ->orWhere('last_name', 'like', $request->search);
+            });
 
             // If Auth user is parent then gets his/her students
             if ($authUser->isParent()) {
                 $users->where('parent_id', $authUser->id);
             }
 
-            if ($request->has('class_id')) {
-                $users->whereHas('class', function ($q) use ($request) {
-                    return $q->where('id', $request->class_id);
-                });
-            }
+//            if ($request->has('class_id')) {
+//                $users->whereHas('class', function ($q) use ($request) {
+//                    return $q->where('id', $request->class_id);
+//                });
+//            }
 
             $users = $users->paginate($paginateData->per_page, '*', 'page', $paginateData->page);
 
             return ResponseMessage::returnData(true, $users);
         } catch (\Exception $exception) {
-
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::GET_USER_USERS_REPOSITORY->value);

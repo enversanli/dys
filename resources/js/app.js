@@ -58,6 +58,9 @@ Vue.component('show-class', require('./components/studentClasses/ShowComponent')
 
 // end Student Class
 
+// Duesses
+Vue.component('duesses-list', require('./components/duesses/ListComponent').default);
+// end Duesses
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 
