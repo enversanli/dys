@@ -61,7 +61,7 @@ class UserRepository implements UserRepositoryInterface
         try {
             $user = $this->model->where('id', $id)->first();
 
-            if (!$user){
+            if (!$user) {
                 return ResponseMessage::returnData(false, null, __('user.not_found'), 404);
             }
 
@@ -85,17 +85,21 @@ class UserRepository implements UserRepositoryInterface
                 ->when(isset($request->role) && $request->role != null, function ($q) use ($request) {
                     return $q->where('role_id', UserRole::where('key', $request->role)->first()->id);
                 })
-            ->when($request->class_id, function ($q) use ($request){
-                return $q->where('class_id', $request->class_id);
-            })
-            ->when($request->search, function ($q) use ($request){
-                return $q->where('first_name', 'like', $request->search)
-                    ->orWhere('last_name', 'like', $request->search);
-            });
+                ->when($request->class_id, function ($q) use ($request) {
+                    return $q->where('class_id', $request->class_id);
+                })
+                ->when($request->search, function ($q) use ($request) {
+                    return $q->where('first_name', 'like', $request->search)
+                        ->orWhere('last_name', 'like', $request->search);
+                });
 
             // If Auth user is parent then gets his/her students
             if ($authUser->isParent()) {
                 $users->where('parent_id', $authUser->id);
+            }
+
+            if ($authUser->isTeacher()) {
+                //$users->where('parent_id', $authUser->id);
             }
 
 //            if ($request->has('class_id')) {

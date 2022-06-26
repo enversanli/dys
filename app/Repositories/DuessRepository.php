@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\Panel\StoreDuesRequest;
 use App\Interfaces\DuessRepositoryInterface;
 use App\Models\Association;
 use App\Models\Dues;
@@ -67,6 +68,20 @@ class DuessRepository implements DuessRepositoryInterface
 
             return ResponseMessage::returnData(true, $duesData);
         } catch (\Exception $exception) {
+
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::MAKE_YEAR_PERIOD_DUES_REPOSITORY_ERROR->value);
+
+            return ResponseMessage::returnData(false);
+        }
+    }
+
+    public function store(StoreDuesRequest $request, User $user)
+    {
+        try {
+
+        }catch (\Exception $exception){
 
             return ResponseMessage::returnData(false);
         }

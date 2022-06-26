@@ -99,6 +99,10 @@ class User extends Model implements Authenticatable
         return $this->hasMany(User::class, 'parent_id', 'id');
     }
 
+    public function duesses(){
+        return $this->hasMany(Dues::class, 'user_id', 'id');
+    }
+
     /** FUNCTIONS */
 
     /**

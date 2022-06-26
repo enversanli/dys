@@ -12,4 +12,9 @@ return [
     '10' => 'October',
     '11' => 'November',
     '12' => 'December',
+
+
+    'cannot_pay_next_year' => 'You cannot pay for the next year.',
+    'not_have_dues_payment' => 'This user does\'t have dues payment.',
+    'already_paid' => 'This period already paid before.',
 ];

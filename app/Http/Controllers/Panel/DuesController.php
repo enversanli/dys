@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Http\Requests\Panel\StoreDuesRequest;
+use App\Http\Requests\Panel\UpdateDuesRequest;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\Validators\DuesValidatorInterface;
 use App\Models\User;
@@ -67,14 +69,35 @@ class DuesController extends Controller
         return ResponseMessage::success(null, DuesResource::collection($duesPeriod->data));
     }
 
-    public function store(){
+    public function store(StoreDuesRequest $request){
+
+        $user = $this->userRepository->getUserById($request->user_id);
+
+        if (!$user->status){
+            return ResponseMessage::failed($user->message, null, $user->code);
+        }
+
+        $validator = $this->duesValidator->storeDues($request, $user->data);
+
+        if (!$validator->status)
+            return ResponseMessage::failed($validator->message, null, $validator->code);
+
+        $storedDues = $this->duesRepository->store($request, $user->data);
+
+        if (!$storedDues->status)
+            return ResponseMessage::failed($storedDues->message, null, $storedDues->code);
+
         return ResponseMessage::success();
     }
 
-    public function update(){
+    public function update(UpdateDuesRequest $request){
+
+
 
     }
 
+    public function destroy(){
 
+    }
 
 }
