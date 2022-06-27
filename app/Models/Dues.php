@@ -18,6 +18,7 @@ class Dues extends Model
     protected $table = 'duesses';
 
     protected $fillable = [
+        'fee',
         'year',
         'month',
         'status',

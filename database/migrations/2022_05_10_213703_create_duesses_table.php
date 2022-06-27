@@ -24,6 +24,8 @@ class CreateDuessesTable extends Migration
             $table->dateTime('paid_at')->nullable();
             $table->integer('approved_by')->nullable();
             $table->dateTime('approved_at')->nullable();
+            $table->integer('cancelled_by')->nullable();
+            $table->string('message')->nullable();
             $table->timestamps();
         });
     }

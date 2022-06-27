@@ -5648,11 +5648,29 @@ __webpack_require__.r(__webpack_exports__);
           'month': month
         };
         axios.post('/duesses', data).then(function (response) {
-          _this3.$alert('İşlem Başarılı', 'İşlem başarıyla gerçekleştirildi', 'success');
+          _this3.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
 
           _this3.getUserDuesses();
         })["catch"](function (error) {
           _this3.$alert(error.response.data.message, 'Hata', 'error');
+        });
+      });
+    },
+    update: function update(userId, duesId, status) {
+      var _this4 = this;
+
+      this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(function () {
+        var data = {
+          'user_id': _this4.userId,
+          'dues_id': duesId,
+          'status': status
+        };
+        axios.put('/duesses', data).then(function (response) {
+          _this4.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
+
+          _this4.getUserDuesses();
+        })["catch"](function (error) {
+          _this4.$alert(error.response.data.message, 'Hata', 'error');
         });
       });
     }
@@ -36082,8 +36100,7 @@ var render = function () {
                                           click: function ($event) {
                                             return _vm.update(
                                               dues.user_id,
-                                              dues.year,
-                                              dues.month,
+                                              dues.id,
                                               "CANCELLED"
                                             )
                                           },
@@ -36142,7 +36159,7 @@ var staticRenderFns = [
                   "bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150",
                 attrs: { type: "button" },
               },
-              [_vm._v("See all")]
+              [_vm._v("Hepsini İndir")]
             ),
           ]
         ),

@@ -8,6 +8,7 @@ use App\Interfaces\Validators\DuesValidatorInterface;
 use App\Models\User;
 use App\Models\Association;
 use App\Models\StudentClass;
+use App\Support\Enums\DuesStatusEnum;
 use App\Support\Enums\ErrorLogEnum;
 use App\Support\ResponseMessage;
 use App\Support\Enums\UserStatusEnum;
@@ -53,7 +54,11 @@ class DuesValidator implements DuesValidatorInterface
                 return ResponseMessage::returnData(false, null, __('dues.cannot_pay_next_year'));
             }
 
-            $hasDues = $user->duesses()->where('year', $request->year)->where('month', $request->month)->exists();
+            $hasDues = $user->duesses()
+                ->where('year', $request->year)
+                ->where('month', $request->month)
+                ->where('status', DuesStatusEnum::PAID->value)
+                ->exists();
 
             if ($hasDues){
                 return ResponseMessage::returnData(false, null, __('dues.already_paid'));
@@ -66,6 +71,25 @@ class DuesValidator implements DuesValidatorInterface
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::STORE_DUES_VALIDATOR_ERROR->value);
+
+            return ResponseMessage::returnData(false);
+        }
+    }
+
+    public function updateDues(User $authUser){
+        try {
+
+            if (!$authUser->isManager() && !$authUser->isSubManager()){
+                return ResponseMessage::returnData(false, null, __('common.not_have_authority'));
+            }
+
+
+            return ResponseMessage::returnData(true);
+        }catch (\Exception $exception){
+
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::UPDATE_DUES_VALIDATOR_ERROR->value);
 
             return ResponseMessage::returnData(false);
         }

@@ -102,12 +102,17 @@ class DuesController extends Controller
             return ResponseMessage::failed($user->message);
         }
 
-        $dues = $this->duesRepository->getDuesById($request->dues_id, $user);
+        $dues = $this->duesRepository->getDuesById($request->dues_id, $user->data);
 
         if (!$dues->status){
             return ResponseMessage::failed($dues->message);
         }
 
+        $updatedDues = $this->duesRepository->update($request, $dues->data, $this->user, $user->data);
+
+        if (!$updatedDues->status){
+            return ResponseMessage::failed($updatedDues->message);
+        }
 
         return ResponseMessage::success();
     }

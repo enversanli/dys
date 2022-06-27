@@ -17,7 +17,7 @@
                                 <h3 class="font-semibold text-base text-blueGray-700">Aidat Ödemeleri</h3>
                             </div>
                             <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                                <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">See all</button>
+                                <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">Hepsini İndir</button>
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                     <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
                                     <button class="bg-blue-600 p-2 rounded-lg text-white" v-if="dues.status !== 'PAID'" @click="store(dues.user_id, dues.year, dues.month, 'PAID')">Ödendi İşaretle</button>
-                                    <button class="bg-red-600 p-2 rounded-lg text-white" v-if="dues.status === 'PAID'" @click="update(dues.user_id, dues.year, dues.month, 'CANCELLED')">İşlemi İptal Et</button>
+                                    <button class="bg-red-600 p-2 rounded-lg text-white" v-if="dues.status === 'PAID'" @click="update(dues.user_id, dues.id, 'CANCELLED')">İşlemi İptal Et</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -149,7 +149,26 @@ export default {
                 }
 
                 axios.post('/duesses', data).then(response => {
-                    this.$alert('İşlem Başarılı', 'İşlem başarıyla gerçekleştirildi', 'success');
+                    this.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
+
+                    this.getUserDuesses();
+                }).catch(error => {
+                    this.$alert(error.response.data.message, 'Hata', 'error');
+                });
+            });
+        },
+
+        update(userId, duesId, status){
+            this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(() => {
+
+                const data =  {
+                    'user_id' : this.userId,
+                    'dues_id' : duesId,
+                    'status': status
+                }
+
+                axios.put('/duesses', data).then(response => {
+                    this.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
 
                     this.getUserDuesses();
                 }).catch(error => {

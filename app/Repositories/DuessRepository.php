@@ -3,11 +3,13 @@
 namespace App\Repositories;
 
 use App\Http\Requests\Panel\StoreDuesRequest;
+use App\Http\Requests\Panel\UpdateDuesRequest;
 use App\Interfaces\DuessRepositoryInterface;
 use App\Models\Association;
 use App\Models\Dues;
 use App\Models\User;
 use App\Support\DTOs\Dues\DuesDTO;
+use App\Support\Enums\DuesStatusEnum;
 use App\Support\Enums\ErrorLogEnum;
 use App\Support\PaginateData;
 use App\Support\ResponseMessage;
@@ -15,7 +17,7 @@ use Illuminate\Http\Request;
 
 class DuessRepository implements DuessRepositoryInterface
 {
-    /** @var Association */
+    /** @var Dues */
     protected $model;
 
     public function __construct(Dues $dues)
@@ -32,6 +34,7 @@ class DuessRepository implements DuessRepositoryInterface
 
             $duesses = $this->model->where('user_id', $user->id)
                 ->where('year', (int)$year)
+                ->where('status', DuesStatusEnum::PAID->value)
                 ->get();
 
             return ResponseMessage::returnData(true, $duesses);
@@ -44,21 +47,21 @@ class DuessRepository implements DuessRepositoryInterface
         }
     }
 
-    public function getDuesById($id, User $user = null){
+    public function getDuesById($id, User $user = null)
+    {
         try {
 
             $dues = $this->model->where('id', $id)
-            ->when($user, function ($q) use($user){
-                return $q->where('user_id', $user->id);
-            })->first();
+                ->when($user, function ($q) use ($user) {
+                    return $q->where('user_id', $user->id);
+                })->first();
 
-            if (!$dues){
+            if (!$dues) {
                 return ResponseMessage::returnData(false, null, __('dues.not_found'));
             }
 
-
             return ResponseMessage::returnData(true, $dues);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::GET_DUES_BY_ID_REPOSITORY_ERROR->value);
@@ -110,15 +113,38 @@ class DuessRepository implements DuessRepositoryInterface
                 'month' => $request->month,
                 'approved_at' => now()->format('Y-m-d H:i:s'),
                 'approved_by' => $authUser->id,
+                'status' => DuesStatusEnum::PAID->value,
+                'fee' => 20
             ]);
 
 
             return ResponseMessage::returnData(true, $dues);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::STORE_DUES_REPOSITORY_ERROR->value);
+
+            return ResponseMessage::returnData(false);
+        }
+    }
+
+    public function update(UpdateDuesRequest $request, Dues $dues, User $authUser, User $user = null)
+    {
+        try {
+            $data = ['status' => $request->status];
+            if ($request->status == DuesStatusEnum::CANCELLED->value) {
+                $data['cancelled_by'] = $authUser->id;
+            }
+
+            $dues->update($data);
+
+            return ResponseMessage::returnData(true, $dues);
+        } catch (\Exception $exception) {
+
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::UPDATE_DUES_REPOSITORY_ERROR->value);
 
             return ResponseMessage::returnData(false);
         }
