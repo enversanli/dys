@@ -5638,12 +5638,12 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$alert(error.response.data.message, 'Hata', 'error');
       });
     },
-    update: function update(userId, year, month, status) {
+    store: function store(userId, year, month, status) {
       var _this3 = this;
 
       this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(function () {
         var data = {
-          'user_id': userId,
+          'user_id': _this3.userId,
           'year': year,
           'month': month
         };
@@ -36059,7 +36059,7 @@ var render = function () {
                                           "bg-blue-600 p-2 rounded-lg text-white",
                                         on: {
                                           click: function ($event) {
-                                            return _vm.update(
+                                            return _vm.store(
                                               dues.user_id,
                                               dues.year,
                                               dues.month,
@@ -37453,7 +37453,7 @@ var render = function () {
         {
           staticClass:
             "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
-          attrs: { href: "/duesses" },
+          attrs: { href: "/duesses/list" },
         },
         [
           _c(

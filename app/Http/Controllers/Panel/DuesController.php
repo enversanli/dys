@@ -82,7 +82,7 @@ class DuesController extends Controller
         if (!$validator->status)
             return ResponseMessage::failed($validator->message, null, $validator->code);
 
-        $storedDues = $this->duesRepository->store($request, $user->data);
+        $storedDues = $this->duesRepository->store($request, $user->data, $this->user);
 
         if (!$storedDues->status)
             return ResponseMessage::failed($storedDues->message, null, $storedDues->code);
@@ -92,8 +92,24 @@ class DuesController extends Controller
 
     public function update(UpdateDuesRequest $request){
 
+        $user = null;
+
+        if ($request->user_id){
+            $user = $this->userRepository->getUserById($request->user_id);
+        }
+
+        if ($user && !$user->status){
+            return ResponseMessage::failed($user->message);
+        }
+
+        $dues = $this->duesRepository->getDuesById($request->dues_id, $user);
+
+        if (!$dues->status){
+            return ResponseMessage::failed($dues->message);
+        }
 
 
+        return ResponseMessage::success();
     }
 
     public function destroy(){

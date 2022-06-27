@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 interface DuessRepositoryInterface
 {
     public function getUserDuesses(Request $request, User $user);
+    public function getDuesById($id, User $user = null);
     public function makeYearPeriod($dues, $year);
-    public function store(StoreDuesRequest $request, User $user);
+    public function store(StoreDuesRequest $request, User $user, User $authUser);
 }

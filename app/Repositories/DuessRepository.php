@@ -44,6 +44,29 @@ class DuessRepository implements DuessRepositoryInterface
         }
     }
 
+    public function getDuesById($id, User $user = null){
+        try {
+
+            $dues = $this->model->where('id', $id)
+            ->when($user, function ($q) use($user){
+                return $q->where('user_id', $user->id);
+            })->first();
+
+            if (!$dues){
+                return ResponseMessage::returnData(false, null, __('dues.not_found'));
+            }
+
+
+            return ResponseMessage::returnData(true, $dues);
+        }catch (\Exception $exception){
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::GET_DUES_BY_ID_REPOSITORY_ERROR->value);
+
+            return ResponseMessage::returnData(false);
+        }
+    }
+
     public function makeYearPeriod($duesses, $year)
     {
         try {
@@ -77,11 +100,25 @@ class DuessRepository implements DuessRepositoryInterface
         }
     }
 
-    public function store(StoreDuesRequest $request, User $user)
+    public function store(StoreDuesRequest $request, User $user, User $authUser)
     {
         try {
 
+            $dues = $this->model->create([
+                'user_id' => $user->id,
+                'year' => $request->year,
+                'month' => $request->month,
+                'approved_at' => now()->format('Y-m-d H:i:s'),
+                'approved_by' => $authUser->id,
+            ]);
+
+
+            return ResponseMessage::returnData(true, $dues);
         }catch (\Exception $exception){
+
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::STORE_DUES_REPOSITORY_ERROR->value);
 
             return ResponseMessage::returnData(false);
         }

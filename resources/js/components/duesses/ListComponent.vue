@@ -68,7 +68,7 @@
                                 </td>
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                     <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
-                                    <button class="bg-blue-600 p-2 rounded-lg text-white" v-if="dues.status !== 'PAID'" @click="update(dues.user_id, dues.year, dues.month, 'PAID')">Ödendi İşaretle</button>
+                                    <button class="bg-blue-600 p-2 rounded-lg text-white" v-if="dues.status !== 'PAID'" @click="store(dues.user_id, dues.year, dues.month, 'PAID')">Ödendi İşaretle</button>
                                     <button class="bg-red-600 p-2 rounded-lg text-white" v-if="dues.status === 'PAID'" @click="update(dues.user_id, dues.year, dues.month, 'CANCELLED')">İşlemi İptal Et</button>
                                 </td>
                             </tr>
@@ -139,11 +139,11 @@ export default {
             });
         },
 
-        update(userId, year, month, status){
+        store(userId, year, month, status){
             this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(() => {
 
                 const data =  {
-                    'user_id' : userId,
+                    'user_id' : this.userId,
                     'year' : year,
                     'month': month
                 }

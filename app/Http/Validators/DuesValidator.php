@@ -60,7 +60,7 @@ class DuesValidator implements DuesValidatorInterface
             }
 
 
-
+            return ResponseMessage::returnData(true);
         }catch (\Exception $exception){
 
             activity()

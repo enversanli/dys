@@ -13,7 +13,7 @@ class UpdateDuesRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class UpdateDuesRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'dues_id' => 'required|integer|exists:duesses,id',
+            'user_id' => 'required|integer|exists:users,id',
+            'status' => 'required|string|min:1|max:255',
         ];
     }
 }
