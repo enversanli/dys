@@ -2,18 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Http\Requests\Panel\StoreDuesRequest;
-use App\Http\Requests\Panel\UpdateDuesRequest;
-use App\Interfaces\DuessRepositoryInterface;
-use App\Models\Association;
 use App\Models\Dues;
 use App\Models\User;
-use App\Support\DTOs\Dues\DuesDTO;
-use App\Support\Enums\DuesStatusEnum;
-use App\Support\Enums\ErrorLogEnum;
-use App\Support\PaginateData;
-use App\Support\ResponseMessage;
 use Illuminate\Http\Request;
+use App\Support\ResponseMessage;
+use App\Support\DTOs\Dues\DuesDTO;
+use App\Support\Enums\ErrorLogEnum;
+use App\Support\Enums\DuesStatusEnum;
+use App\Interfaces\DuessRepositoryInterface;
+use App\Http\Requests\Panel\StoreDuesRequest;
+use App\Http\Requests\Panel\UpdateDuesRequest;
 
 class DuessRepository implements DuessRepositoryInterface
 {

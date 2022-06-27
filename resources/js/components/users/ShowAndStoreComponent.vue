@@ -123,6 +123,7 @@ export default {
         }
     },
     mounted() {
+
         if (this.id) {
             this.getUser();
         }

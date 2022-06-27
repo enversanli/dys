@@ -5581,6 +5581,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ListComponent",
   data: function data() {
@@ -5590,7 +5601,7 @@ __webpack_require__.r(__webpack_exports__);
       role: '',
       duesses: '',
       paginateData: null,
-      userId: null,
+      userId: 0,
       year: null
     };
   },
@@ -35863,91 +35874,99 @@ var render = function () {
     "div",
     { staticClass: "w-full overflow-hidden rounded-lg shadow-xs my-10" },
     [
-      _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.userId,
-              expression: "userId",
-            },
-          ],
-          on: {
-            change: [
-              function ($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function (o) {
-                    return o.selected
-                  })
-                  .map(function (o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.userId = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              function ($event) {
-                return _vm.getUserDuesses($event)
-              },
-            ],
-          },
-        },
-        _vm._l(_vm.users, function (user) {
-          return _c("option", { domProps: { value: user.id } }, [
-            _vm._v(" " + _vm._s(user.first_name + " " + user.last_name)),
-          ])
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.year,
-              expression: "year",
-            },
-          ],
-          on: {
-            change: [
-              function ($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function (o) {
-                    return o.selected
-                  })
-                  .map(function (o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.year = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              function ($event) {
-                return _vm.getUserDuesses($event)
-              },
-            ],
-          },
-        },
-        _vm._l(_vm.years, function (year) {
-          return _c("option", { domProps: { value: year } }, [
-            _vm._v(_vm._s(year)),
-          ])
-        }),
-        0
-      ),
-      _vm._v(" "),
       _c("section", { staticClass: "py-1 bg-blueGray-50" }, [
         _c(
           "div",
           { staticClass: "w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-24" },
           [
+            _c("div", { staticClass: "flex float-left" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.userId,
+                      expression: "userId",
+                    },
+                  ],
+                  staticClass: "p-2 rounded-full shadow-lg",
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.userId = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.getUserDuesses($event)
+                      },
+                    ],
+                  },
+                },
+                _vm._l(_vm.users, function (user) {
+                  return _c("option", { domProps: { value: user.id } }, [
+                    _vm._v(
+                      " " + _vm._s(user.first_name + " " + user.last_name)
+                    ),
+                  ])
+                }),
+                0
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "ml-4 mb-4 flex float-left" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.year,
+                      expression: "year",
+                    },
+                  ],
+                  staticClass: "p-2 rounded-full shadow-lg",
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.year = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.getUserDuesses($event)
+                      },
+                    ],
+                  },
+                },
+                _vm._l(_vm.years, function (year) {
+                  return _c("option", { domProps: { value: year } }, [
+                    _vm._v(_vm._s(year)),
+                  ])
+                }),
+                0
+              ),
+            ]),
+            _vm._v(" "),
             _c(
               "div",
               {
@@ -36086,7 +36105,11 @@ var render = function () {
                                           },
                                         },
                                       },
-                                      [_vm._v("Ödendi İşaretle")]
+                                      [
+                                        _vm._v(
+                                          "Ödendi İşaretle\n                                "
+                                        ),
+                                      ]
                                     )
                                   : _vm._e(),
                                 _vm._v(" "),
@@ -36106,7 +36129,11 @@ var render = function () {
                                           },
                                         },
                                       },
-                                      [_vm._v("İşlemi İptal Et")]
+                                      [
+                                        _vm._v(
+                                          "İşlemi İptal Et\n                                "
+                                        ),
+                                      ]
                                     )
                                   : _vm._e(),
                               ]
@@ -36159,7 +36186,7 @@ var staticRenderFns = [
                   "bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150",
                 attrs: { type: "button" },
               },
-              [_vm._v("Hepsini İndir")]
+              [_vm._v("Hepsini İndir\n                            ")]
             ),
           ]
         ),

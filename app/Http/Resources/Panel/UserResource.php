@@ -16,7 +16,6 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'parent_id' => $this->parent_id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'gender' => $this->gender,
@@ -30,7 +29,8 @@ class UserResource extends JsonResource
             'role' => $this->role,
             $this->mergeWhen($this->isStudent(), [
                 'parent' => $this->parent,
-                'class' => $this->class
+                'class' => $this->class,
+                'parent_id' => $this->parent_id,
             ]),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

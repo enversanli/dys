@@ -2,21 +2,12 @@
 
 namespace App\Http\Validators;
 
-use App\Http\Requests\Panel\StoreDuesRequest;
-use App\Http\Requests\Panel\UpdateUserRequest;
-use App\Interfaces\Validators\DuesValidatorInterface;
 use App\Models\User;
-use App\Models\Association;
-use App\Models\StudentClass;
-use App\Support\Enums\DuesStatusEnum;
-use App\Support\Enums\ErrorLogEnum;
 use App\Support\ResponseMessage;
-use App\Support\Enums\UserStatusEnum;
-use App\Support\Enums\UserRoleKeyEnum;
-use App\Http\Requests\Panel\StoreUserRequest;
-use App\Http\Requests\Panel\UpdateStudentRequest;
-use App\Interfaces\Validators\UserValidatorInterface;
-use Illuminate\Http\Request;
+use App\Support\Enums\ErrorLogEnum;
+use App\Support\Enums\DuesStatusEnum;
+use App\Http\Requests\Panel\StoreDuesRequest;
+use App\Interfaces\Validators\DuesValidatorInterface;
 
 class DuesValidator implements DuesValidatorInterface
 {

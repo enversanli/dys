@@ -18,7 +18,7 @@ class ManagerAuthority
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user->role != UserRoleKeyEnum::ASSOCIATION_MANAGER){
+        if (!$request->user->isManager){
             return ResponseMessage::unauthorized();
         }
 
