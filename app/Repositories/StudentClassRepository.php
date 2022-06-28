@@ -117,6 +117,11 @@ class StudentClassRepository implements StudentClassRepositoryInterface
     public function destroyStudentClass(StudentClass $studentClass)
     {
         try {
+
+            User::where('class_id', $studentClass->id)->update([
+                'class_id' => null
+            ]);
+
             // Destroy Student Class
             $studentClass->delete();
 

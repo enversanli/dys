@@ -77,7 +77,7 @@ class DuesController extends Controller
             return ResponseMessage::failed($user->message, null, $user->code);
         }
 
-        $validator = $this->duesValidator->storeDues($request, $user->data);
+        $validator = $this->duesValidator->storeDues($request, $user->data, $this->user);
 
         if (!$validator->status)
             return ResponseMessage::failed($validator->message, null, $validator->code);

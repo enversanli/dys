@@ -12,5 +12,5 @@ use Illuminate\Http\Request;
 interface DuesValidatorInterface
 {
     public function index(User $user, User $authUser);
-    public function storeDues(StoreDuesRequest $request, User $user);
+    public function storeDues(StoreDuesRequest $request, User $user, User $authUser);
 }

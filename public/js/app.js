@@ -5594,6 +5594,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ListComponent",
+  props: ['authUser'],
   data: function data() {
     return {
       users: {},
@@ -36076,68 +36077,70 @@ var render = function () {
                               ]
                             ),
                             _vm._v(" "),
-                            _c(
-                              "td",
-                              {
-                                staticClass:
-                                  "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
-                              },
-                              [
-                                _c("i", {
-                                  staticClass:
-                                    "fas fa-arrow-up text-emerald-500 mr-4",
-                                }),
-                                _vm._v(" "),
-                                dues.status !== "PAID"
-                                  ? _c(
-                                      "button",
-                                      {
-                                        staticClass:
-                                          "bg-blue-600 p-2 rounded-lg text-white",
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.store(
-                                              dues.user_id,
-                                              dues.year,
-                                              dues.month,
-                                              "PAID"
-                                            )
+                            _vm.authUser && _vm.authUser.role.key !== "parent"
+                              ? _c(
+                                  "td",
+                                  {
+                                    staticClass:
+                                      "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass:
+                                        "fas fa-arrow-up text-emerald-500 mr-4",
+                                    }),
+                                    _vm._v(" "),
+                                    dues.status !== "PAID"
+                                      ? _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "bg-blue-600 p-2 rounded-lg text-white",
+                                            on: {
+                                              click: function ($event) {
+                                                return _vm.store(
+                                                  dues.user_id,
+                                                  dues.year,
+                                                  dues.month,
+                                                  "PAID"
+                                                )
+                                              },
+                                            },
                                           },
-                                        },
-                                      },
-                                      [
-                                        _vm._v(
-                                          "Ödendi İşaretle\n                                "
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                dues.status === "PAID"
-                                  ? _c(
-                                      "button",
-                                      {
-                                        staticClass:
-                                          "bg-red-600 p-2 rounded-lg text-white",
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.update(
-                                              dues.user_id,
-                                              dues.id,
-                                              "CANCELLED"
-                                            )
+                                          [
+                                            _vm._v(
+                                              "Ödendi İşaretle\n                                "
+                                            ),
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    dues.status === "PAID"
+                                      ? _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "bg-red-600 p-2 rounded-lg text-white",
+                                            on: {
+                                              click: function ($event) {
+                                                return _vm.update(
+                                                  dues.user_id,
+                                                  dues.id,
+                                                  "CANCELLED"
+                                                )
+                                              },
+                                            },
                                           },
-                                        },
-                                      },
-                                      [
-                                        _vm._v(
-                                          "İşlemi İptal Et\n                                "
-                                        ),
-                                      ]
-                                    )
-                                  : _vm._e(),
-                              ]
-                            ),
+                                          [
+                                            _vm._v(
+                                              "İşlemi İptal Et\n                                "
+                                            ),
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                  ]
+                                )
+                              : _vm._e(),
                           ])
                         }),
                         0

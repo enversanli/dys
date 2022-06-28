@@ -33,9 +33,14 @@ class DuesValidator implements DuesValidatorInterface
         }
     }
 
-    public function storeDues(StoreDuesRequest $request, User $user)
+    public function storeDues(StoreDuesRequest $request, User $user, User $authUser)
     {
         try {
+
+            if (!$authUser->isManager() && !$authUser->isSubManager()){
+                return ResponseMessage::returnData(false, null, __('common.not_have_authority'));
+            }
+
 
             if (!$user->isStudent()){
                 return ResponseMessage::returnData(false, null, __('dues.not_have_dues_payment'));
@@ -54,6 +59,7 @@ class DuesValidator implements DuesValidatorInterface
             if ($hasDues){
                 return ResponseMessage::returnData(false, null, __('dues.already_paid'));
             }
+
 
 
             return ResponseMessage::returnData(true);
