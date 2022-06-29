@@ -55,7 +55,7 @@
                 <select class="w-full my-5 border-gray-800 border p-2 border-slate-400 rounded"
                         v-model="user.class_id"
                         v-if="classes != null">
-                    <option :disabled="myRole('parent')" v-for="row in classes" :value="row.id">{{ row.name }}</option>
+                    <option :selected="user.class_id" :disabled="myRole('parent')" v-for="row in classes" :value="row.id">{{ row.name }}</option>
                 </select>
             </div>
             <div class="w-full px-3" v-if="studentForm">
@@ -116,8 +116,8 @@ export default {
             user: {},
             userRoles: {},
             classes: {},
-            studentForm: true,
-            teacherForm: true,
+            studentForm: null,
+            teacherForm: null,
             parents: {},
             role: null
         }
@@ -127,14 +127,15 @@ export default {
         if (this.id) {
             this.getUser();
         }
-
-        if (this.authUser && this.authUser.role !== 'parent') {
-            this.getParents();
-        }
-
         if (!this.authUser) {
             this.getMe();
         }
+
+        if (this.authUser && this.authUser.role.key !== 'parent') {
+            this.getParents();
+        }
+
+
 
         this.getClasses();
         this.getUserRoles();
@@ -214,7 +215,7 @@ export default {
                 parent_id: this.user.parent_id,
                 class_id: this.user.class_id,
                 role: this.role,
-                gender: this.gender,
+                gender: this.user.gender,
                 mobile_phone : this.user.mobile_phone
             };
 
@@ -246,6 +247,10 @@ export default {
         getMe() {
             axios.get('/me').then(response => {
                 this.authUser = response.data.data;
+
+                if (this.authUser && this.authUser.role.key !== 'parent') {
+                    this.getParents();
+                }
             }).catch(error => {
                 this.$alert('Bir sorunla karşılaşıldı.', 'Hata', 'error');
             });

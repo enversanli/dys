@@ -1,5 +1,6 @@
 @extends('layouts.panel')
 
 @section('content')
-<student-show :id="{{request()->id}}" :authUser="{{auth()->user()->load('role')}}"></student-show>
+    @php $authUser = auth()->user()->load('role')->toJson();  @endphp
+    <student-show :id="{{request()->id}}" :authUser='{{$authUser}}'></student-show>
 @endsection

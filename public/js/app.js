@@ -7433,8 +7433,8 @@ __webpack_require__.r(__webpack_exports__);
       user: {},
       userRoles: {},
       classes: {},
-      studentForm: true,
-      teacherForm: true,
+      studentForm: null,
+      teacherForm: null,
       parents: {},
       role: null
     };
@@ -7444,12 +7444,12 @@ __webpack_require__.r(__webpack_exports__);
       this.getUser();
     }
 
-    if (this.authUser && this.authUser.role !== 'parent') {
-      this.getParents();
-    }
-
     if (!this.authUser) {
       this.getMe();
+    }
+
+    if (this.authUser && this.authUser.role.key !== 'parent') {
+      this.getParents();
     }
 
     this.getClasses();
@@ -7529,7 +7529,7 @@ __webpack_require__.r(__webpack_exports__);
         parent_id: this.user.parent_id,
         class_id: this.user.class_id,
         role: this.role,
-        gender: this.gender,
+        gender: this.user.gender,
         mobile_phone: this.user.mobile_phone
       };
 
@@ -7560,6 +7560,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/me').then(function (response) {
         _this6.authUser = response.data.data;
+
+        if (_this6.authUser && _this6.authUser.role.key !== 'parent') {
+          _this6.getParents();
+        }
       })["catch"](function (error) {
         _this6.$alert('Bir sorunla karşılaşıldı.', 'Hata', 'error');
       });
@@ -39253,7 +39257,7 @@ var render = function () {
                     "option",
                     {
                       attrs: { disabled: _vm.myRole("parent") },
-                      domProps: { value: row.id },
+                      domProps: { selected: _vm.user.class_id, value: row.id },
                     },
                     [_vm._v(_vm._s(row.name))]
                   )

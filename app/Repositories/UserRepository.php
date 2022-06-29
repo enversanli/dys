@@ -36,8 +36,9 @@ class UserRepository implements UserRepositoryInterface
             $user->update([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
-                'gender' => $request->gender ?? null,
+                'gender' => $request->gender ?? $user->gender,
                 'class_id' => $request->class_id ?? $user->class_id,
+                'parent_id' => $request->parent_id ?? $user->parent_id,
                 'phone' => $request->phone ?? $user->phone,
                 'mobile_phone' => $request->mobile_phone ?? $user->mobile_phone,
                 'status' => $request->status ?? $user->status,

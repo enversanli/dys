@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Panel;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -23,13 +24,13 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'mobile_phone' => $this->mobile_phone,
             'status' => $this->status,
-            'birth_date' => $this->birth_date,
+            'birth_date' => Carbon::make($this->birth_date)->format('Y-m-d'),
             'photo_url' => $this->photo_url,
             'association' => $this->association,
             'role' => $this->role,
             $this->mergeWhen($this->isStudent(), [
-                'parent' => $this->parent,
-                'class' => $this->class,
+                'parent' => $this->whenLoaded($this->parent),
+                'class' => $this->whenLoaded($this->class),
                 'parent_id' => $this->parent_id,
             ]),
             'created_at' => $this->created_at,
