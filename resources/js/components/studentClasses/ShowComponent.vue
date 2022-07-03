@@ -21,6 +21,12 @@
             </textarea>
             </div>
         </div>
+        <div class="grid gap-12 mb-6 lg:grid-cols-2">
+            <label>Öğretmen Seç</label>
+            <select>
+                <option v-for="teacher in teachers" v-model="studentClass.class_id">{{teacher.first_name + ' ' + teacher.last_name}}</option>
+            </select>
+        </div>
         <button type="submit" @click="update"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Güncelle
@@ -38,24 +44,27 @@ export default {
     data() {
         return {
             id: null,
-            studentClass : null,
+            studentClass: null,
+            teachers: null
         }
     },
 
     mounted() {
         this.getStudentClass();
+        this.getTeachers();
     },
 
     methods: {
         getStudentClass() {
-            axios.get('/classes/' + this.id).then(response =>{
+            axios.get('/classes/' + this.id).then(response => {
                 this.studentClass = response.data.data;
                 console.log(response.data.data);
             }).catch(error => {
                 this.$alert(error.response.data.message);
             })
         },
-        update(){
+
+        update() {
             const data = {
                 name: this.studentClass.name,
                 description: this.studentClass.description
@@ -67,6 +76,15 @@ export default {
             }).catch(error => {
                 this.$alert(error.response.data.message, 'Hata', 'error');
             });
+        },
+
+        getTeachers() {
+            axios.get('/users?role=TEACHER').then(response => {
+                this.teachers = response.data.data;
+            }).catch(error => {
+                this.$alert(error.response.data.message, 'Hata', 'error');
+            });
+
         }
     }
 }

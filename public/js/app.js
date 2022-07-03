@@ -6699,6 +6699,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "student"
 });
@@ -6917,17 +6963,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "StoreStudentClassComponent",
   props: ['id'],
   data: function data() {
     return {
       id: null,
-      studentClass: null
+      studentClass: null,
+      teachers: null
     };
   },
   mounted: function mounted() {
     this.getStudentClass();
+    this.getTeachers();
   },
   methods: {
     getStudentClass: function getStudentClass() {
@@ -6953,6 +7007,15 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$alert('Başarıyla Güncellendi', 'İşlem Başarılı', 'success');
       })["catch"](function (error) {
         _this2.$alert(error.response.data.message, 'Hata', 'error');
+      });
+    },
+    getTeachers: function getTeachers() {
+      var _this3 = this;
+
+      axios.get('/users?role=TEACHER').then(function (response) {
+        _this3.teachers = response.data.data;
+      })["catch"](function (error) {
+        _this3.$alert(error.response.data.message, 'Hata', 'error');
       });
     }
   }
@@ -37817,7 +37880,81 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("ul", [
+    _c("li", { staticClass: "relative px-6 py-3" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+          attrs: { href: "/users/list" },
+        },
+        [
+          _c(
+            "svg",
+            {
+              staticClass: "w-5 h-5",
+              attrs: {
+                "aria-hidden": "true",
+                fill: "none",
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "2",
+                viewBox: "0 0 24 24",
+                stroke: "currentColor",
+              },
+            },
+            [
+              _c("path", {
+                attrs: {
+                  d: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
+                },
+              }),
+            ]
+          ),
+          _vm._v(" "),
+          _c("span", { staticClass: "ml-4" }, [_vm._v("Öğrencilerim")]),
+        ]
+      ),
+    ]),
+    _vm._v(" "),
+    _c("li", { staticClass: "relative px-6 py-3" }, [
+      _c(
+        "a",
+        {
+          staticClass:
+            "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
+          attrs: { href: "/duesses" },
+        },
+        [
+          _c(
+            "svg",
+            {
+              staticClass: "w-5 h-5",
+              attrs: {
+                "aria-hidden": "true",
+                fill: "none",
+                "stroke-linecap": "round",
+                "stroke-linejoin": "round",
+                "stroke-width": "2",
+                viewBox: "0 0 24 24",
+                stroke: "currentColor",
+              },
+            },
+            [
+              _c("path", {
+                attrs: {
+                  d: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01",
+                },
+              }),
+            ]
+          ),
+          _vm._v(" "),
+          _c("span", { staticClass: "ml-4" }, [_vm._v("Aidatlarım")]),
+        ]
+      ),
+    ]),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38211,6 +38348,30 @@ var render = function () {
           },
         }),
       ]),
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "grid gap-12 mb-6 lg:grid-cols-2" }, [
+      _c("label", [_vm._v("Öğretmen Seç")]),
+      _vm._v(" "),
+      _c(
+        "select",
+        _vm._l(_vm.teachers, function (teacher) {
+          return _c(
+            "option",
+            {
+              model: {
+                value: _vm.studentClass.class_id,
+                callback: function ($$v) {
+                  _vm.$set(_vm.studentClass, "class_id", $$v)
+                },
+                expression: "studentClass.class_id",
+              },
+            },
+            [_vm._v(_vm._s(teacher.first_name + " " + teacher.last_name))]
+          )
+        }),
+        0
+      ),
     ]),
     _vm._v(" "),
     _c(

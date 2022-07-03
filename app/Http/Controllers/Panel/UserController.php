@@ -43,6 +43,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+
         $validator = $this->userValidator->index($request, $this->user);
 
         if (!$validator->status)

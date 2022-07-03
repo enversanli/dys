@@ -109,7 +109,7 @@ class UserRepository implements UserRepositoryInterface
 //                });
 //            }
 
-            $users = $users->paginate($paginateData->per_page, '*', 'page', $paginateData->page);
+            $users = $users->with('parent')->paginate($paginateData->per_page, '*', 'page', $paginateData->page);
 
             return ResponseMessage::returnData(true, $users);
         } catch (\Exception $exception) {
