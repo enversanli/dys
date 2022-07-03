@@ -24,7 +24,7 @@
         <div class="grid gap-12 mb-6 lg:grid-cols-2">
             <label>Öğretmen Seç</label>
             <select>
-                <option v-for="teacher in teachers" v-model="studentClass.class_id">{{teacher.first_name + ' ' + teacher.last_name}}</option>
+                <option v-for="teacher in teachers" v-model="studentClass.teacher_id">{{teacher.first_name + ' ' + teacher.last_name}}</option>
             </select>
         </div>
         <button type="submit" @click="update"
@@ -67,7 +67,8 @@ export default {
         update() {
             const data = {
                 name: this.studentClass.name,
-                description: this.studentClass.description
+                description: this.studentClass.description,
+                teacher_id : this.studentClass.teacher_id
             };
 
             axios.put('/classes/' + this.id, data).then(response => {
