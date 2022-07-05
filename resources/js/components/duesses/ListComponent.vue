@@ -73,7 +73,7 @@
                                 <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                     {{ dues.approved_at ? dues.approved_at : '-' }}
                                 </td>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4" v-if="authUser && authUser.role.key !== 'parent'">
+                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4" >
                                     <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
                                     <button class="bg-blue-600 p-2 rounded-lg text-white" v-if="dues.status !== 'PAID'"
                                             @click="store(dues.user_id, dues.year, dues.month, 'PAID')">Ödendi İşaretle

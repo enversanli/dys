@@ -13,12 +13,15 @@ class CreateDailyPollsTable extends Migration
      */
     public function up()
     {
-        Schema::create('daily_polls', function (Blueprint $table) {
+        Schema::create('daily_attendance', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('class_id');
+            $table->integer('association_id')->nullable();
+            $table->integer('class_id')->nullable();
+            $table->integer('lesson_id')->nullable();
             $table->integer('user_id');
-            $table->integer('date');
-            $table->integer('status');
+            $table->dateTime('date');
+            $table->string('status')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

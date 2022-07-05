@@ -6999,7 +6999,8 @@ __webpack_require__.r(__webpack_exports__);
 
       var data = {
         name: this.studentClass.name,
-        description: this.studentClass.description
+        description: this.studentClass.description,
+        teacher_id: this.studentClass.teacher_id
       };
       axios.put('/classes/' + this.id, data).then(function (response) {
         _this2.studentClass = response.data.data;
@@ -36144,70 +36145,68 @@ var render = function () {
                               ]
                             ),
                             _vm._v(" "),
-                            _vm.authUser && _vm.authUser.role.key !== "parent"
-                              ? _c(
-                                  "td",
-                                  {
-                                    staticClass:
-                                      "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
-                                  },
-                                  [
-                                    _c("i", {
-                                      staticClass:
-                                        "fas fa-arrow-up text-emerald-500 mr-4",
-                                    }),
-                                    _vm._v(" "),
-                                    dues.status !== "PAID"
-                                      ? _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "bg-blue-600 p-2 rounded-lg text-white",
-                                            on: {
-                                              click: function ($event) {
-                                                return _vm.store(
-                                                  dues.user_id,
-                                                  dues.year,
-                                                  dues.month,
-                                                  "PAID"
-                                                )
-                                              },
-                                            },
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _c("i", {
+                                  staticClass:
+                                    "fas fa-arrow-up text-emerald-500 mr-4",
+                                }),
+                                _vm._v(" "),
+                                dues.status !== "PAID"
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "bg-blue-600 p-2 rounded-lg text-white",
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.store(
+                                              dues.user_id,
+                                              dues.year,
+                                              dues.month,
+                                              "PAID"
+                                            )
                                           },
-                                          [
-                                            _vm._v(
-                                              "Ödendi İşaretle\n                                "
-                                            ),
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    dues.status === "PAID"
-                                      ? _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "bg-red-600 p-2 rounded-lg text-white",
-                                            on: {
-                                              click: function ($event) {
-                                                return _vm.update(
-                                                  dues.user_id,
-                                                  dues.id,
-                                                  "CANCELLED"
-                                                )
-                                              },
-                                            },
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "Ödendi İşaretle\n                                "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                dues.status === "PAID"
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "bg-red-600 p-2 rounded-lg text-white",
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.update(
+                                              dues.user_id,
+                                              dues.id,
+                                              "CANCELLED"
+                                            )
                                           },
-                                          [
-                                            _vm._v(
-                                              "İşlemi İptal Et\n                                "
-                                            ),
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                  ]
-                                )
-                              : _vm._e(),
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "İşlemi İptal Et\n                                "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                              ]
+                            ),
                           ])
                         }),
                         0
@@ -38360,11 +38359,11 @@ var render = function () {
             "option",
             {
               model: {
-                value: _vm.studentClass.class_id,
+                value: _vm.studentClass.teacher_id,
                 callback: function ($$v) {
-                  _vm.$set(_vm.studentClass, "class_id", $$v)
+                  _vm.$set(_vm.studentClass, "teacher_id", $$v)
                 },
-                expression: "studentClass.class_id",
+                expression: "studentClass.teacher_id",
               },
             },
             [_vm._v(_vm._s(teacher.first_name + " " + teacher.last_name))]
