@@ -3,12 +3,14 @@
 namespace App\Providers;
 
 use App\Http\Validators\AuthValidator;
+use App\Http\Validators\DailyAttendanceValidator;
 use App\Http\Validators\DuesValidator;
 use App\Http\Validators\Student\StudentValidator;
 use App\Http\Validators\StudentClassValidator;
 use App\Http\Validators\UserValidator;
 use App\Interfaces\AssociationRepositoryInterface;
 use App\Interfaces\AuthRepositoryInterface;
+use App\Interfaces\DailyAttendanceRepositoryInterface;
 use App\Interfaces\DuessRepositoryInterface;
 use App\Interfaces\LoginRepositoryInterface;
 use App\Interfaces\StudentClassRepositoryInterface;
@@ -16,12 +18,14 @@ use App\Interfaces\StudentRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\UserRoleRepositoryInterface;
 use App\Interfaces\Validators\AuthValidatorInterface;
+use App\Interfaces\Validators\DailyAttendanceValidatorInterface;
 use App\Interfaces\Validators\DuesValidatorInterface;
 use App\Interfaces\Validators\StudentClassValidatorInterface;
 use App\Interfaces\Validators\StudentValidatorInterface;
 use App\Interfaces\Validators\UserValidatorInterface;
 use App\Repositories\AssociationRepository;
 use App\Repositories\AuthRepository;
+use App\Repositories\DailyAttendanceRepository;
 use App\Repositories\DuessRepository;
 use App\Repositories\LoginRepository;
 use App\Repositories\StudentClassRepository;
@@ -52,6 +56,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(StudentClassValidatorInterface::class, StudentClassValidator::class);
         $this->app->bind(AssociationRepositoryInterface::class, AssociationRepository::class);
         $this->app->bind(StudentClassRepositoryInterface::class, StudentClassRepository::class);
+        $this->app->bind(DailyAttendanceValidatorInterface::class, DailyAttendanceValidator::class);
+        $this->app->bind(DailyAttendanceRepositoryInterface::class, DailyAttendanceRepository::class);
     }
 
     /**

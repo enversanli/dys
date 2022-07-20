@@ -84,6 +84,14 @@ Route::middleware('auth')->group(function () {
     });
     // end Dues
 
+
+    // Daily Attendances
+    Route::controller(\App\Http\Controllers\Panel\DailyAttendanceController::class)->group(function (){
+        Route::view('daily-attendances', 'panel.attendances.index');
+        Route::get('daily-attendances/list', 'index');
+    });
+
+    // end Daily Attendances
 });
 
 Route::get('user-roles', [\App\Http\Controllers\Panel\UserRoleController::class, 'index']);

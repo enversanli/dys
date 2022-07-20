@@ -62,6 +62,10 @@ Vue.component('show-class', require('./components/studentClasses/ShowComponent')
 Vue.component('duesses-list', require('./components/duesses/ListComponent').default);
 // end Duesses
 
+// Daily Attendances
+Vue.component('daily-attendances', require('./components/dailyAttendances/ListComponent').default);
+// end Daily Attendances
+
 Vue.component('pagination', require('laravel-vue-pagination'));
 
 /**

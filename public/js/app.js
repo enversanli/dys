@@ -5485,6 +5485,210 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "ListComponent",
+  props: ['authUser'],
+  data: function data() {
+    return {
+      users: {},
+      fullName: null,
+      role: 'student',
+      attendances: {},
+      paginateData: null,
+      userId: 0,
+      year: null
+    };
+  },
+  mounted: function mounted() {
+    this.getUsers();
+  },
+  computed: {
+    years: function years() {
+      var year = new Date().getFullYear();
+      return Array.from({
+        length: year - 20
+      }, function (value, index) {
+        return 2000 + index;
+      });
+    }
+  },
+  methods: {
+    getUsers: function getUsers(page) {
+      var _this = this;
+
+      if (typeof page === 'undefined') {
+        page = 1;
+      }
+
+      this.role = 'student';
+      var per_page = 999;
+      axios.get('/users?role=' + this.role).then(function (response) {
+        _this.users = response.data.data;
+      })["catch"](function (error) {
+        _this.$alert(error.response.data.message, 'Hata', 'error');
+      });
+    },
+    getUserDailyAttendances: function getUserDailyAttendances() {
+      var _this2 = this;
+
+      if (this.year === null) {
+        this.year = new Date().getFullYear();
+      }
+
+      axios.get('/daily-attendances/list?user_id=' + this.userId + '&year=' + this.year).then(function (response) {
+        _this2.attendances = response.data.data;
+      })["catch"](function (error) {
+        _this2.$alert(error.response.data.message, 'Hata', 'error');
+      });
+    },
+    store: function store(userId, year, month, status) {
+      var _this3 = this;
+
+      this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(function () {
+        var data = {
+          'user_id': _this3.userId,
+          'year': year,
+          'month': month
+        };
+        axios.post('/attendances', data).then(function (response) {
+          _this3.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
+
+          _this3.getUserDuesses();
+        })["catch"](function (error) {
+          _this3.$alert(error.response.data.message, 'Hata', 'error');
+        });
+      });
+    },
+    update: function update(userId, duesId, status) {
+      var _this4 = this;
+
+      this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(function () {
+        var data = {
+          'user_id': _this4.userId,
+          'dues_id': duesId,
+          'status': status
+        };
+        axios.put('/attendances', data).then(function (response) {
+          _this4.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
+
+          _this4.getUserDuesses();
+        })["catch"](function (error) {
+          _this4.$alert(error.response.data.message, 'Hata', 'error');
+        });
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/duesses/ListComponent.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/duesses/ListComponent.vue?vue&type=script&lang=js& ***!
@@ -7878,6 +8082,9 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('show-class', (__webpack_r
 // Duesses
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('duesses-list', (__webpack_require__(/*! ./components/duesses/ListComponent */ "./resources/js/components/duesses/ListComponent.vue")["default"])); // end Duesses
+// Daily Attendances
+
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('daily-attendances', (__webpack_require__(/*! ./components/dailyAttendances/ListComponent */ "./resources/js/components/dailyAttendances/ListComponent.vue")["default"])); // end Daily Attendances
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
 /**
@@ -34481,6 +34688,45 @@ component.options.__file = "resources/js/components/auth/LoginComponent.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/dailyAttendances/ListComponent.vue":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/dailyAttendances/ListComponent.vue ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ListComponent_vue_vue_type_template_id_36886bac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ListComponent.vue?vue&type=template&id=36886bac&scoped=true& */ "./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=template&id=36886bac&scoped=true&");
+/* harmony import */ var _ListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ListComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ListComponent_vue_vue_type_template_id_36886bac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ListComponent_vue_vue_type_template_id_36886bac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "36886bac",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/dailyAttendances/ListComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/duesses/ListComponent.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/duesses/ListComponent.vue ***!
@@ -35137,6 +35383,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ListComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/duesses/ListComponent.vue?vue&type=script&lang=js&":
 /*!************************************************************************************!*\
   !*** ./resources/js/components/duesses/ListComponent.vue?vue&type=script&lang=js& ***!
@@ -35423,6 +35685,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginComponent_vue_vue_type_template_id_5a228f80___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LoginComponent_vue_vue_type_template_id_5a228f80___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./LoginComponent.vue?vue&type=template&id=5a228f80& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/auth/LoginComponent.vue?vue&type=template&id=5a228f80&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=template&id=36886bac&scoped=true&":
+/*!***************************************************************************************************************!*\
+  !*** ./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=template&id=36886bac&scoped=true& ***!
+  \***************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListComponent_vue_vue_type_template_id_36886bac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListComponent_vue_vue_type_template_id_36886bac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListComponent_vue_vue_type_template_id_36886bac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ListComponent.vue?vue&type=template&id=36886bac&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=template&id=36886bac&scoped=true&");
 
 
 /***/ }),
@@ -35913,6 +36192,426 @@ var staticRenderFns = [
             ]
           ),
         ]),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=template&id=36886bac&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=template&id=36886bac&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "w-full overflow-hidden rounded-lg shadow-xs my-10" },
+    [
+      _c("section", { staticClass: "py-1 bg-blueGray-50" }, [
+        _c(
+          "div",
+          { staticClass: "w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-24" },
+          [
+            _c("div", { staticClass: "flex float-left" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.userId,
+                      expression: "userId",
+                    },
+                  ],
+                  staticClass: "p-2 rounded-full shadow-lg",
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.userId = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.getUserDailyAttendances($event)
+                      },
+                    ],
+                  },
+                },
+                _vm._l(_vm.users, function (user) {
+                  return _c("option", { domProps: { value: user.id } }, [
+                    _vm._v(
+                      " " + _vm._s(user.first_name + " " + user.last_name)
+                    ),
+                  ])
+                }),
+                0
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "ml-4 mb-4 flex float-left" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.year,
+                      expression: "year",
+                    },
+                  ],
+                  staticClass: "p-2 rounded-full shadow-lg",
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.year = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.getUserDailyAttendances($event)
+                      },
+                    ],
+                  },
+                },
+                _vm._l(_vm.years, function (year) {
+                  return _c("option", { domProps: { value: year } }, [
+                    _vm._v(_vm._s(year)),
+                  ])
+                }),
+                0
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ",
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "block w-full overflow-x-auto" }, [
+                  _c(
+                    "table",
+                    {
+                      staticClass:
+                        "items-center bg-transparent w-full border-collapse ",
+                    },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.attendances, function (attendance) {
+                          return _c("tr", [
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _c("span", {
+                                  staticClass:
+                                    "  px-3 py-1 mx-1 rounded-full bg-red-600",
+                                  class: [
+                                    attendance.at_lesson
+                                      ? "bg-green-600"
+                                      : "bg-red-600",
+                                  ],
+                                }),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(
+                                      attendance.user.first_name +
+                                        " " +
+                                        attendance.user.last_name
+                                    ) +
+                                    "\n                            "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(attendance.date) +
+                                    "\n                            "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(
+                                      attendance.lesson
+                                        ? attendance.lesson.name
+                                        : "-"
+                                    ) +
+                                    "\n                            "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(
+                                      attendance.processedBy
+                                        ? attendance.processedBy.name
+                                        : "-"
+                                    ) +
+                                    "\n                            "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _c("i", {
+                                  staticClass:
+                                    "fas fa-arrow-up text-emerald-500 mr-4",
+                                }),
+                                _vm._v(" "),
+                                attendance.at_lesson
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "bg-blue-600 p-2 rounded-lg text-white",
+                                        on: { click: function ($event) {} },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "Ödendi İşaretle\n                                "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                !attendance.at_lesson
+                                  ? _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "bg-red-600 p-2 rounded-lg text-white",
+                                        on: { click: function ($event) {} },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "İşlemi İptal Et\n                                "
+                                        ),
+                                      ]
+                                    )
+                                  : _vm._e(),
+                              ]
+                            ),
+                          ])
+                        }),
+                        0
+                      ),
+                    ]
+                  ),
+                ]),
+              ]
+            ),
+          ]
+        ),
+      ]),
+    ]
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "rounded-t mb-0 px-4 py-3 border-0" }, [
+      _c("div", { staticClass: "flex flex-wrap items-center" }, [
+        _c(
+          "div",
+          { staticClass: "relative w-full px-4 max-w-full flex-grow flex-1" },
+          [
+            _c(
+              "h3",
+              { staticClass: "font-semibold text-base text-blueGray-700" },
+              [_vm._v("Aidat Ödemeleri")]
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "relative w-full px-4 max-w-full flex-grow flex-1 text-right",
+          },
+          [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150",
+                attrs: { type: "button" },
+              },
+              [_vm._v("Hepsini İndir\n                            ")]
+            ),
+          ]
+        ),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                Durum\n                            "
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                Öğrenci\n                            "
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                Tarih\n                            "
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                Ders\n                            "
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                İşlem Sahibi\n                            "
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                İşlem\n                            "
+            ),
+          ]
+        ),
       ]),
     ])
   },

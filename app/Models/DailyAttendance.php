@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class DailyAttendance extends Model
+{
+    use HasFactory;
+
+    protected $guarded = [];
+
+    public function user(){
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function lesson(){
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function processedBy(){
+        return $this->hasOne(User::class, 'id', 'processed_by');
+    }
+
+}
