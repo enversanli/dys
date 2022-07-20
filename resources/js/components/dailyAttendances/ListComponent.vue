@@ -13,6 +13,23 @@
                         <option v-for="year in years" :value="year">{{ year }}</option>
                     </select>
                 </div>
+
+                <div class="ml-4 mb-4 flex float-left">
+                    <select class="p-2 rounded-full shadow-lg" @change="getUserDailyAttendances($event)" v-model="month">
+                        <option value="01">Ocak</option>
+                        <option value="02">Şubat</option>
+                        <option value="03">Mart</option>
+                        <option value="04">Nisan</option>
+                        <option value="05">Mayıs</option>
+                        <option value="06">Haziran</option>
+                        <option value="07">Temmuz</option>
+                        <option value="08">Ağustos</option>
+                        <option value="09">Eylül</option>
+                        <option value="10">Ekim</option>
+                        <option value="11">Kasım</option>
+                        <option value="12">Aralık</option>
+                    </select>
+                </div>
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
                     <div class="rounded-t mb-0 px-4 py-3 border-0">
                         <div class="flex flex-wrap items-center">
@@ -107,6 +124,8 @@ export default {
             paginateData: null,
             userId: 0,
             year: null,
+            month: 0
+
         }
     },
     mounted() {
@@ -141,7 +160,7 @@ export default {
                 this.year = new Date().getFullYear();
             }
 
-            axios.get('/daily-attendances/list?user_id=' + this.userId + '&year=' + this.year).then(response => {
+            axios.get('/daily-attendances/list?user_id=' + this.userId + '&year=' + this.year + '&month=' + this.month).then(response => {
                 this.attendances = response.data.data;
             }).catch(error => {
                 this.$alert(error.response.data.message, 'Hata', 'error');
@@ -184,7 +203,8 @@ export default {
                     this.$alert(error.response.data.message, 'Hata', 'error');
                 });
             });
-        }
+        },
+
     }
 }
 </script>
