@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('daily_attendances', function (Blueprint $table) {
             $table->id();
+            $table->string('key');
+            $table->integer('class_id')->nullable();
             $table->integer('user_id');
             $table->integer('lesson_id')->nullable();
             $table->dateTime('date');

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\DailyPoll;
 use App\Models\Association;
 use App\Models\User;
+use App\Support\Enums\ErrorLogEnum;
 use App\Support\ResponseMessage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,19 +22,28 @@ class DailyAttendanceRepository implements DailyAttendanceRepositoryInterface
         $this->model = $dailyAttendance;
     }
 
-    public function get(Request $request, User $user)
+    public function get(Request $request)
     {
         try {
             $dates = $this->getDatesFromRequest($request);
 
             $dailyAttendances = $this->model
-                ->where('user_id', $user->id)
+                ->when($request->user_id, function ($q) use ($request) {
+                    return $q->where('user_id', $request->user_id);
+                })
+                ->when($request->class_id, function ($q) use ($request){
+                    return $q->where('class_id', $request->class_id);
+                })
                 ->whereBetween('date', [$dates->startDate, $dates->endDate])
                 ->with('user')
                 ->get();
 
             return ResponseMessage::returnData(true, $dailyAttendances);
         } catch (\Exception $exception) {
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::GET_DAILY_ATTENDANCES_REPOSITORY_ERROR->value);
+
             return ResponseMessage::returnData(false);
         }
     }

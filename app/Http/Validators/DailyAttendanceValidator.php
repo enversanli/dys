@@ -10,13 +10,19 @@ use Illuminate\Http\Request;
 
 class DailyAttendanceValidator implements DailyAttendanceValidatorInterface
 {
-    public function getStudentAttendances(Request $request, User $user)
+    public function getAttendances(Request $request, User $authUser, User $user = null)
     {
         try {
+            if ($authUser->isStudent() || $authUser->isParent()) {
+                return ResponseMessage::returnData(false, null, __('common.not_have_authority'), 401);
+            }
 
+            if (isset($user) && $user->association_id != $authUser->association_id){
+                return ResponseMessage::returnData(false, null, __('user.not_found'), 404);
+            }
 
             return ResponseMessage::returnData(true);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             return ResponseMessage::returnData(false);
         }

@@ -5609,23 +5609,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ListComponent",
   props: ['authUser'],
   data: function data() {
     return {
       users: {},
+      classes: {},
       fullName: null,
       role: 'student',
       attendances: {},
       paginateData: null,
       userId: 0,
+      classId: 0,
       year: null,
       month: 0
     };
   },
   mounted: function mounted() {
     this.getUsers();
+    this.getClasses();
   },
   computed: {
     years: function years() {
@@ -5653,52 +5662,60 @@ __webpack_require__.r(__webpack_exports__);
         _this.$alert(error.response.data.message, 'Hata', 'error');
       });
     },
-    getUserDailyAttendances: function getUserDailyAttendances() {
+    getClasses: function getClasses() {
       var _this2 = this;
+
+      axios.get('/classes/list').then(function (response) {
+        _this2.classes = response.data.data;
+      });
+    },
+    getUserDailyAttendances: function getUserDailyAttendances() {
+      var _this3 = this;
 
       if (this.year === null) {
         this.year = new Date().getFullYear();
       }
 
-      axios.get('/daily-attendances/list?user_id=' + this.userId + '&year=' + this.year + '&month=' + this.month).then(function (response) {
-        _this2.attendances = response.data.data;
+      var url = '/daily-attendances/list?user_id=' + this.userId + '&class_id=' + this.classId + '&year=' + this.year + '&month=' + this.month;
+      axios.get(url).then(function (response) {
+        _this3.attendances = response.data.data;
       })["catch"](function (error) {
-        _this2.$alert(error.response.data.message, 'Hata', 'error');
+        _this3.$alert(error.response.data.message, 'Hata', 'error');
       });
     },
     store: function store(userId, year, month, status) {
-      var _this3 = this;
-
-      this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(function () {
-        var data = {
-          'user_id': _this3.userId,
-          'year': year,
-          'month': month
-        };
-        axios.post('/attendances', data).then(function (response) {
-          _this3.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
-
-          _this3.getUserDuesses();
-        })["catch"](function (error) {
-          _this3.$alert(error.response.data.message, 'Hata', 'error');
-        });
-      });
-    },
-    update: function update(userId, duesId, status) {
       var _this4 = this;
 
       this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(function () {
         var data = {
           'user_id': _this4.userId,
-          'dues_id': duesId,
-          'status': status
+          'year': year,
+          'month': month
         };
-        axios.put('/attendances', data).then(function (response) {
+        axios.post('/attendances', data).then(function (response) {
           _this4.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
 
           _this4.getUserDuesses();
         })["catch"](function (error) {
           _this4.$alert(error.response.data.message, 'Hata', 'error');
+        });
+      });
+    },
+    update: function update(userId, duesId, status) {
+      var _this5 = this;
+
+      this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(function () {
+        var data = {
+          'user_id': _this5.userId,
+          'dues_id': duesId,
+          'status': status
+        };
+        axios.put('/attendances', data).then(function (response) {
+          _this5.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
+
+          _this5.getUserDuesses();
+        })["catch"](function (error) {
+          _this5.$alert(error.response.data.message, 'Hata', 'error');
         });
       });
     }
@@ -36284,6 +36301,49 @@ var render = function () {
                     _vm._v(
                       " " + _vm._s(user.first_name + " " + user.last_name)
                     ),
+                  ])
+                }),
+                0
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flex float-left" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.classId,
+                      expression: "classId",
+                    },
+                  ],
+                  staticClass: "p-2 rounded-full shadow-lg",
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.classId = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.getUserDailyAttendances($event)
+                      },
+                    ],
+                  },
+                },
+                _vm._l(_vm.classes, function (row) {
+                  return _c("option", { domProps: { value: row.id } }, [
+                    _vm._v(" " + _vm._s(row.name)),
                   ])
                 }),
                 0

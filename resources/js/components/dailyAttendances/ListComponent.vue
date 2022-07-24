@@ -8,6 +8,12 @@
                     </select>
                 </div>
 
+                <div class="flex float-left">
+                    <select class="p-2 rounded-full shadow-lg" @change="getUserDailyAttendances($event)" v-model="classId">
+                        <option v-for="row in classes" :value="row.id"> {{ row.name}}</option>
+                    </select>
+                </div>
+
                 <div class="ml-4 mb-4 flex float-left">
                     <select class="p-2 rounded-full shadow-lg" @change="getUserDailyAttendances($event)" v-model="year">
                         <option v-for="year in years" :value="year">{{ year }}</option>
@@ -118,11 +124,13 @@ export default {
     data() {
         return {
             users: {},
+            classes: {},
             fullName: null,
             role: 'student',
             attendances: {},
             paginateData: null,
             userId: 0,
+            classId: 0,
             year: null,
             month: 0
 
@@ -130,6 +138,7 @@ export default {
     },
     mounted() {
         this.getUsers();
+        this.getClasses();
     },
 
     computed: {
@@ -155,12 +164,20 @@ export default {
             });
         },
 
+        getClasses() {
+            axios.get('/classes/list').then(response => {
+                this.classes = response.data.data;
+            });
+        },
+
         getUserDailyAttendances() {
             if (this.year === null) {
                 this.year = new Date().getFullYear();
             }
 
-            axios.get('/daily-attendances/list?user_id=' + this.userId + '&year=' + this.year + '&month=' + this.month).then(response => {
+            var url = '/daily-attendances/list?user_id=' + this.userId + '&class_id=' + this.classId + '&year=' + this.year + '&month=' + this.month;
+
+            axios.get(url).then(response => {
                 this.attendances = response.data.data;
             }).catch(error => {
                 this.$alert(error.response.data.message, 'Hata', 'error');

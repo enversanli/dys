@@ -46,19 +46,22 @@ class DailyAttendanceController extends Controller
 
     public function index(Request $request)
     {
-        $user = $this->userRepository->getUserById($request->user_id);
+        $user = null;
+        if ($request->user_id) {
+            $user = $this->userRepository->getUserById($request->user_id);
+        }
 
-        if (!$user->status) {
+        if ($user && !$user->status) {
             return ResponseMessage::failed($user->message, null, $user->code);
         }
 
-        $validator = $this->dailyAttendanceValidator->getStudentAttendances($request, $user->data);
+        $validator = $this->dailyAttendanceValidator->getAttendances($request, $this->user, $user ? $user->data : null);
 
         if (!$validator->status) {
             return ResponseMessage::failed($validator->message, null, $validator->code);
         }
 
-        $dailyAttendance = $this->dailyAttendanceRepository->get($request, $user->data);
+        $dailyAttendance = $this->dailyAttendanceRepository->get($request);
 
         if (!$dailyAttendance->status) {
             return ResponseMessage::failed($dailyAttendance->message, null, $dailyAttendance->code);
