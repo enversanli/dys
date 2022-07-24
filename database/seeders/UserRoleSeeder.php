@@ -21,32 +21,34 @@ class UserRoleSeeder extends Seeder
 
         $data = [
             [
-                'key' => UserRoleKeyEnum::ADMIN,
+                'key' => UserRoleKeyEnum::ADMIN->value,
                 'name' => Str::upper(Str::replace('_', ' ', UserRoleKeyEnum::ADMIN->name))
             ],
             [
-                'key' => UserRoleKeyEnum::ASSOCIATION_MANAGER,
+                'key' => UserRoleKeyEnum::ASSOCIATION_MANAGER->value,
                 'name' => Str::upper(Str::replace('_', ' ', UserRoleKeyEnum::ASSOCIATION_MANAGER->name))
             ],
             [
-                'key' => UserRoleKeyEnum::STUDENT,
+                'key' => UserRoleKeyEnum::STUDENT->value,
                 'name' => Str::upper(Str::replace('_', ' ', UserRoleKeyEnum::STUDENT->name))
             ],
             [
-                'key' => UserRoleKeyEnum::TEACHER,
+                'key' => UserRoleKeyEnum::TEACHER->value,
                 'name' => Str::upper(Str::replace('_', ' ', UserRoleKeyEnum::TEACHER->name))
             ],
             [
-                'key' => UserRoleKeyEnum::PARENT,
+                'key' => UserRoleKeyEnum::PARENT->value,
                 'name' => Str::upper(Str::replace('_', ' ', UserRoleKeyEnum::PARENT->name))
             ],
             [
-                'key' => UserRoleKeyEnum::SUB_ASSOCIATION_MANAGER,
+                'key' => UserRoleKeyEnum::SUB_ASSOCIATION_MANAGER->value,
                 'name' => Str::upper(Str::replace('_', ' ', UserRoleKeyEnum::SUB_ASSOCIATION_MANAGER->name))
             ],
         ];
 
-        UserRole::insert($data);
+        foreach ($data as $row) {
+            UserRole::created($row);
+        }
 
     }
 }

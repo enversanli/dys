@@ -89,6 +89,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(\App\Http\Controllers\Panel\DailyAttendanceController::class)->group(function (){
         Route::view('daily-attendances', 'panel.attendances.index');
         Route::get('daily-attendances/list', 'index');
+        Route::post('daily-attendances', 'store')->name('daily-attendance.store');
     });
 
     // end Daily Attendances

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->boolean('at_lesson');
             $table->boolean('processed_by')->nullable();
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Support\ResponseMessage;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Interfaces\UserRepositoryInterface;
 use App\Http\Resources\Panel\DailyAttendanceResource;
 use App\Interfaces\DailyAttendanceRepositoryInterface;
-use App\Interfaces\UserRepositoryInterface;
+use App\Http\Requests\Panel\StoreDailyAttendanceRequest;
 use App\Interfaces\Validators\DailyAttendanceValidatorInterface;
-use App\Models\User;
-use App\Support\ResponseMessage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DailyAttendanceController extends Controller
 {
@@ -61,7 +62,7 @@ class DailyAttendanceController extends Controller
             return ResponseMessage::failed($validator->message, null, $validator->code);
         }
 
-        $dailyAttendance = $this->dailyAttendanceRepository->get($request);
+        $dailyAttendance = $this->dailyAttendanceRepository->get($request, $this->user);
 
         if (!$dailyAttendance->status) {
             return ResponseMessage::failed($dailyAttendance->message, null, $dailyAttendance->code);
@@ -71,9 +72,22 @@ class DailyAttendanceController extends Controller
         return ResponseMessage::success(null, DailyAttendanceResource::collection($dailyAttendance->data));
     }
 
-    public function store()
+    public function store(StoreDailyAttendanceRequest $request)
     {
 
+        $validator = $this->dailyAttendanceValidator->storeAttendance($request, $this->user);
+
+        if (!$validator->status) {
+            return ResponseMessage::failed($validator->message, null, $validator->code);
+        }
+
+        $storedDailyAttendance = $this->dailyAttendanceRepository->store($request, $this->user);
+
+        if (!$storedDailyAttendance->status) {
+            return ResponseMessage::failed($storedDailyAttendance->message, null, $storedDailyAttendance->code);
+        }
+
+        return ResponseMessage::success();
     }
 
     public function update()

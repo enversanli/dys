@@ -2,15 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Models\DailyPoll;
-use App\Models\Association;
-use App\Models\User;
-use App\Support\Enums\ErrorLogEnum;
-use App\Support\ResponseMessage;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Association;
 use Illuminate\Http\Request;
 use App\Models\DailyAttendance;
+use App\Support\ResponseMessage;
+use App\Support\Enums\ErrorLogEnum;
 use App\Interfaces\DailyAttendanceRepositoryInterface;
+use App\Http\Requests\Panel\StoreDailyAttendanceRequest;
 
 class DailyAttendanceRepository implements DailyAttendanceRepositoryInterface
 {
@@ -22,7 +22,12 @@ class DailyAttendanceRepository implements DailyAttendanceRepositoryInterface
         $this->model = $dailyAttendance;
     }
 
-    public function get(Request $request)
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return object
+     */
+    public function get(Request $request, User $user): object
     {
         try {
             $dates = $this->getDatesFromRequest($request);
@@ -31,7 +36,7 @@ class DailyAttendanceRepository implements DailyAttendanceRepositoryInterface
                 ->when($request->user_id, function ($q) use ($request) {
                     return $q->where('user_id', $request->user_id);
                 })
-                ->when($request->class_id, function ($q) use ($request){
+                ->when($request->class_id, function ($q) use ($request) {
                     return $q->where('class_id', $request->class_id);
                 })
                 ->whereBetween('date', [$dates->startDate, $dates->endDate])
@@ -48,7 +53,46 @@ class DailyAttendanceRepository implements DailyAttendanceRepositoryInterface
         }
     }
 
-    private function getDatesFromRequest(Request $request){
+    /**
+     * @param StoreDailyAttendanceRequest $request
+     * @param User $authUser
+     * @return object
+     */
+    public function store(StoreDailyAttendanceRequest $request, User $authUser): object
+    {
+        try {
+            // key is to group data
+            $key = now()->timestamp;
+
+            foreach ($request->users as $userRow) {
+                $userRow = (object)$userRow;
+
+                $dailyAttendance = $this->model->create([
+                    'key' => $key,
+                    'class_id' => $request->class_id ?? null,
+                    'lesson_id' => $request->lesson_id ?? null,
+                    'user_id' => $userRow->id,
+                    'at_lesson' => $userRow->at_lesson,
+                    'date' => $request->date,
+                    'status' => 'success',
+                    'note' => $request->note ?? null,
+                    'processed_by' => $authUser->id
+                ]);
+            }
+
+            return ResponseMessage::returnData(true);
+        } catch (\Exception $exception) {
+            dd($exception->getMessage());
+            activity()
+                ->withProperties(['error' => $exception->getMessage()])
+                ->log(ErrorLogEnum::STORE_DAILY_ATTENDANCES_REPOSITORY_ERROR->value);
+
+            return ResponseMessage::returnData(false);
+        }
+    }
+
+    private function getDatesFromRequest(Request $request)
+    {
 
         $year = (string)$request->year ?? now()->format('Y');
         $month = (string)$request->month != 0 ? $request->month : now()->format('m');
