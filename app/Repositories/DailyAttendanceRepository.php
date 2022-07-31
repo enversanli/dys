@@ -75,14 +75,13 @@ class DailyAttendanceRepository implements DailyAttendanceRepositoryInterface
                     'at_lesson' => $userRow->at_lesson,
                     'date' => $request->date,
                     'status' => 'success',
-                    'note' => $request->note ?? null,
+                    'note' => $userRow->note ?? $request->note,
                     'processed_by' => $authUser->id
                 ]);
             }
 
             return ResponseMessage::returnData(true);
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
             activity()
                 ->withProperties(['error' => $exception->getMessage()])
                 ->log(ErrorLogEnum::STORE_DAILY_ATTENDANCES_REPOSITORY_ERROR->value);
@@ -95,10 +94,12 @@ class DailyAttendanceRepository implements DailyAttendanceRepositoryInterface
     {
 
         $year = (string)$request->year ?? now()->format('Y');
-        $month = (string)$request->month != 0 ? $request->month : now()->format('m');
+        $month = (int)$request->month != 0 ? $request->month : now()->format('m');
 
-        $startDate = Carbon::createFromFormat('Y-m', $year . '-' . $month)->startOfMonth()->toDateString();
-        $endDate = Carbon::createFromFormat('Y-m', $year . '-' . $month)->endOfMonth()->toDateString();
+        $time = $month . '-' . $year;
+
+        $startDate = Carbon::createFromFormat('m-Y', $time)->startOfMonth()->toDateString();
+        $endDate = Carbon::createFromFormat('m-Y', $time)->endOfMonth()->toDateString();
 
         return (object)['startDate' => $startDate, 'endDate' => $endDate];
     }

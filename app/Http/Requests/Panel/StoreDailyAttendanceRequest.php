@@ -26,7 +26,7 @@ class StoreDailyAttendanceRequest extends FormRequest
         return [
             'date' => 'required|date',
             'note' => 'sometimes|string|max:255',
-            'users.*.id' => 'required|integer',
+            'users.*.id' => 'required|integer|exists:users,id',
             'users.*.at_lesson' => 'required|boolean',
         ];
     }

@@ -47,7 +47,9 @@ class UserRoleSeeder extends Seeder
         ];
 
         foreach ($data as $row) {
-            UserRole::created($row);
+            if (!UserRole::where('key', $row['key'])->exists()) {
+                UserRole::create($row);
+            }
         }
 
     }

@@ -24,7 +24,7 @@ class UserFactory extends Factory
     {
         return [
             'key' => $this->faker->word,
-            'role_id' => $this->faker->numberBetween(-10000, 10000),
+            'role_id' => $this->faker->numberBetween(0, 10000),
             'association_id' => $this->faker->numberBetween(-10000, 10000),
             'parent_id' => $this->faker->numberBetween(-10000, 10000),
             'class_id' => $this->faker->numberBetween(-10000, 10000),
