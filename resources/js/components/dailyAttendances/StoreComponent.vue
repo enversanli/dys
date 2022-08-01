@@ -3,13 +3,7 @@
         <section class="py-1 bg-blueGray-50">
             <div class="w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
                 <div class="flex float-left">
-                    <select class="p-2 rounded-full shadow-lg" @change="getUserDailyAttendances($event)" v-model="userId">
-                        <option v-for="user in users" :value="user.id"> {{ user.first_name + ' ' + user.last_name }}</option>
-                    </select>
-                </div>
-
-                <div class="flex float-left">
-                    <select class="p-2 rounded-full shadow-lg" @change="getUserDailyAttendances($event)" v-model="classId">
+                    <select class="p-2 rounded-full shadow-lg" @change="getUsers($event)" v-model="classId">
                         <option v-for="row in classes" :value="row.id"> {{ row.name}}</option>
                     </select>
                 </div>
@@ -40,7 +34,7 @@
                     <div class="rounded-t mb-0 px-4 py-3 border-0">
                         <div class="flex flex-wrap items-center">
                             <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                                <h3 class="font-semibold text-base text-blueGray-700">Derse Katılım Hareketleri</h3>
+                                <h3 class="font-semibold text-base text-blueGray-700">Günlük Katılım Kaydı</h3>
                             </div>
                             <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
                                 <button
@@ -62,52 +56,32 @@
                                     Öğrenci
                                 </th>
                                 <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                    Tarih
+                                    Not
                                 </th>
                                 <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                    Ders
-                                </th>
-
-                                <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                    İşlem Sahibi
-                                </th>
-
-                                <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                    İşlem
+                                    Durum İşaretle
                                 </th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            <tr v-for="attendance in attendances">
+                            <tr v-for="user in users">
                                 <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                     <span class="  px-3 py-1 mx-1 rounded-full bg-red-600"
-                                          :class="[(attendance.at_lesson? 'bg-green-600' : 'bg-red-600')]"></span>
+                                          :class="[(user.at_lesson? 'bg-green-600' : 'bg-red-600')]"></span>
                                 </td>
                                 <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    {{ attendance.user.first_name + ' ' + attendance.user.last_name }}
+                                    {{ user.first_name + ' ' + user.last_name }}
                                 </td>
                                 <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    {{attendance.date}}
+                                    <textarea class="border-2 max-h-16 max-w-full p-2" v-model="user.note"> </textarea>
                                 </td>
                                 <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    {{attendance.lesson ? attendance.lesson.name : '-'}}
-                                </td>
-                                <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                                    {{attendance.processedBy ? attendance.processedBy.name : '-'}}
-                                </td>
-                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4" >
-                                    <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
-                                    <button class="bg-blue-600 p-2 rounded-lg text-white" v-if="attendance.at_lesson"
-                                            @click="">Ödendi İşaretle
-                                    </button>
-                                    <button class="bg-red-600 p-2 rounded-lg text-white" v-if="!attendance.at_lesson"
-                                            @click="">İşlemi İptal Et
-                                    </button>
+                                    <input type="checkbox" class="mx-auto my-auto align-self-center w-4 h-4 text-orange-500 bg-gray-100 rounded border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" v-model="user.at_lesson">
                                 </td>
                             </tr>
                             </tbody>
-
+                        <button @click="store" class="float-right flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Kaydet</button>
                         </table>
                     </div>
                 </div>
@@ -119,7 +93,7 @@
 
 <script>
 export default {
-    name: "ListComponent",
+    name: "StoreComponent",
     props: ['authUser'],
     data() {
         return {
@@ -157,7 +131,7 @@ export default {
             this.role = 'student';
             var per_page = 999;
 
-            axios.get('/users?role=' + this.role).then(response => {
+            axios.get('/users?role=' + this.role + '&class_id=' + this.classId).then(response => {
                 this.users = response.data.data;
             }).catch(error => {
                 this.$alert(error.response.data.message, 'Hata', 'error')
@@ -184,7 +158,11 @@ export default {
             });
         },
 
-        store(userId, year, month, status) {
+        store() {
+            this.users.filter(function () {
+                
+            });
+
             this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(() => {
 
                 const data = {

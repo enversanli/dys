@@ -64,6 +64,7 @@ Vue.component('duesses-list', require('./components/duesses/ListComponent').defa
 
 // Daily Attendances
 Vue.component('daily-attendances', require('./components/dailyAttendances/ListComponent').default);
+Vue.component('store-daily-attendances', require('./components/dailyAttendances/StoreComponent').default);
 // end Daily Attendances
 
 Vue.component('pagination', require('laravel-vue-pagination'));

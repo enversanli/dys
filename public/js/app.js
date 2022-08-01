@@ -5724,6 +5724,220 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "StoreComponent",
+  props: ['authUser'],
+  data: function data() {
+    return {
+      users: {},
+      classes: {},
+      fullName: null,
+      role: 'student',
+      attendances: {},
+      paginateData: null,
+      userId: 0,
+      classId: 0,
+      year: null,
+      month: 0
+    };
+  },
+  mounted: function mounted() {
+    this.getUsers();
+    this.getClasses();
+  },
+  computed: {
+    years: function years() {
+      var year = new Date().getFullYear();
+      return Array.from({
+        length: year - 20
+      }, function (value, index) {
+        return 2000 + index;
+      });
+    }
+  },
+  methods: {
+    getUsers: function getUsers(page) {
+      var _this = this;
+
+      if (typeof page === 'undefined') {
+        page = 1;
+      }
+
+      this.role = 'student';
+      var per_page = 999;
+      axios.get('/users?role=' + this.role + '&class_id=' + this.classId).then(function (response) {
+        _this.users = response.data.data;
+      })["catch"](function (error) {
+        _this.$alert(error.response.data.message, 'Hata', 'error');
+      });
+    },
+    getClasses: function getClasses() {
+      var _this2 = this;
+
+      axios.get('/classes/list').then(function (response) {
+        _this2.classes = response.data.data;
+      });
+    },
+    getUserDailyAttendances: function getUserDailyAttendances() {
+      var _this3 = this;
+
+      if (this.year === null) {
+        this.year = new Date().getFullYear();
+      }
+
+      var url = '/daily-attendances/list?user_id=' + this.userId + '&class_id=' + this.classId + '&year=' + this.year + '&month=' + this.month;
+      axios.get(url).then(function (response) {
+        _this3.attendances = response.data.data;
+      })["catch"](function (error) {
+        _this3.$alert(error.response.data.message, 'Hata', 'error');
+      });
+    },
+    store: function store() {
+      var _this4 = this;
+
+      this.users.filter(function () {});
+      this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(function () {
+        var data = {
+          'user_id': _this4.userId,
+          'year': year,
+          'month': month
+        };
+        axios.post('/attendances', data).then(function (response) {
+          _this4.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
+
+          _this4.getUserDuesses();
+        })["catch"](function (error) {
+          _this4.$alert(error.response.data.message, 'Hata', 'error');
+        });
+      });
+    },
+    update: function update(userId, duesId, status) {
+      var _this5 = this;
+
+      this.$confirm("Bu işlemi gerçekleştirmek istediğinize emin misiniz ?", "UYARI", "question").then(function () {
+        var data = {
+          'user_id': _this5.userId,
+          'dues_id': duesId,
+          'status': status
+        };
+        axios.put('/attendances', data).then(function (response) {
+          _this5.$alert('İşlem başarıyla gerçekleştirildi', 'İşlem Başarılı!', 'success');
+
+          _this5.getUserDuesses();
+        })["catch"](function (error) {
+          _this5.$alert(error.response.data.message, 'Hata', 'error');
+        });
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/duesses/ListComponent.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/duesses/ListComponent.vue?vue&type=script&lang=js& ***!
@@ -8119,7 +8333,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('show-class', (__webpack_r
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('duesses-list', (__webpack_require__(/*! ./components/duesses/ListComponent */ "./resources/js/components/duesses/ListComponent.vue")["default"])); // end Duesses
 // Daily Attendances
 
-vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('daily-attendances', (__webpack_require__(/*! ./components/dailyAttendances/ListComponent */ "./resources/js/components/dailyAttendances/ListComponent.vue")["default"])); // end Daily Attendances
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('daily-attendances', (__webpack_require__(/*! ./components/dailyAttendances/ListComponent */ "./resources/js/components/dailyAttendances/ListComponent.vue")["default"]));
+vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('store-daily-attendances', (__webpack_require__(/*! ./components/dailyAttendances/StoreComponent */ "./resources/js/components/dailyAttendances/StoreComponent.vue")["default"])); // end Daily Attendances
 
 vue__WEBPACK_IMPORTED_MODULE_0__["default"].component('pagination', __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js"));
 /**
@@ -34762,6 +34977,45 @@ component.options.__file = "resources/js/components/dailyAttendances/ListCompone
 
 /***/ }),
 
+/***/ "./resources/js/components/dailyAttendances/StoreComponent.vue":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/dailyAttendances/StoreComponent.vue ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _StoreComponent_vue_vue_type_template_id_535b5482_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StoreComponent.vue?vue&type=template&id=535b5482&scoped=true& */ "./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=template&id=535b5482&scoped=true&");
+/* harmony import */ var _StoreComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StoreComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _StoreComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _StoreComponent_vue_vue_type_template_id_535b5482_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _StoreComponent_vue_vue_type_template_id_535b5482_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "535b5482",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/dailyAttendances/StoreComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/duesses/ListComponent.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/duesses/ListComponent.vue ***!
@@ -35434,6 +35688,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StoreComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StoreComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StoreComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/duesses/ListComponent.vue?vue&type=script&lang=js&":
 /*!************************************************************************************!*\
   !*** ./resources/js/components/duesses/ListComponent.vue?vue&type=script&lang=js& ***!
@@ -35737,6 +36007,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListComponent_vue_vue_type_template_id_36886bac_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ListComponent_vue_vue_type_template_id_36886bac_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ListComponent.vue?vue&type=template&id=36886bac&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/ListComponent.vue?vue&type=template&id=36886bac&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=template&id=535b5482&scoped=true&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=template&id=535b5482&scoped=true& ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StoreComponent_vue_vue_type_template_id_535b5482_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StoreComponent_vue_vue_type_template_id_535b5482_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StoreComponent_vue_vue_type_template_id_535b5482_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StoreComponent.vue?vue&type=template&id=535b5482&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=template&id=535b5482&scoped=true&");
 
 
 /***/ }),
@@ -36643,7 +36930,7 @@ var staticRenderFns = [
             _c(
               "h3",
               { staticClass: "font-semibold text-base text-blueGray-700" },
-              [_vm._v("Aidat Ödemeleri")]
+              [_vm._v("Derse Katılım Hareketleri")]
             ),
           ]
         ),
@@ -36749,6 +37036,462 @@ var staticRenderFns = [
           [
             _vm._v(
               "\n                                İşlem\n                            "
+            ),
+          ]
+        ),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=template&id=535b5482&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/dailyAttendances/StoreComponent.vue?vue&type=template&id=535b5482&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "w-full overflow-hidden rounded-lg shadow-xs my-10" },
+    [
+      _c("section", { staticClass: "py-1 bg-blueGray-50" }, [
+        _c(
+          "div",
+          { staticClass: "w-full xl:w-10/12 mb-12 xl:mb-0 px-4 mx-auto mt-24" },
+          [
+            _c("div", { staticClass: "flex float-left" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.classId,
+                      expression: "classId",
+                    },
+                  ],
+                  staticClass: "p-2 rounded-full shadow-lg",
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.classId = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.getUsers($event)
+                      },
+                    ],
+                  },
+                },
+                _vm._l(_vm.classes, function (row) {
+                  return _c("option", { domProps: { value: row.id } }, [
+                    _vm._v(" " + _vm._s(row.name)),
+                  ])
+                }),
+                0
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "ml-4 mb-4 flex float-left" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.year,
+                      expression: "year",
+                    },
+                  ],
+                  staticClass: "p-2 rounded-full shadow-lg",
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.year = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.getUserDailyAttendances($event)
+                      },
+                    ],
+                  },
+                },
+                _vm._l(_vm.years, function (year) {
+                  return _c("option", { domProps: { value: year } }, [
+                    _vm._v(_vm._s(year)),
+                  ])
+                }),
+                0
+              ),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "ml-4 mb-4 flex float-left" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.month,
+                      expression: "month",
+                    },
+                  ],
+                  staticClass: "p-2 rounded-full shadow-lg",
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.month = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.getUserDailyAttendances($event)
+                      },
+                    ],
+                  },
+                },
+                [
+                  _c("option", { attrs: { value: "01" } }, [_vm._v("Ocak")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "02" } }, [_vm._v("Şubat")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "03" } }, [_vm._v("Mart")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "04" } }, [_vm._v("Nisan")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "05" } }, [_vm._v("Mayıs")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "06" } }, [_vm._v("Haziran")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "07" } }, [_vm._v("Temmuz")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "08" } }, [_vm._v("Ağustos")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "09" } }, [_vm._v("Eylül")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "10" } }, [_vm._v("Ekim")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "11" } }, [_vm._v("Kasım")]),
+                  _vm._v(" "),
+                  _c("option", { attrs: { value: "12" } }, [_vm._v("Aralık")]),
+                ]
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ",
+              },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "block w-full overflow-x-auto" }, [
+                  _c(
+                    "table",
+                    {
+                      staticClass:
+                        "items-center bg-transparent w-full border-collapse ",
+                    },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.users, function (user) {
+                          return _c("tr", [
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _c("span", {
+                                  staticClass:
+                                    "  px-3 py-1 mx-1 rounded-full bg-red-600",
+                                  class: [
+                                    user.at_lesson
+                                      ? "bg-green-600"
+                                      : "bg-red-600",
+                                  ],
+                                }),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(
+                                      user.first_name + " " + user.last_name
+                                    ) +
+                                    "\n                            "
+                                ),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _c("textarea", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: user.note,
+                                      expression: "user.note",
+                                    },
+                                  ],
+                                  staticClass:
+                                    "border-2 max-h-16 max-w-full p-2",
+                                  domProps: { value: user.note },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        user,
+                                        "note",
+                                        $event.target.value
+                                      )
+                                    },
+                                  },
+                                }),
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              {
+                                staticClass:
+                                  "border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4",
+                              },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: user.at_lesson,
+                                      expression: "user.at_lesson",
+                                    },
+                                  ],
+                                  staticClass:
+                                    "mx-auto my-auto align-self-center w-4 h-4 text-orange-500 bg-gray-100 rounded border-gray-300 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600",
+                                  attrs: { type: "checkbox" },
+                                  domProps: {
+                                    checked: Array.isArray(user.at_lesson)
+                                      ? _vm._i(user.at_lesson, null) > -1
+                                      : user.at_lesson,
+                                  },
+                                  on: {
+                                    change: function ($event) {
+                                      var $$a = user.at_lesson,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = null,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            _vm.$set(
+                                              user,
+                                              "at_lesson",
+                                              $$a.concat([$$v])
+                                            )
+                                        } else {
+                                          $$i > -1 &&
+                                            _vm.$set(
+                                              user,
+                                              "at_lesson",
+                                              $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1))
+                                            )
+                                        }
+                                      } else {
+                                        _vm.$set(user, "at_lesson", $$c)
+                                      }
+                                    },
+                                  },
+                                }),
+                              ]
+                            ),
+                          ])
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "float-right flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple",
+                          on: { click: _vm.store },
+                        },
+                        [_vm._v("Kaydet")]
+                      ),
+                    ]
+                  ),
+                ]),
+              ]
+            ),
+          ]
+        ),
+      ]),
+    ]
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "rounded-t mb-0 px-4 py-3 border-0" }, [
+      _c("div", { staticClass: "flex flex-wrap items-center" }, [
+        _c(
+          "div",
+          { staticClass: "relative w-full px-4 max-w-full flex-grow flex-1" },
+          [
+            _c(
+              "h3",
+              { staticClass: "font-semibold text-base text-blueGray-700" },
+              [_vm._v("Günlük Katılım Kaydı")]
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "relative w-full px-4 max-w-full flex-grow flex-1 text-right",
+          },
+          [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150",
+                attrs: { type: "button" },
+              },
+              [_vm._v("Hepsini İndir\n                            ")]
+            ),
+          ]
+        ),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                Durum\n                            "
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                Öğrenci\n                            "
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                Not\n                            "
+            ),
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass:
+              "px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left",
+          },
+          [
+            _vm._v(
+              "\n                                Durum İşaretle\n                            "
             ),
           ]
         ),
@@ -38098,7 +38841,7 @@ var render = function () {
         {
           staticClass:
             "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
-          attrs: { href: "cards.html" },
+          attrs: { href: "/daily-attendances" },
         },
         [
           _c(
@@ -38368,7 +39111,7 @@ var render = function () {
         {
           staticClass:
             "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200",
-          attrs: { href: "cards.html" },
+          attrs: { href: "/daily-attendances" },
         },
         [
           _c(
